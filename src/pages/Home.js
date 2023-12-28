@@ -1,7 +1,11 @@
+import Header from './Header';
+import Hero from './Hero';
+
 export default function Home() {
-    return (
-        <div className="bg-blue-300">
-            <h1>Home Page</h1>
-        </div>
-    )
+  return (
+    <>
+      <Header />
+      <Hero />
+    </>
+  );
 }
