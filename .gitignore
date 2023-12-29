@@ -2,35 +2,36 @@
 
 #=====FRONT END FOLDER=====
 # dependencies
-/frontend/node_modules
-/frontend/.pnp
-/frontend.pnp.js
+frontend/node_modules
+frontend/.pnp
+frontend.pnp.js
+
 
 # testing
-/frontend/coverage
+frontend/coverage
 
 # production
-/frontend/build
+frontend/build
 
 # misc
-/frontend/.DS_Store
-/frontend/.env.local
-/frontend/.env.development.local
-/frontend/.env.test.local
-/frontend/.env.production.local
+frontend/.DS_Store
+frontend/.env.local
+frontend/.env.development.local
+frontend/.env.test.local
+frontend/.env.production.local
 
-/frontend/npm-debug.log*
-/frontend/yarn-debug.log*
-/frontend/yarn-error.log*
+frontend/npm-debug.log*
+frontend/yarn-debug.log*
+frontend/yarn-error.log*
 
 #=====BACK END FOLDER=====
 #backend folder
-/backend/node_modules
-/backend/build
-/backend/npm-debug.log
-/backend/.nyc
-/backend/.env
-/backend/.DS_Store
+backend/node_modules
+backend/build
+backend/npm-debug.log
+backend/.nyc
+backend/.env
+backend/.DS_Store
 
 # misc
 .DS_Store
