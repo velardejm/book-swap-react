@@ -25,17 +25,24 @@ export default function SignUp() {
     if (password !== passwordConfirmation) {
       alert('Password verification mismatch.');
     }
-    console.log(formData);
+
+    fetch('http://localhost:3001/signup', {
+      method: 'POST',
+      headers: {
+        'Content-type': 'application/json',
+      },
+      body: JSON.stringify(formData),
+    });
+
   };
 
   useEffect(() => {
     const { name, email, username, password, passwordConfirmation } = formData;
-    if(name && email && username && password && passwordConfirmation) {
+    if (name && email && username && password && passwordConfirmation) {
       setSubmitEnabled(true);
     } else {
       setSubmitEnabled(false);
     }
-
   }, [formData]);
 
   return (
