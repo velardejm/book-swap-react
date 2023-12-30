@@ -1,8 +1,9 @@
 import { useEffect, useState } from 'react';
-
+import { signUp } from '../utils/helpers';
 import FormInput from './FormInput';
 
 export default function SignUp() {
+
   const [formData, setFormData] = useState({
     name: '',
     email: '',
@@ -12,6 +13,8 @@ export default function SignUp() {
   });
   const [submitEnabled, setSubmitEnabled] = useState(false);
 
+  const { name, email, username, password, passwordConfirmation } = formData;
+
   const handleChange = (e) => {
     const { name, value } = e.target;
     setFormData((prevData) => {
@@ -20,23 +23,10 @@ export default function SignUp() {
   };
 
   const handleSubmit = (e) => {
-    const { password, passwordConfirmation } = formData;
-    e.preventDefault();
-    if (password !== passwordConfirmation) {
-      alert('Password verification mismatch.');
-    } else {
-      fetch('http://localhost:3001/signup', {
-        method: 'POST',
-        headers: {
-          'Content-type': 'application/json',
-        },
-        body: JSON.stringify(formData),
-      });
-    }
+    signUp(e, formData);
   };
 
   useEffect(() => {
-    const { name, email, username, password, passwordConfirmation } = formData;
     if (name && email && username && password && passwordConfirmation) {
       setSubmitEnabled(true);
     } else {
@@ -54,35 +44,42 @@ export default function SignUp() {
           label="Name:"
           type="text"
           name="name"
+          value={name}
           onChangeHandler={handleChange}
+          autofocus={true}
         />
         <FormInput
           label="E-mail:"
           type="email"
           name="email"
+          value={email}
           onChangeHandler={handleChange}
         />
         <FormInput
           label="Username:"
           type="text"
           name="username"
+          value={username}
           onChangeHandler={handleChange}
         />
         <FormInput
           label="Password:"
           type="password"
           name="password"
+          value={password}
           onChangeHandler={handleChange}
         />
         <FormInput
           label="Confirm Password:"
           type="password"
           name="passwordConfirmation"
+          value={passwordConfirmation}
           onChangeHandler={handleChange}
         />
         <button
-          className={`btn btn-primary w-28 self-center ${submitEnabled ? '' : 'bg-gray-500'
-            }`}
+          className={`btn btn-primary w-28 self-center ${
+            submitEnabled ? '' : 'bg-gray-500'
+          }`}
           type="submit"
           disabled={!submitEnabled}
         >
