@@ -24,16 +24,15 @@ export default function SignUp() {
     e.preventDefault();
     if (password !== passwordConfirmation) {
       alert('Password verification mismatch.');
+    } else {
+      fetch('http://localhost:3001/signup', {
+        method: 'POST',
+        headers: {
+          'Content-type': 'application/json',
+        },
+        body: JSON.stringify(formData),
+      });
     }
-
-    fetch('http://localhost:3001/signup', {
-      method: 'POST',
-      headers: {
-        'Content-type': 'application/json',
-      },
-      body: JSON.stringify(formData),
-    });
-
   };
 
   useEffect(() => {
@@ -82,9 +81,8 @@ export default function SignUp() {
           onChangeHandler={handleChange}
         />
         <button
-          className={`btn btn-primary w-28 self-center ${
-            submitEnabled ? '' : 'bg-gray-500'
-          }`}
+          className={`btn btn-primary w-28 self-center ${submitEnabled ? '' : 'bg-gray-500'
+            }`}
           type="submit"
           disabled={!submitEnabled}
         >
