@@ -1,6 +1,7 @@
 import { useEffect, useState } from 'react';
-import { signUp, updateForm } from '../utils/helpers';
+import { signUp,updateForm } from '../utils/helpers';
 import { useNavigate } from 'react-router-dom';
+
 import FormInput from './FormInput';
 
 export default function SignUp() {
@@ -12,7 +13,7 @@ export default function SignUp() {
     passwordConfirmation: '',
   });
   const [submitEnabled, setSubmitEnabled] = useState(false);
-  
+
   const navigate = useNavigate();
   const { name, email, username, password, passwordConfirmation } = formData;
 
@@ -22,23 +23,9 @@ export default function SignUp() {
 
   const handleSubmit = async (e) => {
     e.preventDefault();
-    const { password, passwordConfirmation } = formData;
-    if (password !== passwordConfirmation) {
-      alert('Incorrect password verification.');
-    } else {
-      try {
-        await fetch('http://localhost:3001/signup', {
-          method: 'POST',
-          headers: {
-            'Content-type': 'application/json',
-          },
-          body: JSON.stringify(formData),
-        });
-        alert('Registration Successful!');
-        navigate('/login');
-      } catch {
-        throw new Error('Registration failed. Please try again later.');
-      }
+    const successfulSignUp = await signUp(formData);
+    if (successfulSignUp) {
+      navigate('/login');
     }
   };
 
@@ -55,7 +42,7 @@ export default function SignUp() {
       <h1 className="text-3xl font-bold py-10 text-center">
         Create Book Swap Account
       </h1>
-      <form className="flex flex-col" onSubmit={handleSubmit}>
+      <form method="post" className="flex flex-col" onSubmit={handleSubmit}>
         <FormInput
           label="Name:"
           type="text"

@@ -1,24 +1,23 @@
-import FormInput from "./FormInput";
-import { useState } from "react";
+import FormInput from './FormInput';
+import { useState } from 'react';
+import { updateForm } from '../utils/helpers';
 
 export default function LogIn() {
   const [formData, setFormData] = useState({
-    username:''
-    
-  })
+    username: '',
+    password: '',
+  });
 
   const handleChange = (e) => {
+    updateForm(e, setFormData);
+  };
 
-  }
-  
-  const handleSubmit = (e) => {
-
-  }
+  const handleSubmit = (e) => {};
 
   return (
     <div className="flex flex-col items-center bg-blue-200 mx-5 px-5 pb-10 mt-10">
       <h1 className="text-3xl font-bold py-10 text-center">Log In</h1>
-      <form className="flex flex-col" onSubmit={handleSubmit}>
+      <form method="post" className="flex flex-col" onSubmit={handleSubmit}>
         <FormInput
           label="Username:"
           type="text"
