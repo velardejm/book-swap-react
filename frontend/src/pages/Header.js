@@ -10,7 +10,9 @@ export default function Header() {
         <LuBookCopy className="h-full w-14" style={{ color: 'blue' }} />
       </a>
       <div>
-        <Button label={'Log in'} className={'btn btn-primary mx-2'} />
+        <Link to="/login">
+          <Button label={'Log in'} className={'btn btn-primary mx-2'} />
+        </Link>
         <Link to="/signup">
           <Button label={'Sign up'} className={'btn btn-primary'} />
         </Link>
