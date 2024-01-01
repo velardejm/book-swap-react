@@ -16,8 +16,7 @@ function App() {
         <Route path="/" element={<Home />} />
         <Route path="/login" element={<LogIn />} />
         <Route path="/signup" element={<SignUp />} />
-        {/* <PrivateRoute path="/protected" element={<Protected />} isAuthenticated={isAuthenticated} /> */}
-        <Route path="/private" element={<PrivateRoute><Protected /></PrivateRoute>} />
+        <Route path="/protected" element={<PrivateRoute><Protected /></PrivateRoute>} />
         <Route path="*" element={<NotFound />} />
       </Routes>
     </Router>

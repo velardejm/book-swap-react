@@ -56,15 +56,34 @@ app.post("/signup", async (req, res) => {
   });
 });
 
-app.get('/protected', (req, res) => {
-  
+app.get("/protected", authenticateToken, (req, res) => {
+  const user = users.find((u) => u.username === req.user.username);
+  if (user) {
+    const { username, password, ...userData } = user;
+    res.json(userData);
+  } else {
+    res.json({ message: "User data not found." });
+  }
 });
 
-const authenticateToken = (req, res, next) => {
-  const authHeader = req.headers['authorization'];
-  console.log(authHeader);
-}
+function authenticateToken(req, res, next) {
+  const authHeader = req.headers["authorization"];
+  const token = authHeader && authHeader.split(" ")[1];
 
+  if (token == null) {
+    return res.status(401).send("Token not provided.");
+  }
+
+  jwt.verify(token, "SECRET", (err, user) => {
+    if (err) {
+      return res.status(401).send("Invalid token.");
+    } else {
+      req.user = user;
+      console.log(user);
+      next();
+    }
+  });
+}
 
 app.post("/login", async (req, res) => {
   const { username, password } = req.body;
@@ -73,7 +92,6 @@ app.post("/login", async (req, res) => {
     res.status(401).json({ message: "User not found." });
   } else {
     if (await bcrypt.compare(password, user.password)) {
-      console.log("correct password");
       const token = jwt.sign({ username: user.username }, "SECRET", {
         expiresIn: 300,
       });
