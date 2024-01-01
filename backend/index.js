@@ -50,7 +50,6 @@ app.post("/signup", async (req, res) => {
       .json({ message: "username or e-mail already exists" });
   }
   users.push(newUser);
-  console.log(users);
   res.json({
     message: "Registration successful!",
   });
@@ -79,7 +78,6 @@ function authenticateToken(req, res, next) {
       return res.status(401).send("Invalid token.");
     } else {
       req.user = user;
-      console.log(user);
       next();
     }
   });
