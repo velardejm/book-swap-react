@@ -1,6 +1,7 @@
 import { useEffect } from 'react';
 import Header from './Header';
 import Hero from './Hero';
+import Private from './Private';
 
 export default function Home() {
 
@@ -19,6 +20,9 @@ export default function Home() {
     <>
       <Header />
       <Hero />
+      <Private>
+        <h1>Test</h1>
+      </Private>
     </>
   );
 }

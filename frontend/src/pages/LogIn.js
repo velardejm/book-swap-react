@@ -1,6 +1,7 @@
 import FormInput from './FormInput';
 import { useState } from 'react';
 import { updateForm } from '../utils/helpers';
+import { useNavigate } from 'react-router-dom';
 
 export default function LogIn() {
   const [formData, setFormData] = useState({
@@ -8,11 +9,32 @@ export default function LogIn() {
     password: '',
   });
 
+  const navigate = useNavigate();
+
   const handleChange = (e) => {
     updateForm(e, setFormData);
   };
 
-  const handleSubmit = (e) => {};
+  const handleSubmit = async (e) => {
+    e.preventDefault();
+
+    const res = await fetch('http://localhost:3001/login', {
+      method: 'POST',
+      headers: {
+        'Content-type': 'application/json',
+      },
+      body: JSON.stringify(formData),
+    });
+
+    const data = await res.json();
+
+    if (data.token) {
+      localStorage.setItem('token', data.token);
+      navigate('/protected');
+    } else {
+      alert(data.message);
+    }
+  };
 
   return (
     <div className="flex flex-col items-center bg-blue-200 mx-5 px-5 pb-10 mt-10">
