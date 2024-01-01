@@ -5,16 +5,20 @@ import LogIn from "./pages/LogIn";
 import SignUp from "./pages/SignUp";
 import NotFound from "./pages/NotFound";
 import Protected from "./pages/Protected";
+import PrivateRoute from "./pages/PrivateRoute";
 
 function App() {
+  const isAuthenticated = false; // Replace with your authentication logic
+
   return (
     <Router>
       <Routes>
-        <Route path="/" Component={Home}/>
-        <Route path="/login" Component={LogIn}/>
-        <Route path="/signup" Component={SignUp}/>
-        <Route path="/protected" Component={Protected}/>
-        <Route path="*" Component={NotFound}/>
+        <Route path="/" element={<Home />} />
+        <Route path="/login" element={<LogIn />} />
+        <Route path="/signup" element={<SignUp />} />
+        {/* <PrivateRoute path="/protected" element={<Protected />} isAuthenticated={isAuthenticated} /> */}
+        <Route path="/private" element={<PrivateRoute><Protected /></PrivateRoute>} />
+        <Route path="*" element={<NotFound />} />
       </Routes>
     </Router>
   );

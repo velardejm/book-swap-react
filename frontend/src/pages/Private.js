@@ -1,5 +1,5 @@
 export default function Private(props) {
-    console.log(props)
+    
 
     return (
         <div>
