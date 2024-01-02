@@ -2,6 +2,7 @@ import FormInput from './FormInput';
 import { useState } from 'react';
 import { updateForm } from '../utils/helpers';
 import { useNavigate } from 'react-router-dom';
+import { logIn } from '../utils/helpers';
 
 export default function LogIn() {
   const [formData, setFormData] = useState({
@@ -17,22 +18,9 @@ export default function LogIn() {
 
   const handleSubmit = async (e) => {
     e.preventDefault();
-
-    const res = await fetch('http://localhost:3001/login', {
-      method: 'POST',
-      headers: {
-        'Content-type': 'application/json',
-      },
-      body: JSON.stringify(formData),
-    });
-
-    const data = await res.json();
-
-    if (data.token) {
-      localStorage.setItem('token', data.token);
+    const isLoginSuccessful = await logIn(formData, 'http://localhost:3001/login');
+    if (isLoginSuccessful) {
       navigate('/protected');
-    } else {
-      alert(data.message);
     }
   };
 

@@ -35,3 +35,23 @@ export const signUp = async (data) => {
     console.log(err);
   }
 }
+
+export const logIn = async (formData, url) => {
+  const res = await fetch(url, {
+    method: 'POST',
+    headers: {
+      'Content-type': 'application/json',
+    },
+    body: JSON.stringify(formData),
+  });
+
+  const data = await res.json();
+
+  if (data.token) {
+    localStorage.setItem('token', data.token);
+    return true;
+    
+  } else {
+    alert(data.message);
+  }
+};
