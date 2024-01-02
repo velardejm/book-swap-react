@@ -1,8 +1,9 @@
-import FormInput from './FormInput';
+// import FormInput from './FormInput';
 import { useState } from 'react';
 import { updateForm } from '../utils/helpers';
 import { useNavigate } from 'react-router-dom';
 import { logIn } from '../utils/helpers';
+import Form from './Form/Form';
 
 export default function LogIn() {
   const [formData, setFormData] = useState({
@@ -24,6 +25,21 @@ export default function LogIn() {
     }
   };
 
+  const formFields = [
+    {
+      label: "Username:",
+      type: "text",
+      name: "username",
+      autofocus: true
+    },
+    {
+      label: "Password:",
+      type: "password",
+      name: "password",
+      autofocus: true
+    },
+  ]
+
   return (
     <div className="flex flex-col items-center bg-blue-200 mx-5 px-5 pb-10 mt-10">
       {localStorage.getItem('token') ? (
@@ -31,7 +47,10 @@ export default function LogIn() {
       ) : (
         <>
           <h1 className="text-3xl font-bold py-10 text-center">Log In</h1>
-          <form method="post" className="flex flex-col" onSubmit={handleSubmit}>
+
+          <Form handleChange={handleChange} handleSubmit={handleSubmit} formFields={formFields}/>
+
+          {/* <form method="post" className="flex flex-col" onSubmit={handleSubmit}>
             <FormInput
               label="Username:"
               type="text"
@@ -51,7 +70,9 @@ export default function LogIn() {
             >
               Submit
             </button>
-          </form>
+          </form> */}
+
+
         </>
       )}
     </div>
