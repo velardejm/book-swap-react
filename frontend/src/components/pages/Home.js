@@ -5,10 +5,8 @@ import Hero from '../shared/Hero';
 
 export default function Home() {
   useEffect(() => {
-    fetch('http://localhost:3001/', {
-      method:'GET'
-    })
-  })
+    fetch('http://localhost:3001/');
+  }, []);
 
   return (
     <>

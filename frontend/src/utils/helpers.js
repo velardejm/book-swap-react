@@ -55,3 +55,15 @@ export const logIn = async (formData, url) => {
     alert(data.message);
   }
 };
+
+
+export const authorizedFetchData = async (url) => {
+  const response = await fetch(url, {
+      method: 'GET',
+      headers: {
+          'Authorization': `Bearer ${localStorage.getItem('token')}`
+      }
+  });
+  const data = await response.json();
+  return data;
+}

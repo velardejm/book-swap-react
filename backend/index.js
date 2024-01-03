@@ -3,7 +3,7 @@ const bodyParser = require("body-parser");
 const cors = require("cors");
 const bcrypt = require("bcrypt");
 const jwt = require("jsonwebtoken");
-const { loadData } = require('./utils/helper');
+const { loadData } = require("./utils/helper");
 
 const app = express();
 const port = 3001;
@@ -25,53 +25,23 @@ app.use(cors());
 app.use(bodyParser.json());
 
 app.listen(port, () => {
-  console.log(`Listening to requests from port ${port}`);
+  usersData = loadData();
+});
+
+app.get("/", (req, res) => {
+  console.log("test");
 });
 
 app.get("/listings", (req, res) => {
-  const usersData = loadData();
-
   const bookListings = usersData.map((user) => {
     return {
       user: user.username,
-      listings: user.booksAvailable
-    }
+      listings: user.booksAvailable,
+    };
   });
 
   res.json({
     response: bookListings,
-  });
-});
-
-app.post("/signup", async (req, res) => {
-  const { name, email, username, password } = req.body;
-  const hashedPassword = await bcrypt.hash(password, 10);
-  const newUser = {
-    username: username,
-    email: email,
-    password: hashedPassword,
-  };
-
-  const newUserData = {
-    name: name,
-    email: email,
-    username: username,
-    booksAvailable: [],
-  }
-
-  const foundExistingUser = !!users.find((user) => user.username === username);
-  const foundExistingEmail = !!users.find((user) => user.email === email);
-
-  if (foundExistingUser || foundExistingEmail) {
-    //   throw new Error("username or email already exists.");
-    return res
-      .status(409)
-      .json({ message: "username or e-mail already exists" });
-  }
-  users.push(newUser);
-  usersData.push(newUserData);
-  res.json({
-    message: "Registration successful!",
   });
 });
 
@@ -102,6 +72,51 @@ function authenticateToken(req, res, next) {
     }
   });
 }
+
+app.get("/swap/:user/:bookId", authenticateToken, (req, res) => {
+  const user = usersData.find((user) => user.username === req.params.user);
+  if (user) {
+    const book = user.booksAvailable.find(
+      (book) => book.bookId === req.params.bookId
+    );
+    console.log(book);
+    res.status(200).json({ data: book });
+  } else {
+    res.status(404).json({ error: "Book not found." });
+  }
+});
+
+app.post("/signup", async (req, res) => {
+  const { name, email, username, password } = req.body;
+  const hashedPassword = await bcrypt.hash(password, 10);
+  const newUser = {
+    username: username,
+    email: email,
+    password: hashedPassword,
+  };
+
+  const newUserData = {
+    name: name,
+    email: email,
+    username: username,
+    booksAvailable: [],
+  };
+
+  const foundExistingUser = !!users.find((user) => user.username === username);
+  const foundExistingEmail = !!users.find((user) => user.email === email);
+
+  if (foundExistingUser || foundExistingEmail) {
+    //   throw new Error("username or email already exists.");
+    return res
+      .status(409)
+      .json({ message: "username or e-mail already exists" });
+  }
+  users.push(newUser);
+  usersData.push(newUserData);
+  res.json({
+    message: "Registration successful!",
+  });
+});
 
 app.post("/login", async (req, res) => {
   const { username, password } = req.body;
