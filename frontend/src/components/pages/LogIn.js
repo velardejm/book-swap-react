@@ -6,7 +6,7 @@ import { logIn } from '../../utils/helpers';
 import Form from '../forms/Form';
 
 export default function LogIn() {
-  const [formData, setFormData] = useState({
+    const [formData, setFormData] = useState({
     username: '',
     password: '',
   });

@@ -26,19 +26,18 @@ app.listen(port, () => {
   console.log(`Listening to requests from port ${port}`);
 });
 
-app.get("/", (req, res) => {
+app.get("/listings", (req, res) => {
   const usersData = loadData();
-  const userListings = usersData.map((user) => {
+
+  const bookListings = usersData.map((user) => {
     return {
       user: user.username,
-      bookListings: user.booksAvailable
+      listings: user.booksAvailable
     }
   });
-  console.log(userListings);
   
-  console.log("A request was received from React.");
   res.json({
-    response: "response data",
+    response: bookListings,
   });
 });
 
