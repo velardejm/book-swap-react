@@ -3,7 +3,7 @@ const bodyParser = require("body-parser");
 const cors = require("cors");
 const bcrypt = require("bcrypt");
 const jwt = require("jsonwebtoken");
-const {loadData} = require('./utils/helper');
+const { loadData } = require('./utils/helper');
 
 const app = express();
 const port = 3001;
@@ -16,6 +16,8 @@ let users = [
     password: "$2b$10$/35QC92KG2EO3TsOIgOqaOYZh3gce9SyHOIK9SM79YG8VfrrH7ykq",
   },
 ];
+
+let usersData = [];
 
 let newUsers = [];
 
@@ -35,7 +37,7 @@ app.get("/listings", (req, res) => {
       listings: user.booksAvailable
     }
   });
-  
+
   res.json({
     response: bookListings,
   });
@@ -45,11 +47,17 @@ app.post("/signup", async (req, res) => {
   const { name, email, username, password } = req.body;
   const hashedPassword = await bcrypt.hash(password, 10);
   const newUser = {
+    username: username,
+    email: email,
+    password: hashedPassword,
+  };
+
+  const newUserData = {
     name: name,
     email: email,
     username: username,
-    password: hashedPassword,
-  };
+    booksAvailable: [],
+  }
 
   const foundExistingUser = !!users.find((user) => user.username === username);
   const foundExistingEmail = !!users.find((user) => user.email === email);
@@ -61,6 +69,7 @@ app.post("/signup", async (req, res) => {
       .json({ message: "username or e-mail already exists" });
   }
   users.push(newUser);
+  usersData.push(newUserData);
   res.json({
     message: "Registration successful!",
   });

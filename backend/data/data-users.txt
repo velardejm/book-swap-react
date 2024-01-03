@@ -1,10 +1,9 @@
 {
   "users": [
     {
+      "name": "User 1",
       "username": "booklover1",
       "email": "booklover1@example.com",
-      "location": "New York, NY",
-      "rating": 4.8,
       "booksAvailable": [
         {
           "title": "The Catcher in the Rye",
@@ -21,10 +20,9 @@
       ]
     },
     {
+      "name": "User 2",
       "username": "readingfanatic",
       "email": "readingfanatic@example.com",
-      "location": "Los Angeles, CA",
-      "rating": 4.5,
       "booksAvailable": [
         {
           "title": "To Kill a Mockingbird",
