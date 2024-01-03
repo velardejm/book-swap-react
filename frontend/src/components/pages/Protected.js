@@ -1,6 +1,6 @@
 import { useEffect, useState } from 'react';
 import { useNavigate } from 'react-router-dom';
-import Button from './Button';
+import Button from '../shared/Button';
 
 export default function Protected() {
   const [userData, setUserData] = useState(null);

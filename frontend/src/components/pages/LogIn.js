@@ -1,9 +1,9 @@
 // import FormInput from './FormInput';
 import { useState } from 'react';
-import { updateForm } from '../utils/helpers';
 import { useNavigate } from 'react-router-dom';
-import { logIn } from '../utils/helpers';
-import Form from './Form/Form';
+import { updateForm } from '../../utils/helpers';
+import { logIn } from '../../utils/helpers';
+import Form from '../forms/Form';
 
 export default function LogIn() {
   const [formData, setFormData] = useState({

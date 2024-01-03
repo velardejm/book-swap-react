@@ -3,6 +3,7 @@ const bodyParser = require("body-parser");
 const cors = require("cors");
 const bcrypt = require("bcrypt");
 const jwt = require("jsonwebtoken");
+const {loadData} = require('./utils/helper');
 
 const app = express();
 const port = 3001;
@@ -16,6 +17,8 @@ let users = [
   },
 ];
 
+let newUsers = [];
+
 app.use(cors());
 app.use(bodyParser.json());
 
@@ -24,6 +27,15 @@ app.listen(port, () => {
 });
 
 app.get("/", (req, res) => {
+  const usersData = loadData();
+  const userListings = usersData.map((user) => {
+    return {
+      user: user.username,
+      bookListings: user.booksAvailable
+    }
+  });
+  console.log(userListings);
+  
   console.log("A request was received from React.");
   res.json({
     response: "response data",

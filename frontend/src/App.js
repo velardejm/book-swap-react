@@ -1,11 +1,11 @@
 import { BrowserRouter as Router, Routes, Route } from "react-router-dom";
 
-import Home from "./pages/Home";
-import LogIn from "./pages/LogIn";
-import SignUp from "./pages/SignUp";
-import NotFound from "./pages/NotFound";
-import Protected from "./pages/Protected";
-import PrivateRoute from "./pages/PrivateRoute";
+import Home from "./components/pages/Home";
+import LogIn from "./components/pages/LogIn";
+import SignUp from "./components/pages/SignUp";
+import NotFound from "./components/pages/NotFound";
+import Protected from "./components/pages/Protected";
+import PrivateRoute from "./components/shared/PrivateRoute";
 
 function App() {
   const isAuthenticated = false; // Replace with your authentication logic

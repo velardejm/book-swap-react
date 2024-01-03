@@ -1,4 +1,4 @@
-import FormInput from "../FormInput"
+import FormInput from "./FormInput"
 
 export default function Form({ handleChange, handleSubmit, formFields }) {
     return (

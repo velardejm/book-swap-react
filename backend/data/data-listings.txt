@@ -1,0 +1,36 @@
+{
+  "bookListings": [
+    {
+      "title": "Pride and Prejudice",
+      "author": "Jane Austen",
+      "genre": "Romance",
+      "condition": "Excellent",
+      "owner": "booklover1",
+      "location": "Chicago, IL"
+    },
+    {
+      "title": "The Great Gatsby",
+      "author": "F. Scott Fitzgerald",
+      "genre": "Classic",
+      "condition": "Like New",
+      "owner": "readingfanatic",
+      "location": "Boston, MA"
+    },
+    {
+      "title": "The Hunger Games",
+      "author": "Suzanne Collins",
+      "genre": "Young Adult",
+      "condition": "Good",
+      "owner": "booklover1",
+      "location": "Miami, FL"
+    },
+    {
+      "title": "Harry Potter and the Sorcerer's Stone",
+      "author": "J.K. Rowling",
+      "genre": "Fantasy",
+      "condition": "Very Good",
+      "owner": "readingfanatic",
+      "location": "San Francisco, CA"
+    }
+  ]
+}
