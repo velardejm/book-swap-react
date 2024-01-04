@@ -55,6 +55,10 @@ app.get("/protected", authenticateToken, (req, res) => {
   }
 });
 
+app.get("/check-session", authenticateToken, (req, res) => {
+  res.status(200).json({message: "Token is vallid."});
+});
+
 function authenticateToken(req, res, next) {
   const authHeader = req.headers["authorization"];
   const token = authHeader && authHeader.split(" ")[1];
@@ -65,7 +69,7 @@ function authenticateToken(req, res, next) {
 
   jwt.verify(token, "SECRET", (err, user) => {
     if (err) {
-      return res.status(401).send("Invalid token.");
+      return res.status(401).send("Invalid token or session expired.");
     } else {
       req.user = user;
       next();

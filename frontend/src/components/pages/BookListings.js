@@ -30,7 +30,7 @@ export default function BookListings() {
                                 listings.map((book, index) => {
                                     return (
                                         <li key={index}>
-                                            <p>{book.title} <a className="text-blue-500" href={`/swap/${user}/${book.bookId}`}>Test</a></p> 
+                                            <p>{book.title} <a className="text-blue-500" href={`/swap/${user}/${book.bookId}`}>Swap</a></p> 
                                         </li>
                                     )
                                 })

@@ -8,7 +8,6 @@ export const updateForm = (e, dataSetter) => {
   });
 };
 
-
 export const signUp = async (data) => {
   try {
     const { password, passwordConfirmation } = data;
@@ -34,7 +33,7 @@ export const signUp = async (data) => {
   } catch (err) {
     console.log(err);
   }
-}
+};
 
 export const logIn = async (formData, url) => {
   const res = await fetch(url, {
@@ -50,20 +49,32 @@ export const logIn = async (formData, url) => {
   if (data.token) {
     localStorage.setItem('token', data.token);
     return true;
-    
   } else {
     alert(data.message);
   }
 };
 
-
 export const authorizedFetchData = async (url) => {
   const response = await fetch(url, {
-      method: 'GET',
-      headers: {
-          'Authorization': `Bearer ${localStorage.getItem('token')}`
-      }
+    method: 'GET',
+    headers: {
+      Authorization: `Bearer ${localStorage.getItem('token')}`,
+    },
   });
   const data = await response.json();
   return data;
-}
+};
+
+export const checkSession = async () => {
+  const response = await fetch('http://localhost:3001/check-session', {
+    method: 'GET',
+    headers: {
+      Authorization: `Bearer ${localStorage.getItem('token')}`,
+    },
+  });
+  if (response.status === 200) {
+    return true;
+  } else {
+    return false;
+  }
+};

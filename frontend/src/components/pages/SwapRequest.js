@@ -1,6 +1,5 @@
 // import { useState, useEffect } from 'react';
 import { useParams } from 'react-router-dom';
-import { authorizedFetchData } from '../../utils/helpers';
 import useAuthorizedFetch from '../../hooks/useAuthorizedFetch';
 
 export default function SwapRequest() {
