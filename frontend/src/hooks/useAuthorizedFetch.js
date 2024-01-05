@@ -34,7 +34,11 @@ export default function useAuthorizedFetch(url) {
         const data = await response.json();
         setData(data);
       } else {
-        navigate('/login');
+        navigate('/login', {
+          state: {
+            from: "/listings"
+          }
+        });
       }
 
     };
