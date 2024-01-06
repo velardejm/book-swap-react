@@ -1,11 +1,11 @@
-import { useState, useEffect } from 'react';
+import { useEffect } from 'react';
 
-export default function useFetchData(url) {
-  const [data, setData] = useState(null);
+export default function useVerifyToken() {
+  let isTokenValid = false;
 
   useEffect(() => {
     const fetchData = async () => {
-      const response = await fetch(url, {
+      const response = await fetch('http://localhost:3001/authenticate', {
         method: 'GET',
         headers: {
           Authorization: `Bearer ${localStorage.getItem('token')}`,
@@ -13,15 +13,14 @@ export default function useFetchData(url) {
       });
 
       if (response.status === 200) {
-        const dataObject = await response.json();
-        setData(dataObject.data);
+        isTokenValid = true;
       } else {
         localStorage.removeItem('token');
       }
     };
 
     fetchData();
-  }, [url]);
+  }, []);
 
-  return [data, setData];
+  return isTokenValid;
 }

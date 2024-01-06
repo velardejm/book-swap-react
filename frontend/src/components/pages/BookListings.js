@@ -1,12 +1,11 @@
 import { useState, useEffect } from 'react';
-import { useNavigate } from 'react-router-dom';
 import useNavigateProtectedRoute from '../../hooks/useNavigateProtectedRoute';
 
 
 export default function BookListings() {
   const [listings, setListings] = useState([]);
 
-  const navigate = useNavigate();
+  
 
   useEffect(() => {
     const fetchData = async () => {

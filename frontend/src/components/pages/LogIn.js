@@ -1,8 +1,7 @@
-import { useState, useEffect } from 'react';
+import { useEffect, useState } from 'react';
 import { useNavigate, useLocation } from 'react-router-dom';
-import { updateForm } from '../../utils/helpers';
-import { logIn } from '../../utils/helpers';
-import useNavigateProtectedRoute from '../../hooks/useNavigateProtectedRoute';
+import { logIn, updateForm } from '../../utils/helpers';
+import useVerifyToken from '../../hooks/useVerifyToken';
 import Form from '../forms/Form';
 
 export default function LogIn() {
@@ -11,21 +10,41 @@ export default function LogIn() {
     password: '',
   });
 
-  const checkLoginStatus = useNavigateProtectedRoute();
-
-  useEffect(() => {
-    checkLoginStatus('/login')
-  },[])
+  const [component, setComponent] = useState(<></>);
 
   const navigate = useNavigate();
   const location = useLocation();
 
   const { state } = location;
   let { from } = state || { from: '/' };
-  if (from === '/login') {
-    from = '/'
-  }
-  console.log(from);
+
+  const isTokenValid = useVerifyToken();
+
+  useEffect(() => {
+    const loginForm = (
+      <>
+        <h1 className="text-3xl font-bold py-10 text-center">Log In</h1>
+
+        <Form
+          handleChange={handleChange}
+          handleSubmit={handleSubmit}
+          formFields={formFields}
+        />
+      </>
+    );
+
+    const loggedInComponent = (
+      <p className="font-bold text-2xl text-center px-5 my-20">
+        You are already logged in.
+      </p>
+    );
+
+    if (isTokenValid) {
+      setComponent(loginForm);
+    } else {
+      setComponent(loggedInComponent);
+    }
+  }, []);
 
   const handleChange = (e) => {
     updateForm(e, setFormData);

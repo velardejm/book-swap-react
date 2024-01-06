@@ -50,7 +50,7 @@ app.get("/protected", authenticateToken, (req, res) => {
   console.log(user);
   if (user) {
     const { username, password, ...userData } = user;
-    res.status(200).json({data:userData});
+    res.status(200).json({ data: userData });
   } else {
     res.json({ message: "User data not found." });
   }
