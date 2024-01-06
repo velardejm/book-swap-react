@@ -1,11 +1,18 @@
 import Button from '../shared/Button';
 import { useNavigate } from 'react-router-dom';
 import useAuthorizedFetch from '../../hooks/useAuthorizedFetch';
+import useFetchData from '../../hooks/useFetchData';
 
 export default function Protected() {
   const navigate = useNavigate();
   
-  const [userData] = useAuthorizedFetch('http://localhost:3001/protected');
+  // const [userData] = useAuthorizedFetch('http://localhost:3001/protected');
+
+  const [data, setData] = useFetchData(
+    'http://localhost:3001/protected'
+  );
+
+  console.log(data);
 
   const logOut = () => {
     localStorage.removeItem('token');
@@ -15,10 +22,10 @@ export default function Protected() {
   return (
     <div>
       <h1>User Details</h1>
-      {!userData ? null : (
+      {!data ? null : (
         <>
-          <h2>{userData.name}</h2>
-          <h2>{userData.email}</h2>
+          <h2>{data.name}</h2>
+          <h2>{data.email}</h2>
           <Button
             label={'Log Out'}
             className={'btn bg-orange-300'}

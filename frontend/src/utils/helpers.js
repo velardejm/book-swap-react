@@ -1,3 +1,5 @@
+import { useNavigate } from 'react-router-dom';
+
 export const updateForm = (e, dataSetter) => {
   const { name, value } = e.target;
   dataSetter((prevData) => {
@@ -54,27 +56,48 @@ export const logIn = async (formData, url) => {
   }
 };
 
-export const authorizedFetchData = async (url) => {
-  const response = await fetch(url, {
-    method: 'GET',
-    headers: {
-      Authorization: `Bearer ${localStorage.getItem('token')}`,
-    },
-  });
-  const data = await response.json();
-  return data;
-};
+// export const authorizedFetchData = async (url) => {
+//   const response = await fetch(url, {
+//     method: 'GET',
+//     headers: {
+//       Authorization: `Bearer ${localStorage.getItem('token')}`,
+//     },
+//   });
+//   const data = await response.json();
+//   return data;
+// };
 
-export const checkSession = async () => {
-  const response = await fetch('http://localhost:3001/check-session', {
-    method: 'GET',
-    headers: {
-      Authorization: `Bearer ${localStorage.getItem('token')}`,
-    },
-  });
-  if (response.status === 200) {
-    return true;
-  } else {
-    return false;
-  }
-};
+// export const loadProtectedRoute = async (url) => {
+//   const navigate = useNavigate();
+//   const response = await fetch('http://localhost:3001/authenticate', {
+//     method: 'GET',
+//     headers: {
+//       Authorization: `Bearer ${localStorage.getItem('token')}`,
+//     },
+//   });
+//   if (response.status === 200) {
+//     navigate(url);
+//   } else {
+//     navigate('/login', { state: { from: url } });
+//   }
+// };
+
+// export const useLoadProtectedRoute = (url) => {
+//   const navigate = useNavigate();
+
+//   const loadProtectedRoute = async (url) => {
+//     const response = await fetch('http://localhost:3001/authenticate', {
+//       method: 'GET',
+//       headers: {
+//         Authorization: `Bearer ${localStorage.getItem('token')}`,
+//       },
+//     });
+//     if (response.status === 200) {
+//       navigate(url);
+//     } else {
+//       navigate('/login', { state: { from: url } });
+//     }
+//   };
+
+//   return loadProtectedRoute;
+// };

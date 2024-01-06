@@ -9,7 +9,7 @@ export default function useAuthorizedFetch(url) {
     const loadData = async () => {
       // Check if token/session is still valid
       const checkSession = async () => {
-        const response = await fetch('http://localhost:3001/check-session', {
+        const response = await fetch('http://localhost:3001/authenticate', {
           method: 'GET',
           headers: {
             Authorization: `Bearer ${localStorage.getItem('token')}`,

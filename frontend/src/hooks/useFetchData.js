@@ -14,6 +14,7 @@ export default function useFetchData(url) {
 
       if (response.status === 200) {
         const dataObject = await response.json();
+        console.log(dataObject);
         setData(dataObject.data);
       } else {
         localStorage.removeItem('token');

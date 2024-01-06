@@ -1,5 +1,9 @@
 import { useState, useEffect } from 'react';
 import { useNavigate } from 'react-router-dom';
+// import { loadProtectedRoute } from '../../utils/helpers';
+// import { useLoadProtectedRoute } from '../../utils/helpers';
+import useNavigateProtectedRoute from '../../hooks/useNavigateProtectedRoute';
+
 
 export default function BookListings() {
   const [listings, setListings] = useState([]);
@@ -18,9 +22,16 @@ export default function BookListings() {
     fetchData();
   }, []);
 
-  const navigateToAuthRoute = (url) => {
-    navigate('/login', { state: { from: url } });
-  };
+  const navigateProtectedRoute = useNavigateProtectedRoute();
+
+  // const loadProtectedRoute = async (url) => {
+  //   const isLoggedIn = await checkIsLoggedIn();
+  //   if (isLoggedIn) {
+  //     navigate(url);
+  //   } else {
+  //     navigate('/login', { state: { from: url } });
+  //   }
+  // };
 
   return (
     <div>
@@ -29,23 +40,22 @@ export default function BookListings() {
           <div key={index}>
             <h1>{user}</h1>
             <ul className="mx-3">
+
               {listings.map((book, index) => {
                 return (
                   <li key={index}>
                     <p>
                       {book.title}{' '}
-                      <button
-                        className="text-blue-500"
+                      <button className="text-blue-500"
                         onClick={() =>
-                          navigateToAuthRoute(`/swap/${user}/${book.bookId}`)
+                          navigateProtectedRoute(`/swap/${user}/${book.bookId}`)
                         }
-                      >
-                        Swap
-                      </button>
+                      > Swap </button>
                     </p>
                   </li>
                 );
               })}
+              
             </ul>
           </div>
         );
