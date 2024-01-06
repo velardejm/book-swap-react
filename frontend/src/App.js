@@ -8,21 +8,24 @@ import Protected from "./components/pages/Protected";
 import PrivateRoute from "./components/shared/PrivateRoute";
 import BookListings from "./components/pages/BookListings";
 import SwapRequest from "./components/pages/SwapRequest";
+import { AuthProvider } from "./contexts/AuthContext";
 
 function App() {
 
   return (
     <Router>
-      <Routes>
-        <Route path="/" element={<Home />} />
-        <Route path="/login" element={<LogIn />} />
-        <Route path="/signup" element={<SignUp />} />
-        
-        <Route path="/listings" element={<BookListings />} />
-        <Route path="/swap/:user/:bookId" element={<PrivateRoute><SwapRequest /></PrivateRoute>} />
-        <Route path="/protected" element={<PrivateRoute><Protected /></PrivateRoute>} />
-        <Route path="*" element={<NotFound />} />
-      </Routes>
+      <AuthProvider>
+        <Routes>
+          <Route path="/" element={<Home />} />
+          <Route path="/login" element={<LogIn />} />
+          <Route path="/signup" element={<SignUp />} />
+
+          <Route path="/listings" element={<BookListings />} />
+          <Route path="/swap/:user/:bookId" element={<PrivateRoute><SwapRequest /></PrivateRoute>} />
+          <Route path="/protected" element={<PrivateRoute><Protected /></PrivateRoute>} />
+          <Route path="*" element={<NotFound />} />
+        </Routes>
+      </AuthProvider>
     </Router>
   );
 }

@@ -29,7 +29,7 @@ app.listen(port, () => {
 });
 
 app.get("/", (req, res) => {
-  console.log("test");
+
 });
 
 app.get("/listings", (req, res) => {
@@ -56,20 +56,21 @@ app.get("/protected", authenticateToken, (req, res) => {
 });
 
 app.get("/check-session", authenticateToken, (req, res) => {
-  res.status(200).json({message: "Token is vallid."});
+  res.status(200).json({ message: "Token is vallid." });
 });
 
 function authenticateToken(req, res, next) {
   const authHeader = req.headers["authorization"];
   const token = authHeader && authHeader.split(" ")[1];
 
+
   if (token == null) {
-    return res.status(401).send("Token not provided.");
+    return res.status(401).json({ message: "Token not provided." });
   }
 
   jwt.verify(token, "SECRET", (err, user) => {
     if (err) {
-      return res.status(401).send("Invalid token or session expired.");
+      return res.status(401).json({ message: "Invalid token or session expired." });
     } else {
       req.user = user;
       next();
@@ -130,7 +131,7 @@ app.post("/login", async (req, res) => {
   } else {
     if (await bcrypt.compare(password, user.password)) {
       const token = jwt.sign({ username: user.username }, "SECRET", {
-        expiresIn: 300,
+        expiresIn: 1,
       });
       res.json({ token: token });
     } else {

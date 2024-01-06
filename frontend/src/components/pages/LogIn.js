@@ -1,9 +1,10 @@
 // import FormInput from './FormInput';
-import { useState } from 'react';
+import { useEffect, useState, useContext } from 'react';
 import { useNavigate, useLocation } from 'react-router-dom';
 import { updateForm } from '../../utils/helpers';
 import { logIn } from '../../utils/helpers';
 import Form from '../forms/Form';
+import { AuthContext } from '../../contexts/AuthContext';
 
 export default function LogIn() {
   const [formData, setFormData] = useState({
@@ -11,12 +12,36 @@ export default function LogIn() {
     password: '',
   });
 
+  const {isLoggedIn, setIsLoggedIn} = useContext(AuthContext);
+  console.log(isLoggedIn);
+
   const navigate = useNavigate();
   const location = useLocation();
 
   const { state } = location;
   const { from } = state || { from: '/' };
   console.log(from);
+
+
+  useEffect(() => {
+
+    const checkIsLoggedIn = async () => {
+      const res = await fetch('http://localhost:3001/check-session', {
+        method: 'GET',
+        headers: {
+          'Authorization': `Bearer ${localStorage.getItem('token')}`
+        }
+      });
+
+      if(res.status !== 200) {
+        localStorage.removeItem('token');
+      }
+      
+    }
+
+    checkIsLoggedIn();
+
+  })
 
   const handleChange = (e) => {
     updateForm(e, setFormData);
@@ -47,6 +72,7 @@ export default function LogIn() {
       autofocus: true,
     },
   ];
+
 
   return (
     <div className="flex flex-col items-center bg-blue-200 mx-5 px-5 pb-10 mt-10">
