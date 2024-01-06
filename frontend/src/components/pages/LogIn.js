@@ -13,15 +13,13 @@ export default function LogIn() {
   });
 
   const {isLoggedIn, setIsLoggedIn} = useContext(AuthContext);
-  console.log(isLoggedIn);
-
+  
   const navigate = useNavigate();
   const location = useLocation();
 
   const { state } = location;
   const { from } = state || { from: '/' };
-  console.log(from);
-
+  
 
   useEffect(() => {
 
@@ -35,13 +33,14 @@ export default function LogIn() {
 
       if(res.status !== 200) {
         localStorage.removeItem('token');
+        navigate('/login');
       }
       
     }
 
     checkIsLoggedIn();
 
-  })
+  }, [isLoggedIn])
 
   const handleChange = (e) => {
     updateForm(e, setFormData);
