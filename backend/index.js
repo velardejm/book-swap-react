@@ -125,7 +125,7 @@ app.post("/login", async (req, res) => {
   } else {
     if (await bcrypt.compare(password, user.password)) {
       const token = jwt.sign({ username: user.username }, "SECRET", {
-        expiresIn: 300,
+        expiresIn: 10,
       });
       res.json({ token: token });
     } else {

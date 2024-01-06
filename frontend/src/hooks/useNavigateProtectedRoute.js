@@ -13,6 +13,7 @@ const useNavigateProtectedRoute = (url) => {
       if (response.status === 200) {
         navigate(url);
       } else {
+        localStorage.removeItem('token');
         navigate('/login', { state: { from: url } });
       }
     };

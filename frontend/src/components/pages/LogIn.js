@@ -1,7 +1,8 @@
-import { useState } from 'react';
+import { useState, useEffect } from 'react';
 import { useNavigate, useLocation } from 'react-router-dom';
 import { updateForm } from '../../utils/helpers';
 import { logIn } from '../../utils/helpers';
+import useNavigateProtectedRoute from '../../hooks/useNavigateProtectedRoute';
 import Form from '../forms/Form';
 
 export default function LogIn() {
@@ -10,11 +11,20 @@ export default function LogIn() {
     password: '',
   });
 
+  const checkLoginStatus = useNavigateProtectedRoute();
+
+  useEffect(() => {
+    checkLoginStatus('/login')
+  },[])
+
   const navigate = useNavigate();
   const location = useLocation();
 
   const { state } = location;
-  const { from } = state || { from: '/' };
+  let { from } = state || { from: '/' };
+  if (from === '/login') {
+    from = '/'
+  }
   console.log(from);
 
   const handleChange = (e) => {

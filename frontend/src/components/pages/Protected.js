@@ -1,12 +1,9 @@
 import Button from '../shared/Button';
 import { useNavigate } from 'react-router-dom';
-import useAuthorizedFetch from '../../hooks/useAuthorizedFetch';
 import useFetchData from '../../hooks/useFetchData';
 
 export default function Protected() {
   const navigate = useNavigate();
-  
-  // const [userData] = useAuthorizedFetch('http://localhost:3001/protected');
 
   const [data, setData] = useFetchData(
     'http://localhost:3001/protected'

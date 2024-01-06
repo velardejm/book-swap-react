@@ -1,7 +1,5 @@
 import { useState, useEffect } from 'react';
 import { useNavigate } from 'react-router-dom';
-// import { loadProtectedRoute } from '../../utils/helpers';
-// import { useLoadProtectedRoute } from '../../utils/helpers';
 import useNavigateProtectedRoute from '../../hooks/useNavigateProtectedRoute';
 
 
@@ -23,15 +21,6 @@ export default function BookListings() {
   }, []);
 
   const navigateProtectedRoute = useNavigateProtectedRoute();
-
-  // const loadProtectedRoute = async (url) => {
-  //   const isLoggedIn = await checkIsLoggedIn();
-  //   if (isLoggedIn) {
-  //     navigate(url);
-  //   } else {
-  //     navigate('/login', { state: { from: url } });
-  //   }
-  // };
 
   return (
     <div>
