@@ -1,5 +1,5 @@
 import { useEffect, useState } from 'react';
-import { signUp,updateForm } from '../../utils/helpers';
+import { signUp, updateForm } from '../../utils/helpers';
 import { useNavigate } from 'react-router-dom';
 
 import FormInput from '../forms/FormInput';

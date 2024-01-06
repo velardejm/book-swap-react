@@ -1,23 +1,50 @@
 // import { useState, useEffect } from 'react';
 import { useParams } from 'react-router-dom';
-import useAuthorizedFetch from '../../hooks/useAuthorizedFetch';
+import useFetchData from '../../hooks/useFetchData';
 
 export default function SwapRequest() {
   const { user, bookId } = useParams();
 
-  const [fetchResponse] = useAuthorizedFetch(
+  // const [fetchResponse] = useAuthorizedFetch(
+  //   `http://localhost:3001/swap/${user}/${bookId}`
+  // );
+
+  // useEffect(() => {
+  //   const fetchData = async () => {
+  //     const response = await fetch(
+  //       `http://localhost:3001/swap/${user}/${bookId}`,
+  //       {
+  //         method: 'GET',
+  //         headers: {
+  //           Authorization: `Bearer ${localStorage.getItem('token')}`,
+  //         },
+  //       }
+  //     );
+
+  //     if (response.status === 200) {
+  //       const dataObject = await response.json();
+  //       setBook(dataObject.data);
+  //     } else {
+  //       localStorage.removeItem('token');
+  //     }
+  //   };
+
+  //   fetchData();
+  // }, []);
+
+  const [data, setData] = useFetchData(
     `http://localhost:3001/swap/${user}/${bookId}`
   );
 
-  const book = fetchResponse.data;
+  console.log(data);
 
   return (
     <div>
-      <h1>Swap Request Page</h1>
+      <h1>Swap Request Pages</h1>
       <h2>Requested Book</h2>
       <ul>
         <li>Owner: {user}</li>
-        {book ? <li>Book Title: {book.title}</li> : null}
+        {data ? <li>Book Title: {data.title}</li> : null}
       </ul>
     </div>
   );

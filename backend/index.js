@@ -56,7 +56,7 @@ app.get("/protected", authenticateToken, (req, res) => {
 });
 
 app.get("/check-session", authenticateToken, (req, res) => {
-  res.status(200).json({message: "Token is vallid."});
+  res.status(200).json({ message: "Token is vallid." });
 });
 
 function authenticateToken(req, res, next) {
@@ -79,15 +79,10 @@ function authenticateToken(req, res, next) {
 
 app.get("/swap/:user/:bookId", authenticateToken, (req, res) => {
   const user = usersData.find((user) => user.username === req.params.user);
-  if (user) {
-    const book = user.booksAvailable.find(
-      (book) => book.bookId === req.params.bookId
-    );
-    console.log(book);
-    res.status(200).json({ data: book });
-  } else {
-    res.status(404).json({ error: "Book not found." });
-  }
+  const book = user.booksAvailable.find(
+    (book) => book.bookId === req.params.bookId
+  );
+  res.status(200).json({ data: book });
 });
 
 app.post("/signup", async (req, res) => {

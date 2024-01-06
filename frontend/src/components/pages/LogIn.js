@@ -1,4 +1,3 @@
-// import FormInput from './FormInput';
 import { useState } from 'react';
 import { useNavigate, useLocation } from 'react-router-dom';
 import { updateForm } from '../../utils/helpers';
