@@ -12,9 +12,7 @@ export default function BookListings() {
         method: 'GET',
       });
       const data = await response.json();
-      console.log(data.response);
       setListings(data.response);
-      console.log(listings);
     };
 
     fetchData();

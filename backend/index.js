@@ -110,7 +110,6 @@ app.post("/signup", async (req, res) => {
   const foundExistingEmail = !!users.find((user) => user.email === email);
 
   if (foundExistingUser || foundExistingEmail) {
-    //   throw new Error("username or email already exists.");
     return res
       .status(409)
       .json({ message: "username or e-mail already exists" });
