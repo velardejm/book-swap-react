@@ -9,7 +9,7 @@ export default function Protected() {
     'http://localhost:3001/protected'
   );
 
-  console.log(data);
+  // console.log(data);
 
   const logOut = () => {
     localStorage.removeItem('token');

@@ -1,10 +1,13 @@
-import { useEffect, useState } from 'react';
+import { useEffect, useState, useContext } from 'react';
 import { useNavigate, useLocation } from 'react-router-dom';
 import { logIn, updateForm } from '../../utils/helpers';
 import useVerifyToken from '../../hooks/useVerifyToken';
 import Form from '../forms/Form';
+import { AuthContext } from '../../contexts/AuthContext';
 
 export default function LogIn() {
+  const {isLoggedIn, setIsLoggedIn} = useContext(AuthContext);
+
   const [formData, setFormData] = useState({
     username: '',
     password: '',
@@ -18,36 +21,21 @@ export default function LogIn() {
   const { state } = location;
   let { from } = state || { from: '/' };
 
-  const isTokenValid = useVerifyToken();
+  // const isTokenValid = useVerifyToken();
+  // console.log(isTokenValid);
 
-  useEffect(() => {
-    const loginForm = (
-      <>
-        <h1 className="text-3xl font-bold py-10 text-center">Log In</h1>
+  // useEffect(() => {
 
-        <Form
-          handleChange={handleChange}
-          handleSubmit={handleSubmit}
-          formFields={formFields}
-        />
-      </>
-    );
-
-    const loggedInComponent = (
-      <p className="font-bold text-2xl text-center px-5 my-20">
-        You are already logged in.
-      </p>
-    );
-
-    if (isTokenValid) {
-      setComponent(loginForm);
-    } else {
-      setComponent(loggedInComponent);
-    }
-  }, []);
+  //   if (isTokenValid) {
+  //     setComponent(loggedInComponent);
+  //   } else {
+  //     setComponent(loginForm);
+  //   }
+  // }, []);
 
   const handleChange = (e) => {
     updateForm(e, setFormData);
+    // console.log(formData);
   };
 
   const handleSubmit = async (e) => {
@@ -57,6 +45,7 @@ export default function LogIn() {
       'http://localhost:3001/login'
     );
     if (isLoginSuccessful) {
+      setIsLoggedIn(true);
       navigate(from);
     }
   };
@@ -78,7 +67,7 @@ export default function LogIn() {
 
   return (
     <div className="flex flex-col items-center bg-blue-200 mx-5 px-5 pb-10 mt-10">
-      {localStorage.getItem('token') ? (
+      {isLoggedIn ? (
         <p className="font-bold text-2xl text-center px-5 my-20">
           You are already logged in.
         </p>
@@ -93,6 +82,7 @@ export default function LogIn() {
           />
         </>
       )}
+      {component}
     </div>
   );
 }
