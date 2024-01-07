@@ -18,7 +18,7 @@ export default function Form({ handleChange, handleSubmit, formFields }) {
             })}
 
             <button
-                className={`btn btn-primary w-28 self-center mt-2`}
+                className={`btn bg-blue-500 w-28 self-center mt-2`}
                 type="submit"
             >
                 Submit

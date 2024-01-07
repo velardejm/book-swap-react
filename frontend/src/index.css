@@ -7,10 +7,6 @@
       @apply px-6 rounded-full text-white h-10 text-sm
   }
 
-  .btn-primary {
-      @apply bg-blue-500 
-  }
-
   /* .btn-primary {
       @apply bg-blue-500 py-2 px-6 rounded-xl text-white
   } */

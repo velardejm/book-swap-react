@@ -5,7 +5,7 @@ import { AuthContext } from '../../contexts/AuthContext';
 import Header from '../shared/Header';
 
 export default function Home() {
-  const authConetxt = useContext(AuthContext);
+  const { isLoggedIn } = useContext(AuthContext);
 
   return (
     <>
@@ -23,12 +23,14 @@ export default function Home() {
         </p>
 
         <div>
-          <Link
-            to="/signup"
-            className="bg-orange-500 text-white font-bold text-lg p-2 rounded-md w-32 mr-4"
-          >
-            Join now!
-          </Link>
+          {isLoggedIn ? null : (
+            <Link
+              to="/signup"
+              className="bg-orange-500 text-white font-bold text-lg p-2 rounded-md w-32 mr-4"
+            >
+              Join now!
+            </Link>
+          )}
 
           <Link
             to="/listings"
