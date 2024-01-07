@@ -2,8 +2,8 @@ import { useState, useContext } from 'react';
 import Logo from '../shared/Logo';
 import { useNavigate, useLocation, Link } from 'react-router-dom';
 import { logIn, updateForm } from '../../utils/helpers';
-import Form from '../forms/Form';
 import { AuthContext } from '../../contexts/AuthContext';
+import Form from '../forms/Form';
 
 export default function LogIn() {
   const { isLoggedIn, setIsLoggedIn } = useContext(AuthContext);
@@ -17,7 +17,7 @@ export default function LogIn() {
   const location = useLocation();
 
   const { state } = location;
-  let { from } = state || { from: '/' };
+  let { from } = state || { from: '/dashboard' };
 
 
   const handleChange = (e) => {

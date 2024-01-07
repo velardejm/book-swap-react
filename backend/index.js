@@ -10,9 +10,15 @@ const port = 3001;
 
 let users = [
   {
-    name: "Name",
-    email: "email@email.com",
-    username: "username",
+    name: "User 1",
+    username: "booklover1",
+    email: "booklover1@example.com",
+    password: "$2b$10$/35QC92KG2EO3TsOIgOqaOYZh3gce9SyHOIK9SM79YG8VfrrH7ykq",
+  },
+  {
+    name: "User 2",
+    username: "readingfanatic",
+    email: "readingfanatic@example.com",
     password: "$2b$10$/35QC92KG2EO3TsOIgOqaOYZh3gce9SyHOIK9SM79YG8VfrrH7ykq",
   },
 ];
@@ -47,10 +53,21 @@ app.get("/listings", (req, res) => {
 
 app.get("/protected", authenticateToken, (req, res) => {
   const user = users.find((u) => u.username === req.user.username);
-  console.log(user);
   if (user) {
     const { username, password, ...userData } = user;
     res.status(200).json({ data: userData });
+  } else {
+    res.json({ message: "User data not found." });
+  }
+});
+
+app.get("/dashboard", authenticateToken, (req, res) => {
+  const user = users.find((u) => u.username === req.user.username);
+  if (user) {
+    const { username, password, ...userData } = user;
+    const books = usersData.find((u) => u.username === username);
+    const data = {...userData, ...books}  
+    res.status(200).json({ data: data });
   } else {
     res.json({ message: "User data not found." });
   }
@@ -125,7 +142,7 @@ app.post("/login", async (req, res) => {
   } else {
     if (await bcrypt.compare(password, user.password)) {
       const token = jwt.sign({ username: user.username }, "SECRET", {
-        expiresIn: 30,
+        expiresIn: 3600,
       });
       res.json({ token: token });
     } else {

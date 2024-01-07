@@ -9,6 +9,7 @@ import PrivateRoute from "./components/shared/PrivateRoute";
 import BookListings from "./components/pages/BookListings";
 import SwapRequest from "./components/pages/SwapRequest";
 import { AuthContextProvider } from "./contexts/AuthContext";
+import Dashboard from "./components/pages/Dashboard";
 
 function App() {
 
@@ -21,7 +22,8 @@ function App() {
           <Route path="/signup" element={<SignUp />} />
           <Route path="/listings" element={<BookListings />} />
           <Route path="/swap/:user/:bookId" element={<PrivateRoute><SwapRequest /></PrivateRoute>} />
-          <Route path="/protected" element={<PrivateRoute><Protected /></PrivateRoute>} />
+          {/* <Route path="/protected" element={<PrivateRoute><Protected /></PrivateRoute>} /> */}
+          <Route path="/dashboard" element={<Dashboard />} />
           <Route path="*" element={<NotFound />} />
         </Routes>
       </AuthContextProvider>
