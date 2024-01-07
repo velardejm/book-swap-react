@@ -1,8 +1,12 @@
+import { useContext } from 'react';
 import { Link } from 'react-router-dom';
+import { AuthContext } from '../../contexts/AuthContext';
 
 import Header from '../shared/Header';
 
 export default function Home() {
+  const authConetxt = useContext(AuthContext);
+
   return (
     <>
       <Header />

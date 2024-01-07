@@ -1,5 +1,3 @@
-import { useNavigate } from 'react-router-dom';
-
 export const updateForm = (e, dataSetter) => {
   const { name, value } = e.target;
   dataSetter((prevData) => {
