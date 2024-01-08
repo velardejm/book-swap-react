@@ -1,27 +1,68 @@
+import { useState } from 'react';
+import FormInput from '../shared/FormInput';
+import { updateForm } from '../../utils/helpers';
+
 export default function AddBook() {
-    return (
-        <div>
+  const [formData, setFormData] = useState({
+    id: '',
+    title: '',
+    author: '',
+    genre: '',
+    condition: '',
+  });
 
-        </div>
-    )
+  const handleChange = (e) => {
+    updateForm(e, setFormData);
+    console.log(formData);
+  };
+
+  const handleSubmit = (e) => {
+    e.preventDefault();
+  };
+
+  return (
+    <form
+      method="post"
+      className="flex flex-col items-center bg-blue-200 mx-5 px-5 pb-10 mt-10"
+      onSubmit={handleSubmit}
+    >
+      <h1 className="text-3xl font-bold py-10 text-center">Add Book</h1>
+
+      <FormInput
+        label="Title:"
+        type="text"
+        name="title"
+        onChangeHandler={handleChange}
+        autofocus={true}
+      />
+
+      <FormInput
+        label="Author:"
+        type="text"
+        name="author"
+        onChangeHandler={handleChange}
+        autofocus={false}
+      />
+
+      <FormInput
+        label="Genre:"
+        type="text"
+        name="genre"
+        onChangeHandler={handleChange}
+        autofocus={false}
+      />
+
+      <FormInput
+        label="Condition:"
+        type="text"
+        name="condition"
+        onChangeHandler={handleChange}
+        autofocus={false}
+      />
+
+      <button className={`btn bg-blue-500 w-28 self-center mt-2`} type="submit">
+        Submit
+      </button>
+    </form>
+  );
 }
-/*
-TODO:
-1. Add book form
-2. Handle add book form
-    1. PUT route in the backend
-        1. Verify token
-        2. Get the user from the token
-        3. If all is ok, create a new book object
-        4. Add the book to the user's book list
-        5. Return the response with status
-    2. If response is 200, reload the user dashboard to show the new book
-
-
-Next TODO:
-*Implement DELETE book in the dashboard which follows the same flow above
-*Implement EDIT book details in the dashboard which follows the same flow above
-    -Need to create an edit book details page.
-*Update the swap book form
-*Implement the book swap feature
-*/
