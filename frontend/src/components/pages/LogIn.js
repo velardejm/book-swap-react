@@ -4,19 +4,19 @@ import { logIn, updateForm } from '../../utils/helpers';
 import { AuthContext } from '../../contexts/AuthContext';
 import FormInput from '../shared/FormInput';
 import useGetPreviousRoute from '../../hooks/useGetPreviousRoute';
+import useTestHook from '../../hooks/useTestHook';
 
 
 export default function LogIn() {
   const { isLoggedIn, contextLogIn } = useContext(AuthContext);
 
   const [from, navigate] = useGetPreviousRoute();
-
   const [formData, setFormData] = useState({
     username: '',
     password: '',
   });
 
-
+  const testFunc = useTestHook();
 
   const handleChange = (e) => {
     updateForm(e, setFormData);
