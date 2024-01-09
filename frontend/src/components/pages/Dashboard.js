@@ -11,11 +11,7 @@ const MyComponent = () => {
 }
 
 export default function Dashboard() {
-<<<<<<< HEAD
   const [isModalOpen, setIsModalOpen] = useState(true);
-=======
-  const [isModalOpen, setIsModalOpen] = useState(false);
->>>>>>> refs/remotes/origin/main
   const [data] = useFetchData('http://localhost:3001/dashboard');
 
   const closeModal = () => {
