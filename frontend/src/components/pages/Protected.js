@@ -5,11 +5,10 @@ import useFetchData from '../../hooks/useFetchData';
 export default function Protected() {
   const navigate = useNavigate();
 
-  const [data, setData] = useFetchData(
+  const [data] = useFetchData(
     'http://localhost:3001/protected'
   );
 
-  // console.log(data);
 
   const logOut = () => {
     localStorage.removeItem('token');
