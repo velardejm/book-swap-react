@@ -6,7 +6,7 @@ import { AuthContext } from '../../contexts/AuthContext';
 import FormInput from '../shared/FormInput';
 
 export default function LogIn() {
-  const { isLoggedIn, setIsLoggedIn } = useContext(AuthContext);
+  const { isLoggedIn, contextLogIn } = useContext(AuthContext);
 
   const [formData, setFormData] = useState({
     username: '',
@@ -30,8 +30,8 @@ export default function LogIn() {
       'http://localhost:3001/login'
     );
     if (isLoginSuccessful) {
-      setIsLoggedIn(true);
-      navigate(from);
+      contextLogIn();
+      navigate('/dashboard');
     }
   };
 
