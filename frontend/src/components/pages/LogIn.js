@@ -1,23 +1,22 @@
 import { useState, useContext } from 'react';
 import Logo from '../shared/Logo';
-import { useNavigate, useLocation, Link } from 'react-router-dom';
 import { logIn, updateForm } from '../../utils/helpers';
 import { AuthContext } from '../../contexts/AuthContext';
 import FormInput from '../shared/FormInput';
+import useGetPreviousRoute from '../../hooks/useGetPreviousRoute';
+
 
 export default function LogIn() {
   const { isLoggedIn, contextLogIn } = useContext(AuthContext);
+
+  const [from, navigate] = useGetPreviousRoute();
 
   const [formData, setFormData] = useState({
     username: '',
     password: '',
   });
 
-  const navigate = useNavigate();
-  const location = useLocation();
 
-  const { state } = location;
-  let { from } = state || { from: '/dashboard' };
 
   const handleChange = (e) => {
     updateForm(e, setFormData);
@@ -31,7 +30,7 @@ export default function LogIn() {
     );
     if (isLoginSuccessful) {
       contextLogIn();
-      navigate('/dashboard');
+      navigate(from);
     }
   };
 
