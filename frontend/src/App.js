@@ -22,7 +22,7 @@ function App() {
           <Route path="/signup" element={<SignUp />} />
           <Route path="/listings" element={<BookListings />} />
           <Route path="/swap/:user/:bookId" element={<PrivateRoute><SwapRequest /></PrivateRoute>} />
-          {/* <Route path="/protected" element={<PrivateRoute><Protected /></PrivateRoute>} /> */}
+          <Route path="/protected" element={<PrivateRoute><Protected /></PrivateRoute>} />
           <Route path="/dashboard" element={<Dashboard />} />
           <Route path="*" element={<NotFound />} />
         </Routes>

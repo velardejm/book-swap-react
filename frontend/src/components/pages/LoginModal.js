@@ -1,7 +1,7 @@
 import { useState, useContext, useEffect } from 'react';
 import { useNavigate, useLocation } from 'react-router-dom';
 import { logIn, updateForm } from '../../utils/helpers';
-import Form from '../forms/Form';
+import FormInput from '../shared/FormInput';
 import { AuthContext } from '../../contexts/AuthContext';
 
 
@@ -19,13 +19,13 @@ export default function LoginModal({ isLoginOpen, closeLoginModal }) {
 
   }, [])
 
-  const {isLoggedIn, setIsLoggedIn} = useContext(AuthContext);
+  const { isLoggedIn, contextLogIn } = useContext(AuthContext);
 
   const [formData, setFormData] = useState({
     username: '',
     password: '',
   });
-  
+
 
   const navigate = useNavigate();
 
@@ -41,7 +41,7 @@ export default function LoginModal({ isLoginOpen, closeLoginModal }) {
     );
 
     if (isLoginSuccessful) {
-      setIsLoggedIn(true);
+      contextLogIn();
       closeLoginModal();
       navigate('/');
     }
@@ -78,12 +78,34 @@ export default function LoginModal({ isLoginOpen, closeLoginModal }) {
     >
       <div className="flex flex-col items-center bg-blue-200 mx-5 px-5 pb-10 mt-10">
         <h1 className="text-3xl font-bold py-10 text-center">Log In</h1>
-        <Form
-          handleChange={handleChange}
-          handleSubmit={handleSubmit}
-          formFields={formFields}
-        />
+        <form method="post" className="flex flex-col" onSubmit={handleSubmit}>
+
+          <FormInput
+            label="Username:"
+            type="text"
+            name="username"
+            onChangeHandler={handleChange}
+            autofocus={true}
+          />
+
+          <FormInput
+            label="Password:"
+            type="password"
+            name="password"
+            onChangeHandler={handleChange}
+            autofocus={false}
+          />
+
+          <button
+            className={`btn bg-blue-500 w-28 self-center mt-2`}
+            type="submit"
+          >
+            Log in
+          </button>
+        </form>
       </div>
+
+
     </div>
   );
 }
