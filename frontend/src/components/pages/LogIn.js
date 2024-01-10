@@ -5,6 +5,7 @@ import { AuthContext } from '../../contexts/AuthContext';
 import FormInput from '../shared/FormInput';
 import useGetPreviousRoute from '../../hooks/useGetPreviousRoute';
 import useTestHook from '../../hooks/useTestHook';
+import useLogin from '../../hooks/useLogin';
 
 
 export default function LogIn() {
@@ -15,6 +16,7 @@ export default function LogIn() {
     username: '',
     password: '',
   });
+  const logIn = useLogin();
 
   const testFunc = useTestHook();
 
@@ -22,12 +24,11 @@ export default function LogIn() {
     updateForm(e, setFormData);
   };
 
+  
   const handleSubmit = async (e) => {
     e.preventDefault();
-    const isLoginSuccessful = await logIn(
-      formData,
-      'http://localhost:3001/login'
-    );
+    
+    const isLoginSuccessful = logIn();
     if (isLoginSuccessful) {
       contextLogIn();
       navigate(from);
