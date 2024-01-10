@@ -3,6 +3,7 @@ import { logIn, updateForm } from '../../utils/helpers';
 import FormInput from '../shared/FormInput';
 import useGetPreviousRoute from '../../hooks/useGetPreviousRoute';
 import useAuthContext from '../../hooks/useAuthContext';
+import useLogin from '../../hooks/useLogin';
 
 export default function LoginModal({ isLoginModalOpen, closeLoginModal }) {
   const [formData, setFormData] = useState({
@@ -12,9 +13,11 @@ export default function LoginModal({ isLoginModalOpen, closeLoginModal }) {
 
   const [from, navigate] = useGetPreviousRoute();
   const [isLoggedIn, contextLogIn] = useAuthContext();
+  const logIn = useLogin(formData);
 
+  
   useEffect(() => {
-    const handleEscape = () => {};
+    const handleEscape = () => { };
 
     window.addEventListener('keydown', handleEscape);
 
@@ -23,22 +26,19 @@ export default function LoginModal({ isLoginModalOpen, closeLoginModal }) {
     };
   }, []);
 
-  
+
   const handleChange = (e) => {
     updateForm(e, setFormData);
   };
 
   const handleSubmit = async (e) => {
     e.preventDefault();
-    const isLoginSuccessful = await logIn(
-      formData,
-      'http://localhost:3001/login'
-    );
-
+    
+    const isLoginSuccessful = await logIn();
     if (isLoginSuccessful) {
       contextLogIn();
-      closeLoginModal();
       navigate(from);
+      alert('submit');
     }
   };
 

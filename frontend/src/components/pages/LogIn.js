@@ -16,9 +16,9 @@ export default function LogIn() {
     username: '',
     password: '',
   });
-  const logIn = useLogin();
+  const logIn = useLogin(formData);
 
-  const testFunc = useTestHook();
+  // const testFunc = useTestHook();
 
   const handleChange = (e) => {
     updateForm(e, setFormData);
@@ -28,10 +28,11 @@ export default function LogIn() {
   const handleSubmit = async (e) => {
     e.preventDefault();
     
-    const isLoginSuccessful = logIn();
+    const isLoginSuccessful = await logIn();
     if (isLoginSuccessful) {
       contextLogIn();
       navigate(from);
+      alert('submit');
     }
   };
 

@@ -1,8 +1,7 @@
 const useLogin = (formData) => {
 
     const logIn = () => {
-        let isLoggedIn = false;
-
+        
         const logInRequest = async () => {
             const res = await fetch('http://localhost:3001/login', {
                 method: 'POST',
@@ -13,19 +12,19 @@ const useLogin = (formData) => {
             });
 
             const data = await res.json();
-
+            
             if (data.token) {
                 localStorage.setItem('token', data.token);
-                isLoggedIn = true;
+                return true;
             } else {
                 alert(data.message);
-                isLoggedIn = false;
+                return false;
             }
         }
 
-        logInRequest();
-
-        return isLoggedIn;
+        return logInRequest();
+        
+       
     }
 
     return logIn;
