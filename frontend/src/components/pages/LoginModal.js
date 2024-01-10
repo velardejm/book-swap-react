@@ -31,7 +31,6 @@ export default function LoginModal({ isLoginModalOpen, closeLoginModal }) {
     if (isLoginSuccessful) {
       logIn();
       navigate(from);
-      alert('submit');
     }
   };
 

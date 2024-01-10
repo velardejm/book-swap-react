@@ -4,11 +4,6 @@ import BookDetails from '../shared/BookDetails';
 import Modal from '../shared/Modal';
 import AddBook from './AddBook';
 
-const MyComponent = () => {
-  return (
-    <div>Test</div>
-  )
-}
 
 export default function Dashboard() {
   const [isModalOpen, setIsModalOpen] = useState(false);

@@ -12,18 +12,18 @@ export const AuthContextProvider = ({children}) => {
         }
     });
 
-    const contextLogIn = () => {
+    const logIn = () => {
         alert('test');
         setIsLoggedIn(true);
     }
 
-    const contextLogOut = () => {
+    const logOut = () => {
         localStorage.removeItem('token');
         setIsLoggedIn(false);
     }
 
     return (
-        <AuthContext.Provider value={{ isLoggedIn, contextLogIn, contextLogOut}}>
+        <AuthContext.Provider value={{ isLoggedIn, logIn, logOut}}>
             {children}
         </AuthContext.Provider>
     )

@@ -18,6 +18,21 @@ export default function AddBook() {
 
   const handleSubmit = (e) => {
     e.preventDefault();
+    console.log(JSON.stringify(formData));
+
+    fetch('http://localhost:3001/book', {
+      method:'POST',
+      headers: {
+        'Authorization': `Bearer ${localStorage.getItem('token')}`,
+        'Content-Type': 'application/json',
+      },
+      body: JSON.stringify(formData)
+    })
+    
+
+
+    
+
   };
 
   return (
