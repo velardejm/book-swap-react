@@ -1,34 +1,29 @@
-import { useState, useContext, useEffect } from 'react';
-import { useNavigate, useLocation } from 'react-router-dom';
+import { useState, useEffect } from 'react';
 import { logIn, updateForm } from '../../utils/helpers';
 import FormInput from '../shared/FormInput';
-import { AuthContext } from '../../contexts/AuthContext';
+import useGetPreviousRoute from '../../hooks/useGetPreviousRoute';
+import useAuthContext from '../../hooks/useAuthContext';
 
-
-export default function LoginModal({ isLoginOpen, closeLoginModal }) {
-  useEffect(() => {
-    const handleEscape = () => {
-
-    }
-
-    window.addEventListener('keydown', handleEscape);
-
-    return () => {
-      window.removeEventListener('keydown', handleEscape);
-    }
-
-  }, [])
-
-  const { isLoggedIn, contextLogIn } = useContext(AuthContext);
-
+export default function LoginModal({ isLoginModalOpen, closeLoginModal }) {
   const [formData, setFormData] = useState({
     username: '',
     password: '',
   });
 
+  const [from, navigate] = useGetPreviousRoute();
+  const [isLoggedIn, contextLogIn] = useAuthContext();
 
-  const navigate = useNavigate();
+  useEffect(() => {
+    const handleEscape = () => {};
 
+    window.addEventListener('keydown', handleEscape);
+
+    return () => {
+      window.removeEventListener('keydown', handleEscape);
+    };
+  }, []);
+
+  
   const handleChange = (e) => {
     updateForm(e, setFormData);
   };
@@ -43,7 +38,7 @@ export default function LoginModal({ isLoginOpen, closeLoginModal }) {
     if (isLoginSuccessful) {
       contextLogIn();
       closeLoginModal();
-      navigate('/');
+      navigate(from);
     }
   };
 
@@ -62,7 +57,7 @@ export default function LoginModal({ isLoginOpen, closeLoginModal }) {
     },
   ];
 
-  if (!isLoginOpen) {
+  if (!isLoginModalOpen) {
     return null;
   }
 
@@ -79,7 +74,6 @@ export default function LoginModal({ isLoginOpen, closeLoginModal }) {
       <div className="flex flex-col items-center bg-blue-200 mx-5 px-5 pb-10 mt-10">
         <h1 className="text-3xl font-bold py-10 text-center">Log In</h1>
         <form method="post" className="flex flex-col" onSubmit={handleSubmit}>
-
           <FormInput
             label="Username:"
             type="text"
@@ -104,8 +98,6 @@ export default function LoginModal({ isLoginOpen, closeLoginModal }) {
           </button>
         </form>
       </div>
-
-
     </div>
   );
 }

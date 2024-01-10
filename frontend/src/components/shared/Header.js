@@ -1,31 +1,36 @@
 import Button from './Button';
 import { Link, useNavigate } from 'react-router-dom';
-import { useState, useContext } from 'react';
+import { useState, useContext, useEffect } from 'react';
 import { AuthContext } from '../../contexts/AuthContext';
 import LoginModal from '../pages/LoginModal';
 import Logo from './Logo';
 
 export default function Header() {
-  const [isLoginOpen, setIsLoginOpen] = useState(false);
-  const { isLoggedIn, setIsLoggedIn } = useContext(AuthContext);
+  const [isLoginModalOpen, setIsLoginModalOpen] = useState(false);
+  const [isButtonsLoaded, setIsButtonsLoaded] = useState(false);
+  const { isLoggedIn, contextLogOut } = useContext(AuthContext);
+
+  useEffect(() => {
+    setIsButtonsLoaded(true);
+  }, []);
+
   const navigate = useNavigate();
 
   const logOut = () => {
     localStorage.removeItem('token');
-    setIsLoggedIn(false);
+    contextLogOut()
     navigate('/login');
   };
 
   const openLoginModal = () => {
-    setIsLoginOpen(true);
+    setIsLoginModalOpen(true);
   };
 
   const closeLoginModal = () => {
-    setIsLoginOpen(false);
+    setIsLoginModalOpen(false);
   };
 
-
-  const headerButtons = (
+  const buttonComponents = (
     <div>
       {isLoggedIn ? (
         <Button
@@ -49,18 +54,13 @@ export default function Header() {
         </>
       )}
     </div>
-
-  )
-
-
+  );
 
   return (
     <div className="flex justify-between items-center h-24 px-2">
       <Logo />
-
-      {isLoggedIn === null? null : headerButtons }
-
-      <LoginModal isLoginOpen={isLoginOpen} closeLoginModal={closeLoginModal} />
+      {isButtonsLoaded ? buttonComponents : null}
+      <LoginModal isLoginModalOpen={isLoginModalOpen} closeLoginModal={closeLoginModal} />
     </div>
   );
 }
