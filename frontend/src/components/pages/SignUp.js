@@ -1,8 +1,10 @@
 import { useEffect, useState } from 'react';
-import { signUp, updateForm } from '../../utils/helpers';
+import { updateForm } from '../../utils/helpers';
 import { useNavigate } from 'react-router-dom';
 import FormInput from '../shared/FormInput';
 import Logo from '../shared/Logo';
+import useSignUp from '../../hooks/useSignUp';
+
 
 export default function SignUp() {
   const [formData, setFormData] = useState({
@@ -14,6 +16,8 @@ export default function SignUp() {
   });
   const [submitEnabled, setSubmitEnabled] = useState(false);
 
+
+  const signUp = useSignUp();
   const navigate = useNavigate();
   const { name, email, username, password, passwordConfirmation } = formData;
 
@@ -23,6 +27,7 @@ export default function SignUp() {
 
   const handleSubmit = async (e) => {
     e.preventDefault();
+    
     const successfulSignUp = await signUp(formData);
     if (successfulSignUp) {
       navigate('/login');
@@ -81,7 +86,7 @@ export default function SignUp() {
           onChangeHandler={handleChange}
         />
         <button
-          className={`btn btn-primary w-28 self-center ${
+          className={`btn bg-blue-500 w-28 self-center ${
             submitEnabled ? '' : 'bg-gray-500'
           }`}
           type="submit"
