@@ -1,38 +1,32 @@
 import { useState, useContext } from 'react';
 import Logo from '../shared/Logo';
-import { logIn, updateForm } from '../../utils/helpers';
-import { AuthContext } from '../../contexts/AuthContext';
+import { updateForm } from '../../utils/helpers';
 import FormInput from '../shared/FormInput';
 import useGetPreviousRoute from '../../hooks/useGetPreviousRoute';
-import useTestHook from '../../hooks/useTestHook';
 import useLogin from '../../hooks/useLogin';
+import useAuthContext from '../../hooks/useAuthContext';
 
 
 export default function LogIn() {
-  const { isLoggedIn, contextLogIn } = useContext(AuthContext);
-
+  const [isLoggedIn, logIn, logOut] =useAuthContext();
   const [from, navigate] = useGetPreviousRoute();
   const [formData, setFormData] = useState({
     username: '',
     password: '',
   });
-  const logIn = useLogin(formData);
-
-  // const testFunc = useTestHook();
+  const handleLogIn = useLogin(formData);
 
   const handleChange = (e) => {
     updateForm(e, setFormData);
   };
-
   
   const handleSubmit = async (e) => {
     e.preventDefault();
     
-    const isLoginSuccessful = await logIn();
+    const isLoginSuccessful = await handleLogIn();
     if (isLoginSuccessful) {
-      contextLogIn();
+      logIn();
       navigate(from);
-      alert('submit');
     }
   };
 

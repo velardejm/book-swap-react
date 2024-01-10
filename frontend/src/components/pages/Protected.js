@@ -1,17 +1,21 @@
 import Button from '../shared/Button';
 import { useNavigate } from 'react-router-dom';
 import useFetchData from '../../hooks/useFetchData';
+import useAuthContext from '../../hooks/useAuthContext';
+
 
 export default function Protected() {
   const navigate = useNavigate();
+
+  const [isLoggedIn, logIn, logOut] = useAuthContext()
 
   const [data] = useFetchData(
     'http://localhost:3001/protected'
   );
 
 
-  const logOut = () => {
-    localStorage.removeItem('token');
+  const handleLogOut = () => {
+    logOut();
     navigate('/login');
   };
 
@@ -25,7 +29,7 @@ export default function Protected() {
           <Button
             label={'Log Out'}
             className={'btn bg-orange-300'}
-            onClick={logOut}
+            onClick={handleLogOut}
           />
         </>
       )}

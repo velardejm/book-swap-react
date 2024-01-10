@@ -1,24 +1,24 @@
 import Button from './Button';
 import { Link, useNavigate } from 'react-router-dom';
-import { useState, useContext, useEffect } from 'react';
-import { AuthContext } from '../../contexts/AuthContext';
+import { useState, useEffect } from 'react';
 import LoginModal from '../pages/LoginModal';
 import Logo from './Logo';
+import useAuthContext from '../../hooks/useAuthContext';
 
 export default function Header() {
   const [isLoginModalOpen, setIsLoginModalOpen] = useState(false);
   const [isButtonsLoaded, setIsButtonsLoaded] = useState(false);
-  const { isLoggedIn, contextLogOut } = useContext(AuthContext);
+  // const { isLoggedIn, contextLogOut } = useContext(AuthContext);
+  const navigate = useNavigate();
+
+  const [isLoggedIn, logIn, logOut] = useAuthContext();
 
   useEffect(() => {
     setIsButtonsLoaded(true);
   }, []);
 
-  const navigate = useNavigate();
-
-  const logOut = () => {
-    localStorage.removeItem('token');
-    contextLogOut()
+  const handleLogOut = () => {
+    logOut();
     navigate('/login');
   };
 
@@ -36,7 +36,7 @@ export default function Header() {
         <Button
           label={'Log out'}
           className={'btn bg-orange-400 mx-2'}
-          onClick={logOut}
+          onClick={handleLogOut}
         />
       ) : (
         <>
