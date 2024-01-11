@@ -196,8 +196,9 @@ app.post("/book", authenticateToken, (req, res) => {
   const userData = usersData.find(
     (user) => user.username === req.user.username
   );
-  console.log('test');
-  userData.booksAvailable.push(req.body);
-  console.log(userData);
-  return;
+  if(userData) {
+    userData.booksAvailable.push(req.body);
+    res.status(200).json({message:"New book added successfully."});
+  }
+  
 });

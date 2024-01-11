@@ -13,7 +13,6 @@ export const AuthContextProvider = ({children}) => {
     });
 
     const logIn = () => {
-        alert('test');
         setIsLoggedIn(true);
     }
 

@@ -7,7 +7,12 @@ import AddBook from './AddBook';
 
 export default function Dashboard() {
   const [isModalOpen, setIsModalOpen] = useState(false);
-  const [data] = useFetchData('http://localhost:3001/dashboard');
+  const [data, setData] = useFetchData('http://localhost:3001/dashboard');
+  const [books, setBook] = useState(data ? data.booksAvailable : null);
+
+  
+
+  
 
   const closeModal = () => {
     setIsModalOpen(false);
@@ -27,14 +32,16 @@ export default function Dashboard() {
         {booksAvailable.map((book, index) => {
           return <BookDetails book={book} key={index} />;
         })}
+        
+        
       </div>
 
       <button className={`btn bg-blue-500 w-28 self-center mt-2`} type="submit" onClick={() => setIsModalOpen(true)}>
         Add Book
       </button>
 
-      <Modal isModalOpen={isModalOpen} closeModal={closeModal}>
-        <AddBook />
+      <Modal component={AddBook} isModalOpen={isModalOpen} closeModal={closeModal} setData={setData}>
+        {/* <AddBook /> */}
       </Modal>
     </div>
   );
