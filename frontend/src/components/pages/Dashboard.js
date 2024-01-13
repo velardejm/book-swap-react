@@ -1,4 +1,4 @@
-import { useState } from 'react';
+import { useEffect, useState } from 'react';
 import useFetchData from '../../hooks/useFetchData';
 import BookDetails from '../shared/BookDetails';
 import Modal from '../shared/Modal';
@@ -8,14 +8,14 @@ import AddBook from './AddBook';
 export default function Dashboard() {
   const [isModalOpen, setIsModalOpen] = useState(false);
   const [data, setData] = useFetchData('http://localhost:3001/dashboard');
-  const [books, setBook] = useState(data ? data.booksAvailable : null);
-
-  
-
   
 
   const closeModal = () => {
     setIsModalOpen(false);
+  }
+
+  const updateData = (newData) => {
+    setData(newData);
   }
 
   if (!data) {
@@ -32,15 +32,15 @@ export default function Dashboard() {
         {booksAvailable.map((book, index) => {
           return <BookDetails book={book} key={index} />;
         })}
-        
-        
+
+
       </div>
 
       <button className={`btn bg-blue-500 w-28 self-center mt-2`} type="submit" onClick={() => setIsModalOpen(true)}>
         Add Book
       </button>
 
-      <Modal component={AddBook} isModalOpen={isModalOpen} closeModal={closeModal} setData={setData}>
+      <Modal component={AddBook} isModalOpen={isModalOpen} closeModal={closeModal} data={data} setData={setData}>
         {/* <AddBook /> */}
       </Modal>
     </div>

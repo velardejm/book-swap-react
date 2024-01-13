@@ -26,7 +26,7 @@ export default function useFetchData(url) {
     };
 
     fetchData();
-  }, [url]);
+  }, []);
 
   return [data, setData];
 }

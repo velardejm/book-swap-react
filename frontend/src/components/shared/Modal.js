@@ -1,8 +1,8 @@
 import { useState } from "react";
 
-export default function Modal({ component: Component, isModalOpen, closeModal, setData }) {
+export default function Modal({ component: Component, isModalOpen, closeModal, data, setData }) {
 
-  if (!isModalOpen) {
+    if (!isModalOpen) {
     return null;
   }
 
@@ -17,7 +17,7 @@ export default function Modal({ component: Component, isModalOpen, closeModal, s
       className="bg-slate-900 bg-opacity-80 w-dvw h-dvh absolute top-0 left-0 flex items-center justify-center"
     >
 
-      <Component isModalOpen={isModalOpen} closeModal={closeModal} setData={setData}/>
+      <Component closeModal={closeModal} data={data} setData={setData}/>
 
     </div>
   );

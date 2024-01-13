@@ -4,7 +4,7 @@ import { updateForm } from '../../utils/helpers';
 import { useNavigate } from 'react-router-dom';
 import useHandleModalEscape from '../../hooks/useHandleModalEscape';
 
-export default function AddBook({isModalOpen, closeModal, setData}) {
+export default function AddBook({ closeModal, data, setData }) {
   const [formData, setFormData] = useState({
     id: '',
     title: '',
@@ -19,13 +19,10 @@ export default function AddBook({isModalOpen, closeModal, setData}) {
 
   const handleChange = (e) => {
     updateForm(e, setFormData);
-    console.log(formData);
   };
 
   const handleSubmit = async (e) => {
     e.preventDefault();
-    console.log(JSON.stringify(formData));
-
     const res = await fetch('http://localhost:3001/book', {
       method: 'POST',
       headers: {
@@ -36,6 +33,10 @@ export default function AddBook({isModalOpen, closeModal, setData}) {
     });
 
     if (res.status === 200) {
+      const { booksAvailable, ...details } = data
+      booksAvailable.push(formData);
+      const { ...newData } = data;
+      setData(newData);
       closeModal();
       navigate('/dashboard');
     }

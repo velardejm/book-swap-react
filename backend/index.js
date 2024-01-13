@@ -74,7 +74,7 @@ app.listen(port, () => {
 function authenticateToken(req, res, next) {
   const authHeader = req.headers["authorization"];
   const token = authHeader && authHeader.split(" ")[1];
-  
+
   if (token == null) {
     return res.status(401).send("Token not provided.");
   }
@@ -84,7 +84,7 @@ function authenticateToken(req, res, next) {
       return res.status(401).send("Invalid token or session expired.");
     } else {
       req.user = user;
-      
+
       next();
     }
   });
@@ -196,9 +196,12 @@ app.post("/book", authenticateToken, (req, res) => {
   const userData = usersData.find(
     (user) => user.username === req.user.username
   );
-  if(userData) {
+  if (userData) {
     userData.booksAvailable.push(req.body);
-    res.status(200).json({message:"New book added successfully."});
+    res.status(200).json({
+      message: "New book added successfully.",
+      // data: userData
+    });
   }
-  
+
 });
