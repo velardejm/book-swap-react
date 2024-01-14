@@ -1,11 +1,10 @@
-import { AuthContext } from "../contexts/AuthContext";
 import useAuthContext from "./useAuthContext";
 
 
 
 const useLogin = (formData) => {
 
-    const test = useAuthContext(AuthContext);
+    const test = useAuthContext();
     console.log(test);
     
 
