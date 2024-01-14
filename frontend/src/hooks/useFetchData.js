@@ -15,12 +15,11 @@ export default function useFetchData(url) {
       });
 
       if (response.status === 200) {
-        console.log(response.status);
         const dataObject = await response.json();
         setData(dataObject.data);
       } else {
         localStorage.removeItem('token');
-        alert('Please log in.')
+        alert('Please log in.');
         navigate('/login');
       }
     };

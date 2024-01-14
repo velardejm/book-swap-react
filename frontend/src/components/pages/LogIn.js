@@ -8,12 +8,13 @@ import useAuthContext from '../../hooks/useAuthContext';
 
 
 export default function LogIn() {
-  const [isLoggedIn, logIn, logOut] = useAuthContext();
+  const [isLoggedIn, logIn] = useAuthContext();
   const [from, navigate] = useGetPreviousRoute();
   const [formData, setFormData] = useState({
     username: '',
     password: '',
   });
+
   const handleLogIn = useLogin(formData);
 
   const handleChange = (e) => {

@@ -1,4 +1,13 @@
+import { AuthContext } from "../contexts/AuthContext";
+import useAuthContext from "./useAuthContext";
+
+
+
 const useLogin = (formData) => {
+
+    const test = useAuthContext(AuthContext);
+    console.log(test);
+    
 
     const logIn = async () =>  {
 

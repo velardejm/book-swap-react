@@ -3,18 +3,23 @@ import { useParams } from 'react-router-dom';
 import useFetchData from '../../hooks/useFetchData';
 
 export default function SwapRequest() {
-  const { user, bookId } = useParams();
+  const { owner, bookId } = useParams();
 
   const [data, setData] = useFetchData(
-    `http://localhost:3001/swap/${user}/${bookId}`
+    `http://localhost:3001/swap/${owner}/${bookId}`
   );
+
+  const handleSubmit = (e) => {
+    e.preventDefault();
+    fetch(`http://localhost:3001/${owner}/${bookId}`)
+  }
 
   return (
     <div>
       <h1>Swap Request Pages</h1>
       <h2>Requested Book</h2>
       <ul>
-        <li>Owner: {user}</li>
+        <li>Owner: {owner}</li>
         {data ? <li>Book Title: {data.title}</li> : null}
       </ul>
 
@@ -32,7 +37,7 @@ export default function SwapRequest() {
             4. Update dashboard to show a section of requests made.
             This is to be expanded further to show new, pending, rejected, and completed requests  */}
 
-        <button type='submit'>Send Request</button>
+        <button type='submit' onClick={handleSubmit}>Send Request</button>
       </form>
     </div>
   );

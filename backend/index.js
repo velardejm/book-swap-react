@@ -136,8 +136,8 @@ app.get("/authenticate", authenticateToken, (req, res) => {
   res.status(200).json({ message: "Token is vallid." });
 });
 
-app.get("/swap/:user/:bookId", authenticateToken, (req, res) => {
-  const user = usersData.find((user) => user.username === req.params.user);
+app.get("/swap/:owner/:bookId", authenticateToken, (req, res) => {
+  const user = usersData.find((user) => user.username === req.params.owner);
   const book = user.booksAvailable.find(
     (book) => book.bookId === req.params.bookId
   );
@@ -203,5 +203,8 @@ app.post("/book", authenticateToken, (req, res) => {
       // data: userData
     });
   }
+});
 
+app.post("/swap/:owner/:bookId/:user", authenticateToken, (req, res) => {
+  console.log(req.user);
 });

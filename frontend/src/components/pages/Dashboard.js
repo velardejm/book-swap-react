@@ -1,13 +1,20 @@
-import { useEffect, useState } from 'react';
+import { useState } from 'react';
 import useFetchData from '../../hooks/useFetchData';
 import BookDetails from '../shared/BookDetails';
 import Modal from '../shared/Modal';
 import AddBook from './AddBook';
 
+import { AuthContext } from '../../contexts/AuthContext';
+import useAuthContext from '../../hooks/useAuthContext';
+
 
 export default function Dashboard() {
   const [isModalOpen, setIsModalOpen] = useState(false);
   const [data, setData] = useFetchData('http://localhost:3001/dashboard');
+
+  const test = useAuthContext(AuthContext);
+  console.log(test);
+
   
 
   const closeModal = () => {
