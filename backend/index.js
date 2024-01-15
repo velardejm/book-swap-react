@@ -133,7 +133,7 @@ app.get("/dashboard", authenticateToken, (req, res) => {
 });
 
 app.get("/authenticate", authenticateToken, (req, res) => {
-  res.status(200).json({ message: "Token is vallid." });
+  res.status(200).json({ user: req.user.username });
 });
 
 app.get("/swap/:owner/:bookId", authenticateToken, (req, res) => {

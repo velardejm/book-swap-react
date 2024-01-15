@@ -40,13 +40,13 @@ export default function Header() {
         />
       ) : (
         <>
-          {/* <Link to="/login"> */}
+          <Link to="/login">
           <Button
             label={'Log in'}
             className={'btn bg-blue-500 mx-2'}
-            onClick={openLoginModal}
+            // onClick={openLoginModal}
           />
-          {/* </Link> */}
+          </Link>
 
           <Link to="/signup">
             <Button label={'Sign up'} className={'btn bg-blue-500'} />
