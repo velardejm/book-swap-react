@@ -1,37 +1,42 @@
 import Button from './Button';
 import { Link, useNavigate } from 'react-router-dom';
-import { useState, useContext } from 'react';
-import { AuthContext } from '../../contexts/AuthContext';
+import { useState, useEffect } from 'react';
 import LoginModal from '../pages/LoginModal';
 import Logo from './Logo';
+import useAuthContext from '../../hooks/useAuthContext';
 
 export default function Header() {
-  const [isLoginOpen, setIsLoginOpen] = useState(false);
-  const { isLoggedIn, setIsLoggedIn } = useContext(AuthContext);
+  const [isLoginModalOpen, setIsLoginModalOpen] = useState(false);
+  const [isButtonsLoaded, setIsButtonsLoaded] = useState(false);
+  // const { isLoggedIn, contextLogOut } = useContext(AuthContext);
   const navigate = useNavigate();
 
-  const logOut = () => {
-    localStorage.removeItem('token');
-    setIsLoggedIn(false);
+  const [isLoggedIn, logIn, logOut] = useAuthContext();
+
+  useEffect(() => {
+    setIsButtonsLoaded(true);
+  }, []);
+
+  const handleLogOut = () => {
+    logOut();
     navigate('/login');
   };
 
   const openLoginModal = () => {
-    setIsLoginOpen(true);
+    setIsLoginModalOpen(true);
   };
 
   const closeLoginModal = () => {
-    setIsLoginOpen(false);
+    setIsLoginModalOpen(false);
   };
 
-
-  const headerButtons = (
+  const buttonComponents = (
     <div>
       {isLoggedIn ? (
         <Button
           label={'Log out'}
           className={'btn bg-orange-400 mx-2'}
-          onClick={logOut}
+          onClick={handleLogOut}
         />
       ) : (
         <>
@@ -49,18 +54,13 @@ export default function Header() {
         </>
       )}
     </div>
-
-  )
-
-
+  );
 
   return (
     <div className="flex justify-between items-center h-24 px-2">
       <Logo />
-
-      {isLoggedIn === null? null : headerButtons }
-
-      <LoginModal isLoginOpen={isLoginOpen} closeLoginModal={closeLoginModal} />
+      {isButtonsLoaded ? buttonComponents : null}
+      <LoginModal isLoginModalOpen={isLoginModalOpen} closeLoginModal={closeLoginModal} />
     </div>
   );
 }

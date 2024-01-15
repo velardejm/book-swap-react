@@ -19,13 +19,13 @@ export default function useFetchData(url) {
         setData(dataObject.data);
       } else {
         localStorage.removeItem('token');
-        alert('Please log in.')
+        alert('Please log in.');
         navigate('/login');
       }
     };
 
     fetchData();
-  }, [url]);
+  }, []);
 
   return [data, setData];
 }

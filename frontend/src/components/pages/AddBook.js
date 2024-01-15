@@ -1,8 +1,10 @@
 import { useState } from 'react';
 import FormInput from '../shared/FormInput';
 import { updateForm } from '../../utils/helpers';
+import { useNavigate } from 'react-router-dom';
+import useHandleModalEscape from '../../hooks/useHandleModalEscape';
 
-export default function AddBook() {
+export default function AddBook({ closeModal, data, setData }) {
   const [formData, setFormData] = useState({
     id: '',
     title: '',
@@ -11,13 +13,34 @@ export default function AddBook() {
     condition: '',
   });
 
+  const navigate = useNavigate();
+
+  useHandleModalEscape(closeModal);
+
   const handleChange = (e) => {
     updateForm(e, setFormData);
-    console.log(formData);
   };
 
-  const handleSubmit = (e) => {
+  const handleSubmit = async (e) => {
     e.preventDefault();
+    const res = await fetch('http://localhost:3001/book', {
+      method: 'POST',
+      headers: {
+        'Authorization': `Bearer ${localStorage.getItem('token')}`,
+        'Content-Type': 'application/json',
+      },
+      body: JSON.stringify(formData)
+    });
+
+    if (res.status === 200) {
+      const { booksAvailable, ...details } = data
+      booksAvailable.push(formData);
+      const { ...newData } = data;
+      setData(newData);
+      closeModal();
+      navigate('/dashboard');
+    }
+
   };
 
   return (
