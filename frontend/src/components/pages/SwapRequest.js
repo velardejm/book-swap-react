@@ -1,5 +1,5 @@
 import { useState, useEffect } from 'react';
-import { useParams, useNavigate } from 'react-router-dom';
+import { useParams, useNavigate, json } from 'react-router-dom';
 import useFetchData from '../../hooks/useFetchData';
 import Dropdown from '../shared/Dropdown';
 
@@ -10,19 +10,30 @@ export default function SwapRequest() {
   );
   const [userData] = useFetchData('http://localhost:3001/get-user');
   const [myBooks, setMyBooks] = useState(null);
+  const [bookToSwap, setBookToSwap] = useState(null);
   const navigate = useNavigate();
 
-  console.log(userData);
+  const selectBookToSwap = (bookTitle) => {
+    const book = myBooks.find((book) => book.title === bookTitle);
+    setBookToSwap(book);
+  };
 
   const handleSubmit = (e) => {
     e.preventDefault();
+    if(bookToSwap === null) {
+      alert('Please select a book to swap.');
+      return;
+    }
+
     fetch(
       `http://localhost:3001/swap/${owner}/${bookId}/${userData.username}`,
       {
         method: 'POST',
         headers: {
           Authorization: `Bearer ${localStorage.getItem('token')}`,
+          'Content-type': 'application/json',
         },
+        body: JSON.stringify(bookToSwap),
       }
     );
   };
@@ -52,7 +63,10 @@ export default function SwapRequest() {
 
         {userData ? (
           <div>
-            <Dropdown options={userData.booksAvailable} />
+            <Dropdown
+              options={userData.booksAvailable}
+              setterFunction={selectBookToSwap}
+            />
           </div>
         ) : null}
 

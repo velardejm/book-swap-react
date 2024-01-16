@@ -31,6 +31,7 @@ let usersData = [
         author: "J.D. Salinger",
         genre: "Fiction",
         condition: "Like New",
+        inTransaction: false,
       },
       {
         bookId: "1b",
@@ -38,6 +39,7 @@ let usersData = [
         author: "J.R.R. Tolkien",
         genre: "Fantasy",
         condition: "Good",
+        inTransaction: false,
       },
     ],
   },
@@ -52,6 +54,7 @@ let usersData = [
         author: "Harper Lee",
         genre: "Fiction",
         condition: "Very Good",
+        inTransaction: false,
       },
       {
         bookId: "2b",
@@ -59,8 +62,21 @@ let usersData = [
         author: "George Orwell",
         genre: "Dystopian",
         condition: "Fair",
+        inTransaction: false,
       },
     ],
+  },
+];
+
+let usersTransactionData = [
+  {
+    username: "booklover1",
+    incomingSwapRequests: [],
+    // {username: 'requestor's username', offer: {book: book, amount: amount}}
+  },
+  {
+    username: "readingfanatic",
+    incomingSwapRequests: [],
   },
 ];
 
@@ -68,7 +84,7 @@ app.use(cors());
 app.use(bodyParser.json());
 
 app.listen(port, () => {
-  usersData = loadData();
+  // usersData = loadData();
 });
 
 function authenticateToken(req, res, next) {
@@ -91,7 +107,7 @@ function authenticateToken(req, res, next) {
 }
 
 app.get("/", (req, res) => {
-  console.log("test");
+  // console.log("test");
 });
 
 app.get("/listings", (req, res) => {
@@ -138,7 +154,6 @@ app.get("/authenticate", authenticateToken, (req, res) => {
 
 app.get("/get-user", authenticateToken, (req, res) => {
   const user = usersData.find((u) => u.username === req.user.username);
-  console.log(user);
   if (user) {
     res.status(200).json({ data: user });
   }
@@ -214,7 +229,27 @@ app.post("/book", authenticateToken, (req, res) => {
 });
 
 app.post("/swap/:owner/:bookId/:user", authenticateToken, (req, res) => {
-  console.log(req.params.owner);
-  console.log(req.params.bookId);
-  console.log(req.params.user);
+  const bookOwnerIndex = usersTransactionData.findIndex(
+    (owner) => owner.username === req.params.owner
+  );
+
+  if (!bookOwnerIndex) {
+    return;
+  }
+  const { inTransaction, ...bookDetails } = req.body;
+  const swapRequest = { requestor: req.params.user, ...bookDetails };
+
+  const bookOwner = usersTransactionData[bookOwnerIndex];
+  const ownerReceivedRequests = bookOwner.incomingSwapRequests;
+
+  const isRequestExists = ownerReceivedRequests.find(
+    (request) => request.bookId === swapRequest.bookId
+  );
+
+  if(isRequestExists) {
+    return
+  }
+
+  ownerReceivedRequests.push(swapRequest);
+  console.log(ownerReceivedRequests);
 });
