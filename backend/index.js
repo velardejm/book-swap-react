@@ -135,12 +135,16 @@ app.get("/protected", authenticateToken, (req, res) => {
 
 app.get("/dashboard", authenticateToken, (req, res) => {
   const user = users.find((u) => u.username === req.user.username);
+  const { incomingSwapRequests } = usersTransactionData.find(
+    (user) => user.username === req.user.username
+  );
+
   if (user) {
     const { username } = user;
 
     const userDetail = usersData.find((u) => u.username === username);
 
-    const data = { ...userDetail };
+    const data = { ...userDetail, incomingSwapRequests };
 
     res.status(200).json({ data: data });
   } else {
@@ -246,8 +250,8 @@ app.post("/swap/:owner/:bookId/:user", authenticateToken, (req, res) => {
     (request) => request.bookId === swapRequest.bookId
   );
 
-  if(isRequestExists) {
-    return
+  if (isRequestExists) {
+    return;
   }
 
   ownerReceivedRequests.push(swapRequest);
