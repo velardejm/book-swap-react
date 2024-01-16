@@ -53,5 +53,3 @@ export const updateForm = (e, dataSetter) => {
 //     alert(data.message);
 //   }
 // };
-
-

@@ -5,20 +5,16 @@ import FormInput from '../shared/FormInput';
 import useGetPreviousRoute from '../../hooks/useGetPreviousRoute';
 import { AuthContext } from '../../contexts/AuthContext';
 import useLogin from '../../hooks/useLogin';
-import useAuthContext from '../../hooks/useAuthContext';
 
 export default function LogIn() {
-  // const [isLoggedIn, logIn] = useAuthContext();
-  const { isLoggedIn } = useContext(AuthContext);
+  const { isLoggedIn, user } = useContext(AuthContext);
   const [from, navigate] = useGetPreviousRoute();
   const [formData, setFormData] = useState({
     username: '',
     password: '',
   });
 
-  // console.log(from);
-
-  const handleLogIn = useLogin(formData);
+  const logIn = useLogin(formData);
 
   const handleChange = (e) => {
     updateForm(e, setFormData);
@@ -27,18 +23,22 @@ export default function LogIn() {
   const handleSubmit = async (e) => {
     e.preventDefault();
 
-    const isLoginSuccessful = await handleLogIn();
-    if (isLoginSuccessful) {
+    const userData = await logIn();
+    if (userData) {
       navigate(from);
     }
   };
+
+  if (isLoggedIn === null) {
+    return null;
+  }
 
   return (
     <div className="flex flex-col items-center bg-blue-200 mx-5 px-5 py-5 pb-10 mt-10">
       <Logo />
       {isLoggedIn ? (
         <p className="font-bold text-2xl text-center px-5 my-20">
-          You are already logged in.
+          You are already logged in as {user}.
         </p>
       ) : (
         <>

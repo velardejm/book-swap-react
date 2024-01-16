@@ -136,8 +136,15 @@ app.get("/authenticate", authenticateToken, (req, res) => {
   res.status(200).json({ user: req.user.username });
 });
 
+app.get("/get-user", authenticateToken, (req, res) => {
+  const user = usersData.find((u) => u.username === req.user.username);
+  console.log(user);
+  if (user) {
+    res.status(200).json({ data: user });
+  }
+});
+
 app.get("/swap/:owner/:bookId", authenticateToken, (req, res) => {
-  console.log(req.params);
   const user = usersData.find((user) => user.username === req.params.owner);
   const book = user.booksAvailable.find(
     (book) => book.bookId === req.params.bookId
@@ -186,7 +193,7 @@ app.post("/login", async (req, res) => {
       const token = jwt.sign({ username: user.username }, "SECRET", {
         expiresIn: 3600,
       });
-      res.status(200).json({ token: token });
+      res.status(200).json({ user: user.username, token: token });
     } else {
       res.status(401).json({ message: "Incorrect password." });
     }
@@ -207,5 +214,7 @@ app.post("/book", authenticateToken, (req, res) => {
 });
 
 app.post("/swap/:owner/:bookId/:user", authenticateToken, (req, res) => {
-  console.log(req.user);
+  console.log(req.params.owner);
+  console.log(req.params.bookId);
+  console.log(req.params.user);
 });

@@ -4,7 +4,7 @@ export const AuthContext = createContext();
 
 export const AuthContextProvider = ({ children }) => {
   const [isLoggedIn, setIsLoggedIn] = useState(null);
-  const [user, setUser] = useState(null);
+  const [user, setUser] = useState();
 
   useEffect(() => {
     if (localStorage.getItem('token')) {
@@ -21,8 +21,9 @@ export const AuthContextProvider = ({ children }) => {
 
         if (responseObject) {
           setIsLoggedIn(true);
+          setUser(responseObject.user);
         } else {
-          setIsLoggedIn(true);
+          setIsLoggedIn(false);
           localStorage.removeItem('token');
         }
       };

@@ -11,8 +11,8 @@ export default function Dashboard() {
   const [isModalOpen, setIsModalOpen] = useState(false);
   const [data, setData] = useFetchData('http://localhost:3001/dashboard');
 
-  const test = useAuthContext(AuthContext);
-  console.log(test);
+  // const test = useAuthContext(AuthContext);
+  // console.log(test);
 
   const closeModal = () => {
     setIsModalOpen(false);

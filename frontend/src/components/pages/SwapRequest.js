@@ -1,18 +1,42 @@
-// import { useState, useEffect } from 'react';
-import { useParams } from 'react-router-dom';
+import { useState, useEffect } from 'react';
+import { useParams, useNavigate } from 'react-router-dom';
 import useFetchData from '../../hooks/useFetchData';
+import Dropdown from '../shared/Dropdown';
 
 export default function SwapRequest() {
   const { owner, bookId } = useParams();
-
-  const [data, setData] = useFetchData(
+  const [bookData] = useFetchData(
     `http://localhost:3001/swap/${owner}/${bookId}`
   );
+  const [userData] = useFetchData('http://localhost:3001/get-user');
+  const [myBooks, setMyBooks] = useState(null);
+  const navigate = useNavigate();
+
+  console.log(userData);
 
   const handleSubmit = (e) => {
     e.preventDefault();
-    fetch(`http://localhost:3001/${owner}/${bookId}`);
+    fetch(
+      `http://localhost:3001/swap/${owner}/${bookId}/${userData.username}`,
+      {
+        method: 'POST',
+        headers: {
+          Authorization: `Bearer ${localStorage.getItem('token')}`,
+        },
+      }
+    );
   };
+
+  useEffect(() => {
+    if (userData) {
+      if (userData.username !== owner) {
+        setMyBooks(userData.booksAvailable);
+      } else {
+        alert('Please select other users');
+        navigate('/listings');
+      }
+    }
+  }, [userData]);
 
   return (
     <div>
@@ -20,11 +44,18 @@ export default function SwapRequest() {
       <h2>Requested Book</h2>
       <ul>
         <li>Owner: {owner}</li>
-        {data ? <li>Book Title: {data.title}</li> : null}
+        {bookData ? <li>Book Title: {bookData.title}</li> : null}
       </ul>
 
       <form method="POST">
         {/* List of books than can be offered to swap */}
+
+        {userData ? (
+          <div>
+            <Dropdown options={userData.booksAvailable} />
+          </div>
+        ) : null}
+
         {/* Field to enter any cash amount that could be offerred in addition the the above. */}
         {/* Allow radio for buy only option */}
         {/* TODO
@@ -36,7 +67,6 @@ export default function SwapRequest() {
             Previous requests must be resolved before further requests could be made.
             4. Update dashboard to show a section of requests made.
             This is to be expanded further to show new, pending, rejected, and completed requests  */}
-
         <button type="submit" onClick={handleSubmit}>
           Send Request
         </button>
