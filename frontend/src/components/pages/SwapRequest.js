@@ -11,8 +11,8 @@ export default function SwapRequest() {
 
   const handleSubmit = (e) => {
     e.preventDefault();
-    fetch(`http://localhost:3001/${owner}/${bookId}`)
-  }
+    fetch(`http://localhost:3001/${owner}/${bookId}`);
+  };
 
   return (
     <div>
@@ -23,7 +23,7 @@ export default function SwapRequest() {
         {data ? <li>Book Title: {data.title}</li> : null}
       </ul>
 
-      <form method='POST'>
+      <form method="POST">
         {/* List of books than can be offered to swap */}
         {/* Field to enter any cash amount that could be offerred in addition the the above. */}
         {/* Allow radio for buy only option */}
@@ -37,7 +37,9 @@ export default function SwapRequest() {
             4. Update dashboard to show a section of requests made.
             This is to be expanded further to show new, pending, rejected, and completed requests  */}
 
-        <button type='submit' onClick={handleSubmit}>Send Request</button>
+        <button type="submit" onClick={handleSubmit}>
+          Send Request
+        </button>
       </form>
     </div>
   );

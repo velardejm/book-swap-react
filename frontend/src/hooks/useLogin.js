@@ -1,48 +1,39 @@
-import useAuthContext from "./useAuthContext";
-
-
+import { useContext } from 'react';
+import { AuthContext } from '../contexts/AuthContext';
 
 const useLogin = (formData) => {
+  const { setIsLoggedIn } = useContext(AuthContext);
 
-    const test = useAuthContext();
-    console.log(test);
-    
+  const logIn = async () => {
+    const res = await fetch('http://localhost:3001/login', {
+      method: 'POST',
+      headers: {
+        'Content-type': 'application/json',
+      },
+      body: JSON.stringify(formData),
+    });
 
-    const logIn = async () =>  {
+    const data = await res.json();
 
-            const res = await fetch('http://localhost:3001/login', {
-                method: 'POST',
-                headers: {
-                    'Content-type': 'application/json',
-                },
-                body: JSON.stringify(formData),
-            });
-
-            const data = await res.json();
-            
-            if (data.token) {
-                localStorage.setItem('token', data.token);
-                return true;
-            } else {
-                alert(data.message);
-                return false;
-            }
-    
+    if (data.token) {
+      setIsLoggedIn(true);
+      localStorage.setItem('token', data.token);
+      return true;
+    } else {
+      alert(data.message);
+      return false;
     }
+  };
 
-    return logIn;
-
+  return logIn;
 };
 
-
 export default useLogin;
-
-
 
 // const useLogin = (formData) => {
 
 //     const logIn = () => {
-        
+
 //         const logInRequest = async () => {
 //             const res = await fetch('http://localhost:3001/login', {
 //                 method: 'POST',
@@ -53,7 +44,7 @@ export default useLogin;
 //             });
 
 //             const data = await res.json();
-            
+
 //             if (data.token) {
 //                 localStorage.setItem('token', data.token);
 //                 return true;
@@ -64,7 +55,7 @@ export default useLogin;
 //         }
 
 //         return logInRequest();
-        
+
 //     }
 
 //     return logIn;

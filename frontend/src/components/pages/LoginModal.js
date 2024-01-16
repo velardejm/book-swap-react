@@ -2,7 +2,7 @@ import { useState, useEffect } from 'react';
 import { updateForm } from '../../utils/helpers';
 import FormInput from '../shared/FormInput';
 import useGetPreviousRoute from '../../hooks/useGetPreviousRoute';
-import useAuthContext from '../../hooks/useAuthContext';
+// import useAuthContext from '../../hooks/useAuthContext';
 import useLogin from '../../hooks/useLogin';
 import useHandleModalEscape from '../../hooks/useHandleModalEscape';
 
@@ -13,12 +13,10 @@ export default function LoginModal({ isLoginModalOpen, closeLoginModal }) {
   });
 
   const [from, navigate] = useGetPreviousRoute();
-  const [isLoggedIn, logIn, logOut] = useAuthContext()
+  // const [isLoggedIn, logIn, logOut] = useAuthContext();
   const handleLogIn = useLogin(formData);
 
-  
   useHandleModalEscape(closeLoginModal);
-
 
   const handleChange = (e) => {
     updateForm(e, setFormData);
@@ -26,10 +24,9 @@ export default function LoginModal({ isLoginModalOpen, closeLoginModal }) {
 
   const handleSubmit = async (e) => {
     e.preventDefault();
-    
+
     const isLoginSuccessful = await handleLogIn();
     if (isLoginSuccessful) {
-      logIn();
       navigate(from);
     }
   };

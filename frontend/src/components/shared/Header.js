@@ -40,13 +40,13 @@ export default function Header() {
         />
       ) : (
         <>
-          <Link to="/login">
+          {/* <Link to="/login"> */}
           <Button
             label={'Log in'}
             className={'btn bg-blue-500 mx-2'}
-            // onClick={openLoginModal}
+            onClick={openLoginModal}
           />
-          </Link>
+          {/* </Link> */}
 
           <Link to="/signup">
             <Button label={'Sign up'} className={'btn bg-blue-500'} />
@@ -60,7 +60,10 @@ export default function Header() {
     <div className="flex justify-between items-center h-24 px-2">
       <Logo />
       {isButtonsLoaded ? buttonComponents : null}
-      <LoginModal isLoginModalOpen={isLoginModalOpen} closeLoginModal={closeLoginModal} />
+      <LoginModal
+        isLoginModalOpen={isLoginModalOpen}
+        closeLoginModal={closeLoginModal}
+      />
     </div>
   );
 }

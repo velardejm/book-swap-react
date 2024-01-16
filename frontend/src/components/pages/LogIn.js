@@ -3,18 +3,20 @@ import Logo from '../shared/Logo';
 import { updateForm } from '../../utils/helpers';
 import FormInput from '../shared/FormInput';
 import useGetPreviousRoute from '../../hooks/useGetPreviousRoute';
-// import { AuthContext } from '../../contexts/AuthContext';
+import { AuthContext } from '../../contexts/AuthContext';
 import useLogin from '../../hooks/useLogin';
 import useAuthContext from '../../hooks/useAuthContext';
 
 export default function LogIn() {
-  const [isLoggedIn, logIn] = useAuthContext();
-  // const {isLoggedIn} = useContext(AuthContext);
+  // const [isLoggedIn, logIn] = useAuthContext();
+  const { isLoggedIn } = useContext(AuthContext);
   const [from, navigate] = useGetPreviousRoute();
   const [formData, setFormData] = useState({
     username: '',
     password: '',
   });
+
+  // console.log(from);
 
   const handleLogIn = useLogin(formData);
 
@@ -27,7 +29,6 @@ export default function LogIn() {
 
     const isLoginSuccessful = await handleLogIn();
     if (isLoginSuccessful) {
-      logIn();
       navigate(from);
     }
   };

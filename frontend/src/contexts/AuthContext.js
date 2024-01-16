@@ -31,27 +31,23 @@ export const AuthContextProvider = ({ children }) => {
     }
   }, [isLoggedIn]);
 
-  const logIn = async (formData) => {
-
-    const res = await fetch('http://localhost:3001/login', {
-      method: 'POST',
-      headers: {
-        'Content-type': 'application/json',
-      },
-      body: JSON.stringify(formData),
-    });
-
-    const data = await res.json();
-
-    if (data.token) {
-      localStorage.setItem('token', data.token);
-      return true;
-    } else {
-      alert(data.message);
-      return false;
-    }
-
-    setIsLoggedIn(true);
+  const logIn = async () => {
+    // const res = await fetch('http://localhost:3001/login', {
+    //   method: 'POST',
+    //   headers: {
+    //     'Content-type': 'application/json',
+    //   },
+    //   body: JSON.stringify(formData),
+    // });
+    // const data = await res.json();
+    // if (data.token) {
+    //   localStorage.setItem('token', data.token);
+    //   return true;
+    // } else {
+    //   alert(data.message);
+    //   return false;
+    // }
+    // setIsLoggedIn(true);
   };
 
   const logOut = () => {
@@ -61,7 +57,9 @@ export const AuthContextProvider = ({ children }) => {
   };
 
   return (
-    <AuthContext.Provider value={{ isLoggedIn, logIn, logOut, user, setUser }}>
+    <AuthContext.Provider
+      value={{ isLoggedIn, setIsLoggedIn, logOut, user, setUser }}
+    >
       {children}
     </AuthContext.Provider>
   );

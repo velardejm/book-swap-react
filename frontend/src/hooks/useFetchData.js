@@ -14,6 +14,8 @@ export default function useFetchData(url) {
         },
       });
 
+      console.log(response);
+
       if (response.status === 200) {
         const dataObject = await response.json();
         setData(dataObject.data);

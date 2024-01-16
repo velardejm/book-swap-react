@@ -137,6 +137,7 @@ app.get("/authenticate", authenticateToken, (req, res) => {
 });
 
 app.get("/swap/:owner/:bookId", authenticateToken, (req, res) => {
+  console.log(req.params);
   const user = usersData.find((user) => user.username === req.params.owner);
   const book = user.booksAvailable.find(
     (book) => book.bookId === req.params.bookId
