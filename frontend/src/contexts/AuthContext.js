@@ -28,6 +28,8 @@ export const AuthContextProvider = ({ children }) => {
       };
 
       authenticate();
+    } else {
+      setIsLoggedIn(false);
     }
   }, [isLoggedIn]);
 

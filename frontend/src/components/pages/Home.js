@@ -7,6 +7,10 @@ import Header from '../shared/Header';
 export default function Home() {
   const { isLoggedIn } = useContext(AuthContext);
 
+  if (isLoggedIn === null) {
+    return null;
+  }
+
   return (
     <>
       <Header />
