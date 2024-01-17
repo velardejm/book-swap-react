@@ -4,6 +4,7 @@ const cors = require("cors");
 const bcrypt = require("bcrypt");
 const jwt = require("jsonwebtoken");
 const { loadData } = require("./utils/helper");
+const authenticationRoutes = require("./routes/authentication");
 
 const app = express();
 const port = 3001;
@@ -106,6 +107,8 @@ function authenticateToken(req, res, next) {
   });
 }
 
+app.use("/", authenticationRoutes);
+
 app.get("/", (req, res) => {
   // console.log("test");
 });
@@ -171,53 +174,53 @@ app.get("/swap/:owner/:bookId", authenticateToken, (req, res) => {
   res.status(200).json({ data: book });
 });
 
-app.post("/signup", async (req, res) => {
-  const { name, email, username, password } = req.body;
-  const hashedPassword = await bcrypt.hash(password, 10);
+// app.post("/signup", async (req, res) => {
+//   const { name, email, username, password } = req.body;
+//   const hashedPassword = await bcrypt.hash(password, 10);
 
-  const newUser = {
-    username: username,
-    password: hashedPassword,
-  };
+//   const newUser = {
+//     username: username,
+//     password: hashedPassword,
+//   };
 
-  const newUserData = {
-    name: name,
-    email: email,
-    username: username,
-    booksAvailable: [],
-  };
+//   const newUserData = {
+//     name: name,
+//     email: email,
+//     username: username,
+//     booksAvailable: [],
+//   };
 
-  const foundExistingUser = !!users.find((user) => user.username === username);
-  const foundExistingEmail = !!usersData.find((user) => user.email === email);
+//   const foundExistingUser = !!users.find((user) => user.username === username);
+//   const foundExistingEmail = !!usersData.find((user) => user.email === email);
 
-  if (foundExistingUser || foundExistingEmail) {
-    return res
-      .status(409)
-      .json({ message: "username or e-mail already exists" });
-  }
-  users.push(newUser);
-  usersData.push(newUserData);
-  res.json({
-    message: "Registration successful!",
-  });
-});
+//   if (foundExistingUser || foundExistingEmail) {
+//     return res
+//       .status(409)
+//       .json({ message: "username or e-mail already exists" });
+//   }
+//   users.push(newUser);
+//   usersData.push(newUserData);
+//   res.json({
+//     message: "Registration successful!",
+//   });
+// });
 
-app.post("/login", async (req, res) => {
-  const { username, password } = req.body;
-  const user = users.find((u) => u.username === username);
-  if (!user) {
-    res.status(401).json({ message: "User not found." });
-  } else {
-    if (await bcrypt.compare(password, user.password)) {
-      const token = jwt.sign({ username: user.username }, "SECRET", {
-        expiresIn: 3600,
-      });
-      res.status(200).json({ user: user.username, token: token });
-    } else {
-      res.status(401).json({ message: "Incorrect password." });
-    }
-  }
-});
+// app.post("/login", async (req, res) => {
+//   const { username, password } = req.body;
+//   const user = users.find((u) => u.username === username);
+//   if (!user) {
+//     res.status(401).json({ message: "User not found." });
+//   } else {
+//     if (await bcrypt.compare(password, user.password)) {
+//       const token = jwt.sign({ username: user.username }, "SECRET", {
+//         expiresIn: 3600,
+//       });
+//       res.status(200).json({ user: user.username, token: token });
+//     } else {
+//       res.status(401).json({ message: "Incorrect password." });
+//     }
+//   }
+// });
 
 app.post("/book", authenticateToken, (req, res) => {
   const userData = usersData.find(
