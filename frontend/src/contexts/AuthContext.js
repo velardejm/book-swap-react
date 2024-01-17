@@ -35,27 +35,11 @@ export const AuthContextProvider = ({ children }) => {
   }, [isLoggedIn]);
 
   const logIn = async () => {
-    // const res = await fetch('http://localhost:3001/login', {
-    //   method: 'POST',
-    //   headers: {
-    //     'Content-type': 'application/json',
-    //   },
-    //   body: JSON.stringify(formData),
-    // });
-    // const data = await res.json();
-    // if (data.token) {
-    //   localStorage.setItem('token', data.token);
-    //   return true;
-    // } else {
-    //   alert(data.message);
-    //   return false;
-    // }
-    // setIsLoggedIn(true);
+
   };
 
   const logOut = () => {
     localStorage.removeItem('token');
-    //setUser to null
     setIsLoggedIn(false);
   };
 

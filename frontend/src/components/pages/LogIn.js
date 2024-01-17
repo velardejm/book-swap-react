@@ -7,12 +7,12 @@ import { AuthContext } from '../../contexts/AuthContext';
 import useLogin from '../../hooks/useLogin';
 
 export default function LogIn() {
-  const { isLoggedIn, user } = useContext(AuthContext);
-  const [from, navigate] = useGetPreviousRoute();
   const [formData, setFormData] = useState({
     username: '',
     password: '',
   });
+  const [from, navigate] = useGetPreviousRoute();
+  const { isLoggedIn, user } = useContext(AuthContext);
 
   const logIn = useLogin(formData);
 
@@ -22,7 +22,6 @@ export default function LogIn() {
 
   const handleSubmit = async (e) => {
     e.preventDefault();
-
     const userData = await logIn();
     if (userData) {
       navigate(from);

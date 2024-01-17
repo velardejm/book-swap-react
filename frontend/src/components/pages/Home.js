@@ -27,14 +27,14 @@ export default function Home() {
         </p>
 
         <div>
-          {isLoggedIn ? null : (
-            <Link
-              to="/signup"
-              className="bg-orange-500 text-white font-bold text-lg p-2 rounded-md w-32 mr-4"
-            >
-              Join now!
-            </Link>
-          )}
+
+          <Link
+            to="/signup"
+            className="bg-orange-500 text-white font-bold text-lg p-2 rounded-md w-32 mr-4"
+          >
+            Join now!
+          </Link>
+
 
           <Link
             to="/listings"
