@@ -1,11 +1,11 @@
-import { useState, useEffect } from 'react';
-import useNavigateProtectedRoute from '../../hooks/useNavigateProtectedRoute';
-
+import { useState, useEffect, useContext } from 'react';
+import { useNavigate } from 'react-router-dom';
+import { AuthContext } from '../../contexts/AuthContext';
 
 export default function BookListings() {
   const [listings, setListings] = useState([]);
-
-  
+  const navigate = useNavigate();
+  const { isLoggedIn } = useContext(AuthContext);
 
   useEffect(() => {
     const fetchData = async () => {
@@ -19,35 +19,41 @@ export default function BookListings() {
     fetchData();
   }, []);
 
-  const navigateProtectedRoute = useNavigateProtectedRoute();
+  const handleClick = async (url) => {
+    console.log(isLoggedIn);
+    if (isLoggedIn) {
+      navigate(url);
+    } else {
+      navigate('/login', { state: { from: url } });
+    }
+  };
 
-  return (
-    <div>
-      {listings.map(({ user, listings }, index) => {
-        return (
-          <div key={index}>
-            <h1>{user}</h1>
-            <ul className="mx-3">
+  const listingsComponent = listings.map(({ user, listings }, index) => {
+    return (
+      <div key={index}>
+        <h1>{user}</h1>
+        <ul className="mx-3">
+          {listings.map((book, index) => {
+            return (
+              <li key={index}>
+                <p>
+                  {book.title}
+                  <button
+                    className="text-blue-500"
+                    onClick={() => {
+                      handleClick(`/swap/${user}/${book.bookId}`);
+                    }}
+                  >
+                    Swap
+                  </button>
+                </p>
+              </li>
+            );
+          })}
+        </ul>
+      </div>
+    );
+  });
 
-              {listings.map((book, index) => {
-                return (
-                  <li key={index}>
-                    <p>
-                      {book.title}{' '}
-                      <button className="text-blue-500"
-                        onClick={() =>
-                          navigateProtectedRoute(`/swap/${user}/${book.bookId}`)
-                        }
-                      > Swap </button>
-                    </p>
-                  </li>
-                );
-              })}
-              
-            </ul>
-          </div>
-        );
-      })}
-    </div>
-  );
+  return <div>{listingsComponent}</div>;
 }

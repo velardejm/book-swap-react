@@ -2,7 +2,6 @@ import { useState, useEffect } from 'react';
 import { updateForm } from '../../utils/helpers';
 import FormInput from '../shared/FormInput';
 import useGetPreviousRoute from '../../hooks/useGetPreviousRoute';
-// import useAuthContext from '../../hooks/useAuthContext';
 import useLogin from '../../hooks/useLogin';
 import useHandleModalEscape from '../../hooks/useHandleModalEscape';
 
@@ -13,8 +12,7 @@ export default function LoginModal({ isLoginModalOpen, closeLoginModal }) {
   });
 
   const [from, navigate] = useGetPreviousRoute();
-  // const [isLoggedIn, logIn, logOut] = useAuthContext();
-  const handleLogIn = useLogin(formData);
+  const logIn = useLogin(formData);
 
   useHandleModalEscape(closeLoginModal);
 
@@ -25,7 +23,7 @@ export default function LoginModal({ isLoginModalOpen, closeLoginModal }) {
   const handleSubmit = async (e) => {
     e.preventDefault();
 
-    const isLoginSuccessful = await handleLogIn();
+    const isLoginSuccessful = await logIn();
     if (isLoginSuccessful) {
       navigate(from);
     }
@@ -39,7 +37,7 @@ export default function LoginModal({ isLoginModalOpen, closeLoginModal }) {
     <div
       id="parent-div"
       onClick={(e) => {
-        if (e.target.id == 'parent-div') {
+        if (e.target.id === 'parent-div') {
           closeLoginModal();
         }
       }}

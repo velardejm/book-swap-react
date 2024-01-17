@@ -1,17 +1,15 @@
 import Button from './Button';
 import { Link, useNavigate } from 'react-router-dom';
-import { useState, useEffect } from 'react';
+import { useState, useEffect, useContext } from 'react';
 import LoginModal from '../pages/LoginModal';
 import Logo from './Logo';
-import useAuthContext from '../../hooks/useAuthContext';
+import { AuthContext } from '../../contexts/AuthContext';
 
 export default function Header() {
   const [isLoginModalOpen, setIsLoginModalOpen] = useState(false);
   const [isButtonsLoaded, setIsButtonsLoaded] = useState(false);
-  // const { isLoggedIn, contextLogOut } = useContext(AuthContext);
   const navigate = useNavigate();
-
-  const [isLoggedIn, logIn, logOut] = useAuthContext();
+  const {isLoggedIn, logOut} = useContext(AuthContext);
 
   useEffect(() => {
     setIsButtonsLoaded(true);
@@ -19,7 +17,7 @@ export default function Header() {
 
   const handleLogOut = () => {
     logOut();
-    navigate('/login');
+    navigate('/');
   };
 
   const openLoginModal = () => {

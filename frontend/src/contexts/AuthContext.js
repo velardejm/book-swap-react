@@ -34,9 +34,6 @@ export const AuthContextProvider = ({ children }) => {
     }
   }, [isLoggedIn]);
 
-  const logIn = async () => {
-
-  };
 
   const logOut = () => {
     localStorage.removeItem('token');

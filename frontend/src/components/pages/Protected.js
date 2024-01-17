@@ -1,18 +1,14 @@
+import { useContext } from 'react';
 import Button from '../shared/Button';
 import { useNavigate } from 'react-router-dom';
 import useFetchData from '../../hooks/useFetchData';
-import useAuthContext from '../../hooks/useAuthContext';
-
+import { AuthContext } from '../../contexts/AuthContext';
 
 export default function Protected() {
   const navigate = useNavigate();
+  const { logOut } = useContext(AuthContext);
 
-  const [isLoggedIn, logIn, logOut] = useAuthContext()
-
-  const [data] = useFetchData(
-    'http://localhost:3001/protected'
-  );
-
+  const [data] = useFetchData('http://localhost:3001/protected');
 
   const handleLogOut = () => {
     logOut();

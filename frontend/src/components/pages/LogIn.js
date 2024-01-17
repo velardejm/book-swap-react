@@ -12,7 +12,7 @@ export default function LogIn() {
     password: '',
   });
   const [from, navigate] = useGetPreviousRoute();
-  const { isLoggedIn, user } = useContext(AuthContext);
+  const { isLoggedIn, setIsLoggedIn, user } = useContext(AuthContext);
 
   const logIn = useLogin(formData);
 
@@ -24,6 +24,7 @@ export default function LogIn() {
     e.preventDefault();
     const userData = await logIn();
     if (userData) {
+      setIsLoggedIn(true);
       navigate(from);
     }
   };

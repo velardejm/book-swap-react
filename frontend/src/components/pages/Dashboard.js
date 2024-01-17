@@ -4,15 +4,9 @@ import BookDetails from '../shared/BookDetails';
 import Modal from '../shared/Modal';
 import AddBook from './AddBook';
 
-import { AuthContext } from '../../contexts/AuthContext';
-import useAuthContext from '../../hooks/useAuthContext';
-
 export default function Dashboard() {
   const [isModalOpen, setIsModalOpen] = useState(false);
   const [data, setData] = useFetchData('http://localhost:3001/dashboard');
-
-  // const test = useAuthContext(AuthContext);
-  // console.log(test);
 
   const closeModal = () => {
     setIsModalOpen(false);
@@ -27,7 +21,6 @@ export default function Dashboard() {
   }
 
   const { name, username, email, booksAvailable, incomingSwapRequests } = data;
-  console.log(incomingSwapRequests);
   return (
     <div className="bg-blue-200 flex flex-col items-center mb-5 pb-5">
       <h1 className="font-bold text-2xl">Welcome {name}</h1>
