@@ -24,9 +24,8 @@ export default function LogIn() {
     e.preventDefault();
     const userData = await logIn();
     if (userData) {
-      console.log(userData);
-      setIsLoggedIn(true);
-      navigate(from);
+      const fromRoute = `/${from}`;
+      navigate(fromRoute);
     }
   };
 

@@ -9,7 +9,7 @@ export const AuthContextProvider = ({ children }) => {
   useEffect(() => {
     if (localStorage.getItem('token')) {
       const authenticate = async () => {
-        const res = await fetch('http://localhost:3001/authenticate', {
+        const res = await fetch('http://localhost:3001/users/authenticate', {
           method: 'GET',
           headers: {
             Authorization: `Bearer ${localStorage.getItem('token')}`,

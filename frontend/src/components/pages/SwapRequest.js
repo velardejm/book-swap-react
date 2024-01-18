@@ -44,7 +44,7 @@ export default function SwapRequest() {
         setMyBooks(user.booksAvailable);
       } else {
         alert('Please select other users');
-        navigate('/listings');
+        navigate('/books/listings');
       }
     }
   }, [user]);

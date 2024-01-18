@@ -23,7 +23,7 @@ export default function AddBook({ closeModal, data, setData }) {
 
   const handleSubmit = async (e) => {
     e.preventDefault();
-    const res = await fetch('http://localhost:3001/book', {
+    const res = await fetch('http://localhost:3001/books', {
       method: 'POST',
       headers: {
         'Authorization': `Bearer ${localStorage.getItem('token')}`,
@@ -38,7 +38,7 @@ export default function AddBook({ closeModal, data, setData }) {
       const { ...newData } = data;
       setData(newData);
       closeModal();
-      navigate('/dashboard');
+      navigate('/users/dashboard');
     }
 
   };

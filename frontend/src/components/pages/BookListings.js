@@ -9,18 +9,17 @@ export default function BookListings() {
 
   useEffect(() => {
     const fetchData = async () => {
-      const response = await fetch('http://localhost:3001/listings', {
+      const response = await fetch('http://localhost:3001/books/listings', {
         method: 'GET',
       });
-      const data = await response.json();
-      setListings(data.response);
+      const { data } = await response.json();
+      setListings(data);
     };
 
     fetchData();
   }, []);
 
   const handleClick = async (url) => {
-    console.log(isLoggedIn);
     if (isLoggedIn) {
       navigate(url);
     } else {

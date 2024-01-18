@@ -6,7 +6,7 @@ import AddBook from './AddBook';
 
 export default function Dashboard() {
   const [isModalOpen, setIsModalOpen] = useState(false);
-  const [data, setData] = useFetchData('http://localhost:3001/dashboard');
+  const [data, setData] = useFetchData('http://localhost:3001/users/dashboard');
 
   const closeModal = () => {
     setIsModalOpen(false);

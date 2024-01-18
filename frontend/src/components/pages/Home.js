@@ -37,7 +37,7 @@ export default function Home() {
           )}
 
           <Link
-            to="/listings"
+            to="/books/listings"
             className="bg-green-500 text-white font-bold text-lg p-2 rounded-md w-32 ml-4"
           >
             Explore Books
