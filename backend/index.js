@@ -9,83 +9,90 @@ const authenticationRoutes = require("./routes/authentication");
 const app = express();
 const port = 3001;
 
-let users = [
-  {
-    username: "booklover1",
-    password: "$2b$10$/35QC92KG2EO3TsOIgOqaOYZh3gce9SyHOIK9SM79YG8VfrrH7ykq",
-  },
-  {
-    username: "readingfanatic",
-    password: "$2b$10$/35QC92KG2EO3TsOIgOqaOYZh3gce9SyHOIK9SM79YG8VfrrH7ykq",
-  },
-];
+// let users = [
+//   {
+//     username: "booklover1",
+//     password: "$2b$10$/35QC92KG2EO3TsOIgOqaOYZh3gce9SyHOIK9SM79YG8VfrrH7ykq",
+//   },
+//   {
+//     username: "readingfanatic",
+//     password: "$2b$10$/35QC92KG2EO3TsOIgOqaOYZh3gce9SyHOIK9SM79YG8VfrrH7ykq",
+//   },
+// ];
 
-let usersData = [
-  {
-    name: "User 1",
-    username: "booklover1",
-    email: "booklover1@example.com",
-    booksAvailable: [
-      {
-        bookId: "1a",
-        title: "The Catcher in the Rye",
-        author: "J.D. Salinger",
-        genre: "Fiction",
-        condition: "Like New",
-        inTransaction: false,
-      },
-      {
-        bookId: "1b",
-        title: "The Hobbit",
-        author: "J.R.R. Tolkien",
-        genre: "Fantasy",
-        condition: "Good",
-        inTransaction: false,
-      },
-    ],
-  },
-  {
-    name: "User 2",
-    username: "readingfanatic",
-    email: "readingfanatic@example.com",
-    booksAvailable: [
-      {
-        bookId: "2a",
-        title: "To Kill a Mockingbird",
-        author: "Harper Lee",
-        genre: "Fiction",
-        condition: "Very Good",
-        inTransaction: false,
-      },
-      {
-        bookId: "2b",
-        title: "1984",
-        author: "George Orwell",
-        genre: "Dystopian",
-        condition: "Fair",
-        inTransaction: false,
-      },
-    ],
-  },
-];
+// let usersData = [
+//   {
+//     name: "User 1",
+//     username: "booklover1",
+//     email: "booklover1@example.com",
+//     booksAvailable: [
+//       {
+//         bookId: "1a",
+//         title: "The Catcher in the Rye",
+//         author: "J.D. Salinger",
+//         genre: "Fiction",
+//         condition: "Like New",
+//         inTransaction: false,
+//       },
+//       {
+//         bookId: "1b",
+//         title: "The Hobbit",
+//         author: "J.R.R. Tolkien",
+//         genre: "Fantasy",
+//         condition: "Good",
+//         inTransaction: false,
+//       },
+//     ],
+//   },
+//   {
+//     name: "User 2",
+//     username: "readingfanatic",
+//     email: "readingfanatic@example.com",
+//     booksAvailable: [
+//       {
+//         bookId: "2a",
+//         title: "To Kill a Mockingbird",
+//         author: "Harper Lee",
+//         genre: "Fiction",
+//         condition: "Very Good",
+//         inTransaction: false,
+//       },
+//       {
+//         bookId: "2b",
+//         title: "1984",
+//         author: "George Orwell",
+//         genre: "Dystopian",
+//         condition: "Fair",
+//         inTransaction: false,
+//       },
+//     ],
+//   },
+// ];
 
-let usersTransactionData = [
-  {
-    username: "booklover1",
-    incomingSwapRequests: [],
-    // {username: 'requestor's username', offer: {book: book, amount: amount}}
-  },
-  {
-    username: "readingfanatic",
-    incomingSwapRequests: [],
-  },
-];
+// let usersTransactionData = [
+//   {
+//     username: "booklover1",
+//     incomingSwapRequests: [],
+//     // {username: 'requestor's username', offer: {book: book, amount: amount}}
+//   },
+//   {
+//     username: "readingfanatic",
+//     incomingSwapRequests: [],
+//   },
+// ];
+
+let users;
+let usersData;
+let usersTransactionData;
 
 app.use(cors());
 app.use(bodyParser.json());
 
 app.listen(port, () => {
-  // usersData = loadData();
+  data = loadData();
+  users = data.users;
+  usersData = data.usersData;
+  usersTransactionData = data.usersTransactionData;
 });
 
 function authenticateToken(req, res, next) {
@@ -109,9 +116,7 @@ function authenticateToken(req, res, next) {
 
 app.use("/", authenticationRoutes);
 
-app.get("/", (req, res) => {
-  // console.log("test");
-});
+// app.get("/", (req, res) => {});l
 
 app.get("/listings", (req, res) => {
   const bookListings = usersData.map((user) => {
@@ -156,15 +161,19 @@ app.get("/dashboard", authenticateToken, (req, res) => {
 });
 
 app.get("/authenticate", authenticateToken, (req, res) => {
-  res.status(200).json({ user: req.user.username });
-});
-
-app.get("/get-user", authenticateToken, (req, res) => {
+  // res.status(200).json({ user: req.user.username });
   const user = usersData.find((u) => u.username === req.user.username);
   if (user) {
     res.status(200).json({ data: user });
   }
 });
+
+// app.get("/get-user", authenticateToken, (req, res) => {
+//   const user = usersData.find((u) => u.username === req.user.username);
+//   if (user) {
+//     res.status(200).json({ data: user });
+//   }
+// });
 
 app.get("/swap/:owner/:bookId", authenticateToken, (req, res) => {
   const user = usersData.find((user) => user.username === req.params.owner);

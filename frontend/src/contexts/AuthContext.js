@@ -21,7 +21,7 @@ export const AuthContextProvider = ({ children }) => {
 
         if (responseObject) {
           setIsLoggedIn(true);
-          setUser(responseObject.user);
+          setUser(responseObject.data);
         } else {
           setIsLoggedIn(false);
           localStorage.removeItem('token');
@@ -33,7 +33,6 @@ export const AuthContextProvider = ({ children }) => {
       setIsLoggedIn(false);
     }
   }, [isLoggedIn]);
-
 
   const logOut = () => {
     localStorage.removeItem('token');

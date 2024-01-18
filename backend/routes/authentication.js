@@ -62,7 +62,6 @@ authenticationRouter.post("/login", async (req, res) => {
         expiresIn: 3600,
       });
       res.status(200).json({ user: user.username, token: token });
-      console.log("success!");
     } else {
       res.status(401).json({ message: "Incorrect password." });
     }

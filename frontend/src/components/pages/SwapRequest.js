@@ -1,17 +1,20 @@
-import { useState, useEffect } from 'react';
-import { useParams, useNavigate, json } from 'react-router-dom';
+import { useState, useEffect, useContext } from 'react';
+import { useParams, useNavigate } from 'react-router-dom';
 import useFetchData from '../../hooks/useFetchData';
 import Dropdown from '../shared/Dropdown';
+import { AuthContext } from '../../contexts/AuthContext';
 
 export default function SwapRequest() {
+  const [myBooks, setMyBooks] = useState(null);
+  const [bookToSwap, setBookToSwap] = useState(null);
+
+  const { user } = useContext(AuthContext);
+
   const { owner, bookId } = useParams();
+  const navigate = useNavigate();
   const [bookData] = useFetchData(
     `http://localhost:3001/swap/${owner}/${bookId}`
   );
-  const [userData] = useFetchData('http://localhost:3001/get-user');
-  const [myBooks, setMyBooks] = useState(null);
-  const [bookToSwap, setBookToSwap] = useState(null);
-  const navigate = useNavigate();
 
   const selectBookToSwap = (bookTitle) => {
     const book = myBooks.find((book) => book.title === bookTitle);
@@ -20,34 +23,31 @@ export default function SwapRequest() {
 
   const handleSubmit = (e) => {
     e.preventDefault();
-    if(bookToSwap === null) {
+    if (bookToSwap === null) {
       alert('Please select a book to swap.');
       return;
     }
 
-    fetch(
-      `http://localhost:3001/swap/${owner}/${bookId}/${userData.username}`,
-      {
-        method: 'POST',
-        headers: {
-          Authorization: `Bearer ${localStorage.getItem('token')}`,
-          'Content-type': 'application/json',
-        },
-        body: JSON.stringify(bookToSwap),
-      }
-    );
+    fetch(`http://localhost:3001/swap/${owner}/${bookId}/${user.username}`, {
+      method: 'POST',
+      headers: {
+        Authorization: `Bearer ${localStorage.getItem('token')}`,
+        'Content-type': 'application/json',
+      },
+      body: JSON.stringify(bookToSwap),
+    });
   };
 
   useEffect(() => {
-    if (userData) {
-      if (userData.username !== owner) {
-        setMyBooks(userData.booksAvailable);
+    if (user) {
+      if (user.username !== owner) {
+        setMyBooks(user.booksAvailable);
       } else {
         alert('Please select other users');
         navigate('/listings');
       }
     }
-  }, [userData]);
+  }, [user]);
 
   return (
     <div>
@@ -61,10 +61,10 @@ export default function SwapRequest() {
       <form method="POST">
         {/* List of books than can be offered to swap */}
 
-        {userData ? (
+        {user ? (
           <div>
             <Dropdown
-              options={userData.booksAvailable}
+              options={user.booksAvailable}
               setterFunction={selectBookToSwap}
             />
           </div>
