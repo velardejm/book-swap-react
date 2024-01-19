@@ -5,7 +5,7 @@ import { AuthContext } from '../../contexts/AuthContext';
 export default function BookListings() {
   const [listings, setListings] = useState([]);
   const navigate = useNavigate();
-  const { isLoggedIn } = useContext(AuthContext);
+  const { user, isLoggedIn } = useContext(AuthContext);
 
   useEffect(() => {
     const fetchData = async () => {
@@ -27,12 +27,19 @@ export default function BookListings() {
     }
   };
 
-  const listingsComponent = listings.map(({ user, listings }, index) => {
+  
+  if (!user && user !== null) return null;
+
+  const listingsComponent = listings.map(({ owner, books }, index) => {
     return (
       <div key={index}>
-        <h1>{user}</h1>
+        {user ? (owner === user.username ? null : owner) : owner}
         <ul className="mx-3">
-          {listings.map((book, index) => {
+          {books.map((book, index) => {
+            if (user) {
+              if (owner === user.username) return null;
+            }
+
             return (
               <li key={index}>
                 <p>
@@ -40,7 +47,7 @@ export default function BookListings() {
                   <button
                     className="text-blue-500"
                     onClick={() => {
-                      handleClick(`/swap/${user}/${book.bookId}`);
+                      handleClick(`/swap/${owner}/${book.bookId}`);
                     }}
                   >
                     Swap

@@ -12,10 +12,6 @@ export default function Dashboard() {
     setIsModalOpen(false);
   };
 
-  const updateData = (newData) => {
-    setData(newData);
-  };
-
   if (!data) {
     return null;
   }
@@ -47,9 +43,7 @@ export default function Dashboard() {
         closeModal={closeModal}
         data={data}
         setData={setData}
-      >
-        {/* <AddBook /> */}
-      </Modal>
+      ></Modal>
     </div>
   );
 }

@@ -59,8 +59,6 @@ export default function SwapRequest() {
       </ul>
 
       <form method="POST">
-        {/* List of books than can be offered to swap */}
-
         {user ? (
           <div>
             <Dropdown

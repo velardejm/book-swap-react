@@ -1,5 +1,5 @@
 const express = require("express");
-const { loadData } = require("../utils/helpers");
+const { loadData, saveData } = require("../utils/helpers");
 const authenticateToken = require("../middleware/authenticateToken");
 
 const booksRouter = express.Router();
@@ -8,8 +8,8 @@ booksRouter.get("/listings", (req, res) => {
   const { usersData } = loadData();
   const bookListings = usersData.map((user) => {
     return {
-      user: user.username,
-      listings: user.booksAvailable,
+      owner: user.username,
+      books: user.booksAvailable,
     };
   });
 
@@ -18,13 +18,15 @@ booksRouter.get("/listings", (req, res) => {
   });
 });
 
+// ADD NEW BOOK
 booksRouter.post("/", authenticateToken, (req, res) => {
-  const { usersData } = loadData();
-  const userData = usersData.find(
+  const data = loadData();
+  const userData = data.usersData.find(
     (user) => user.username === req.user.username
   );
   if (userData) {
     userData.booksAvailable.push(req.body);
+    saveData(data);
     res.status(200).json({
       message: "New book added successfully.",
     });
