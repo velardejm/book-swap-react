@@ -1,5 +1,5 @@
 const express = require("express");
-const { loadData } = require("../utils/helpers");
+const { loadData, saveData } = require("../utils/helpers");
 const authenticateToken = require("../middleware/authenticateToken");
 
 const swapRouter = express.Router();
@@ -14,30 +14,59 @@ swapRouter.get("/:owner/:bookId", authenticateToken, (req, res) => {
 });
 
 swapRouter.post("/:owner/:bookId/:user", authenticateToken, (req, res) => {
-  const { usersTransactionData } = loadData();
-  const bookOwnerIndex = usersTransactionData.findIndex(
-    (owner) => owner.username === req.params.owner
+  const data = loadData();
+  const { usersTransactionData } = data;
+  const { requestor, requestedBook, bookToSwap, bookOwner } = req.body;
+
+  const userTransactionIndex = usersTransactionData.findIndex(
+    (data) => data.username === bookOwner
   );
+  const swapRequests =
+    usersTransactionData[userTransactionIndex].incomingSwapRequests;
 
-  if (!bookOwnerIndex) {
-    return;
+  for (let i = 0; i < swapRequests.length; i++) {
+    const {
+      requestor: requestorCheck,
+      requestedBook: requestedBookCheck,
+      bookOwner: bookOwnerCheck,
+      bookToSwap: bookToSwapCheck,
+    } = swapRequests[i];
+
+    if (
+      requestor === requestorCheck &&
+      requestedBook.bookId === requestedBookCheck.bookId &&
+      bookToSwap.bookId === bookToSwapCheck.bookId &&
+      bookOwner === bookOwnerCheck
+    ) {
+    }
   }
-  const { inTransaction, ...bookDetails } = req.body;
-  const swapRequest = { requestor: req.params.user, ...bookDetails };
 
-  const bookOwner = usersTransactionData[bookOwnerIndex];
-  const ownerReceivedRequests = bookOwner.incomingSwapRequests;
+  // check if the book is requested and offerred with the same book from the same user
 
-  const isRequestExists = ownerReceivedRequests.find(
-    (request) => request.bookId === swapRequest.bookId
-  );
+  // const bookOwnerIndex = usersTransactionData.findIndex(
+  //   (owner) => owner.username === req.params.owner
+  // );
 
-  if (isRequestExists) {
-    return;
-  }
+  // if (!bookOwnerIndex) {
+  //   return;
+  // }
+  // const { inTransaction, ...bookDetails } = req.body;
+  // const swapRequest = { requestor: req.params.user, ...bookDetails };
 
-  ownerReceivedRequests.push(swapRequest);
-  console.log(ownerReceivedRequests);
+  // const bookOwner = usersTransactionData[bookOwnerIndex];
+  // const ownerReceivedRequests = bookOwner.incomingSwapRequests;
+
+  // const isRequestExists = ownerReceivedRequests.find(
+  //   (request) => request.bookId === swapRequest.bookId
+  // );
+
+  // if (isRequestExists) {
+  //   return;
+  // }
+
+  // ownerReceivedRequests.push(swapRequest);
+  // saveData(data);
+  // console.log(ownerReceivedRequests);
 });
 
 module.exports = swapRouter;

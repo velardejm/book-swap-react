@@ -8,13 +8,14 @@ export default function SwapRequest() {
   const [myBooks, setMyBooks] = useState(null);
   const [bookToSwap, setBookToSwap] = useState(null);
 
+  const { owner, bookId } = useParams();
   const { user } = useContext(AuthContext);
 
-  const { owner, bookId } = useParams();
-  const navigate = useNavigate();
   const [bookData] = useFetchData(
     `http://localhost:3001/swap/${owner}/${bookId}`
   );
+
+  const navigate = useNavigate();
 
   const selectBookToSwap = (bookTitle) => {
     const book = myBooks.find((book) => book.title === bookTitle);
@@ -23,6 +24,15 @@ export default function SwapRequest() {
 
   const handleSubmit = (e) => {
     e.preventDefault();
+    const request = {
+      requestor: user.username,
+      requestedBook: bookData,
+      bookOwner: owner,
+      bookToSwap: bookToSwap,
+    };
+
+    console.log(request);
+
     if (bookToSwap === null) {
       alert('Please select a book to swap.');
       return;
@@ -34,7 +44,7 @@ export default function SwapRequest() {
         Authorization: `Bearer ${localStorage.getItem('token')}`,
         'Content-type': 'application/json',
       },
-      body: JSON.stringify(bookToSwap),
+      body: JSON.stringify(request),
     });
   };
 
