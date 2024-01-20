@@ -24,6 +24,8 @@ swapRouter.post("/:owner/:bookId/:user", authenticateToken, (req, res) => {
   const swapRequests =
     usersTransactionData[userTransactionIndex].incomingSwapRequests;
 
+  let isTransactionFound = false;
+
   for (let i = 0; i < swapRequests.length; i++) {
     const {
       requestor: requestorCheck,
@@ -38,7 +40,14 @@ swapRouter.post("/:owner/:bookId/:user", authenticateToken, (req, res) => {
       bookToSwap.bookId === bookToSwapCheck.bookId &&
       bookOwner === bookOwnerCheck
     ) {
+      isTransactionFound = true;
+      break;
     }
+  }
+
+  if (!isTransactionFound) {
+    swapRequests.push(req.body);
+    saveData(data);
   }
 
   // check if the book is requested and offerred with the same book from the same user

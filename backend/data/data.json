@@ -100,6 +100,45 @@
             "condition": "Like New",
             "inTransaction": false
           }
+        },
+        {
+          "requestor": "booklover1",
+          "requestedBook": {
+            "bookId": "2b",
+            "title": "1984",
+            "author": "George Orwell",
+            "genre": "Dystopian",
+            "condition": "Fair",
+            "inTransaction": false
+          },
+          "bookOwner": "readingfanatic",
+          "bookToSwap": {
+            "id": "",
+            "title": "321",
+            "author": "321",
+            "genre": "123",
+            "condition": "231"
+          }
+        },
+        {
+          "requestor": "booklover1",
+          "requestedBook": {
+            "bookId": "2b",
+            "title": "1984",
+            "author": "George Orwell",
+            "genre": "Dystopian",
+            "condition": "Fair",
+            "inTransaction": false
+          },
+          "bookOwner": "readingfanatic",
+          "bookToSwap": {
+            "bookId": "1b",
+            "title": "The Hobbit",
+            "author": "J.R.R. Tolkien",
+            "genre": "Fantasy",
+            "condition": "Good",
+            "inTransaction": false
+          }
         }
       ]
     },
