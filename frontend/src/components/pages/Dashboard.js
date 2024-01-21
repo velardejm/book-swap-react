@@ -20,7 +20,7 @@ export default function Dashboard() {
   return (
     <div className="bg-blue-200 flex flex-col items-center mb-5 pb-5">
       <h1 className="font-bold text-2xl">Welcome {name}</h1>
-      <p>You have {incomingSwapRequests.count} swap requests.</p>
+      <p>You have {incomingSwapRequests.length} swap requests.</p>
       <p>{`Username: ${username} | email: ${email} `}</p>
       <h2 className="flex-start">Book Listing</h2>
       <div>

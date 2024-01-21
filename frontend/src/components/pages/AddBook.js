@@ -6,7 +6,6 @@ import useHandleModalEscape from '../../hooks/useHandleModalEscape';
 
 export default function AddBook({ closeModal, data, setData }) {
   const [formData, setFormData] = useState({
-    id: '',
     title: '',
     author: '',
     genre: '',
@@ -26,21 +25,24 @@ export default function AddBook({ closeModal, data, setData }) {
     const res = await fetch('http://localhost:3001/books', {
       method: 'POST',
       headers: {
-        'Authorization': `Bearer ${localStorage.getItem('token')}`,
+        Authorization: `Bearer ${localStorage.getItem('token')}`,
         'Content-Type': 'application/json',
       },
-      body: JSON.stringify(formData)
+      body: JSON.stringify({
+        bookId: Math.floor(Math.random() * 1000000000).toString(),
+        ...formData,
+        inTransaction: false,
+      }),
     });
 
     if (res.status === 200) {
-      const { booksAvailable, ...details } = data
+      const { booksAvailable, ...details } = data;
       booksAvailable.push(formData);
       const { ...newData } = data;
       setData(newData);
       closeModal();
       navigate('/users/dashboard');
     }
-
   };
 
   return (
