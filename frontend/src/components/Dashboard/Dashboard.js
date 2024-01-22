@@ -2,27 +2,18 @@ import { useState } from 'react';
 import useFetchData from '../../hooks/useFetchData';
 import BookDetails from '../shared/BookDetails';
 import Modal from '../shared/Modal';
-import AddBook from './AddBook';
-import BookListings from './BookListings';
+import AddBook from '../pages/AddBook';
 import React from 'react';
+import BookList from './BookList';
 
 export default function Dashboard() {
   const [isModalOpen, setIsModalOpen] = useState(false);
   const [data, setData] = useFetchData('http://localhost:3001/users/dashboard');
-  console.log(data);
+  // console.log(data);
 
   const closeModal = () => {
     setIsModalOpen(false);
   };
-
-  // const BookListings = <div>Hi!</div>
-
-  console.log(BookListings);
-
-  return <>
-    {/* <h1>Test</h1> */}
-    {BookListings}
-  </>;
 
   if (!data) {
     return null;

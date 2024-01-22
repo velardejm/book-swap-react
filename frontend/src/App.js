@@ -8,7 +8,7 @@ import PrivateRoute from './components/shared/PrivateRoute';
 import BookListings from './components/pages/BookListings';
 import SwapRequest from './components/pages/SwapRequest';
 import { AuthContextProvider } from './contexts/AuthContext';
-import Dashboard from './components/pages/Dashboard';
+import Dashboard from './components/Dashboard/Dashboard';
 
 function App() {
   return (
