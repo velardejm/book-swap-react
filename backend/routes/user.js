@@ -5,7 +5,7 @@ const authenticateToken = require("../middleware/authenticateToken");
 const usersRouter = express.Router();
 
 usersRouter.get("/dashboard", authenticateToken, (req, res) => {
-  const { users, usersData, usersTransactionData } = loadData();
+  const { usersData, usersTransactionData } = loadData();
 
   const userData = usersData.find((data) => data.userId === req.user.userId);
   const { username, userId, ...transactions } = usersTransactionData.find(

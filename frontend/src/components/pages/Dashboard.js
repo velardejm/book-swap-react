@@ -3,27 +3,37 @@ import useFetchData from '../../hooks/useFetchData';
 import BookDetails from '../shared/BookDetails';
 import Modal from '../shared/Modal';
 import AddBook from './AddBook';
+import BookListings from './BookListings';
+import React from 'react';
 
 export default function Dashboard() {
   const [isModalOpen, setIsModalOpen] = useState(false);
   const [data, setData] = useFetchData('http://localhost:3001/users/dashboard');
+  console.log(data);
 
   const closeModal = () => {
     setIsModalOpen(false);
   };
 
-  return null;
+  // const BookListings = <div>Hi!</div>
+
+  console.log(BookListings);
+
+  return <>
+    {/* <h1>Test</h1> */}
+    {BookListings}
+  </>;
 
   if (!data) {
     return null;
   }
 
-  const { name, username, email, booksAvailable, incomingRequests } = data;
+  const { name, booksAvailable, incomingRequests } = data;
   return (
     <div className="bg-blue-200 flex flex-col items-center mb-5 pb-5">
       <h1 className="font-bold text-2xl">Welcome {name}</h1>
       <p>You have {incomingRequests.length} swap requests.</p>
-      <p>{`Username: ${username} | email: ${email} `}</p>
+      {/* <p>{`Username: ${username} | email: ${email} `}</p> */}
       <h2 className="flex-start">Book Listing</h2>
       <div>
         {booksAvailable.map((book, index) => {
