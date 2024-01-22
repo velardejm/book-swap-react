@@ -1,1 +1,27 @@
-{"users":[{"username":"booklover1","password":"$2b$10$/35QC92KG2EO3TsOIgOqaOYZh3gce9SyHOIK9SM79YG8VfrrH7ykq"},{"username":"readingfanatic","password":"$2b$10$/35QC92KG2EO3TsOIgOqaOYZh3gce9SyHOIK9SM79YG8VfrrH7ykq"},{"username":"1","password":"$2b$10$SRz6eGB3OGlWP4bulOLHhu/BhV4bSkAvkgT3WlHK.TAPfgJji1gaK"}],"usersData":[{"name":"User 1","username":"booklover1","email":"booklover1@example.com","booksAvailable":[{"bookId":"1a","title":"The Catcher in the Rye","author":"J.D. Salinger","genre":"Fiction","condition":"Like New","inTransaction":false},{"bookId":"1b","title":"The Hobbit","author":"J.R.R. Tolkien","genre":"Fantasy","condition":"Good","inTransaction":false},{"bookId":"440662136","title":"test","author":"test","genre":"test","condition":"test","inTransaction":false}]},{"name":"User 2","username":"readingfanatic","email":"readingfanatic@example.com","booksAvailable":[{"bookId":"2a","title":"To Kill a Mockingbird","author":"Harper Lee","genre":"Fiction","condition":"Very Good","inTransaction":false},{"bookId":"2b","title":"1984","author":"George Orwell","genre":"Dystopian","condition":"Fair","inTransaction":false}]},{"name":"1","email":"1@1","username":"1","booksAvailable":[]}],"usersTransactionData":[{"username":"booklover1","incomingSwapRequests":[]},{"username":"readingfanatic","incomingSwapRequests":[]},{"username":"1","incomingSwapRequests":[]}]}
+{
+  "users": [
+    {
+      "username": "booklover1",
+      "password": "$2b$10$LhP5t5TzuvxYVcBYlOrpS.fpfHEykyo7Z5Cr7jYic16IolJslC3Au",
+      "userId": "3b672444-8784-453c-b3f5-9ccc21dcc0a8"
+    }
+  ],
+  "usersData": [
+    {
+      "name": "New User 1",
+      "email": "newuser@email.com",
+      "userId": "3b672444-8784-453c-b3f5-9ccc21dcc0a8",
+      "booksAvailable": []
+    }
+  ],
+  "usersTransactionData": [
+    {
+      "username": "booklover1",
+      "userId": "3b672444-8784-453c-b3f5-9ccc21dcc0a8",
+      "incomingRequests": [],
+      "sentRequests": [],
+      "transactionsToConfirm": [],
+      "closedTransactions": []
+    }
+  ]
+}

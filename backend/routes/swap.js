@@ -24,7 +24,7 @@ swapRouter.post("/:owner/:bookId/:user", authenticateToken, (req, res) => {
     (data) => data.username === bookOwner
   );
   const swapRequests =
-    usersTransactionData[userTransactionIndex].incomingSwapRequests;
+    usersTransactionData[userTransactionIndex].incomingRequests;
 
   let isTransactionFound = false;
 
@@ -65,7 +65,7 @@ swapRouter.post("/:owner/:bookId/:user", authenticateToken, (req, res) => {
   // const swapRequest = { requestor: req.params.user, ...bookDetails };
 
   // const bookOwner = usersTransactionData[bookOwnerIndex];
-  // const ownerReceivedRequests = bookOwner.incomingSwapRequests;
+  // const ownerReceivedRequests = bookOwner.incomingRequests;
 
   // const isRequestExists = ownerReceivedRequests.find(
   //   (request) => request.bookId === swapRequest.bookId

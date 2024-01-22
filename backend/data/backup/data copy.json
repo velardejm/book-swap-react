@@ -7,6 +7,10 @@
     {
       "username": "readingfanatic",
       "password": "$2b$10$/35QC92KG2EO3TsOIgOqaOYZh3gce9SyHOIK9SM79YG8VfrrH7ykq"
+    },
+    {
+      "username": "1",
+      "password": "$2b$10$SRz6eGB3OGlWP4bulOLHhu/BhV4bSkAvkgT3WlHK.TAPfgJji1gaK"
     }
   ],
   "usersData": [
@@ -29,6 +33,14 @@
           "author": "J.R.R. Tolkien",
           "genre": "Fantasy",
           "condition": "Good",
+          "inTransaction": false
+        },
+        {
+          "bookId": "440662136",
+          "title": "test",
+          "author": "test",
+          "genre": "test",
+          "condition": "test",
           "inTransaction": false
         }
       ]
@@ -55,16 +67,12 @@
           "inTransaction": false
         }
       ]
-    }
+    },
+    { "name": "1", "email": "1@1", "username": "1", "booksAvailable": [] }
   ],
   "usersTransactionData": [
-    {
-      "username": "booklover1",
-      "incomingRequests": []
-    },
-    {
-      "username": "readingfanatic",
-      "incomingRequests": []
-    }
+    { "username": "booklover1", "incomingRequests": [] },
+    { "username": "readingfanatic", "incomingRequests": [] },
+    { "username": "1", "incomingRequests": [] }
   ]
 }

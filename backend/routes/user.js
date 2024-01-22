@@ -6,20 +6,15 @@ const usersRouter = express.Router();
 
 usersRouter.get("/dashboard", authenticateToken, (req, res) => {
   const { users, usersData, usersTransactionData } = loadData();
-  const user = users.find((u) => u.username === req.user.username);
-  const { incomingSwapRequests } = usersTransactionData.find(
-    (user) => user.username === req.user.username
+
+  const userData = usersData.find((data) => data.userId === req.user.userId);
+  const { username, userId, ...transactions } = usersTransactionData.find(
+    (data) => data.userId === req.user.userId
   );
 
-  if (user) {
-    const { username } = user;
-    const userDetail = usersData.find((u) => u.username === username);
-    const data = { ...userDetail, incomingSwapRequests };
-
-    res.status(200).json({ data: data });
-  } else {
-    res.json({ message: "User data not found." });
-  }
+  const data = { ...userData, ...transactions };
+  console.log(data);
+  res.status(200).json({ data: data });
 });
 
 usersRouter.get("/authenticate", authenticateToken, (req, res) => {

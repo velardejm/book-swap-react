@@ -3,6 +3,7 @@ const jwt = require("jsonwebtoken");
 const bcrypt = require("bcrypt");
 const authenticateToken = require("../middleware/authenticateToken");
 const { loadData, saveData } = require("../utils/helpers");
+const { v4: uuidv4 } = require("uuid");
 
 const authenticationRouter = express.Router();
 const data = loadData();
@@ -10,22 +11,28 @@ const data = loadData();
 authenticationRouter.post("/signup", async (req, res) => {
   const { name, email, username, password } = req.body;
   const hashedPassword = await bcrypt.hash(password, 10);
+  const userId = uuidv4();
 
   const newUser = {
     username: username,
     password: hashedPassword,
+    userId: userId,
   };
 
   const newUserData = {
     name: name,
     email: email,
-    username: username,
+    userId: userId,
     booksAvailable: [],
   };
 
   const newUserTransactionData = {
     username: username,
-    incomingSwapRequests: [],
+    userId: userId,
+    incomingRequests: [],
+    sentRequests: [],
+    transactionsToConfirm: [],
+    closedTransactions: [],
   };
 
   const foundExistingUser = !!data.users.find(
@@ -53,15 +60,19 @@ authenticationRouter.post("/signup", async (req, res) => {
 authenticationRouter.post("/login", async (req, res) => {
   const { users } = loadData();
   const { username, password } = req.body;
-  const user = users.find((u) => u.username === username);
+  const user = users.find((user) => user.username === username);
   if (!user) {
     res.status(401).json({ message: "User not found." });
   } else {
     if (await bcrypt.compare(password, user.password)) {
-      const token = jwt.sign({ username: user.username }, "SECRET", {
-        expiresIn: 3600,
-      });
-      res.status(200).json({ user: user.username, token: token });
+      const token = jwt.sign(
+        { username: user.username, userId: user.userId },
+        "SECRET",
+        {
+          expiresIn: 3600,
+        }
+      );
+      res.status(200).json({ user: user.userId, token: token });
     } else {
       res.status(401).json({ message: "Incorrect password." });
     }
