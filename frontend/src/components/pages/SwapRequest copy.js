@@ -5,28 +5,29 @@ import Dropdown from '../shared/Dropdown';
 import { AuthContext } from '../../contexts/AuthContext';
 
 export default function SwapRequest() {
+  const [myBooks, setMyBooks] = useState(null);
   const [bookToSwap, setBookToSwap] = useState(null);
-  const { userId, bookId } = useParams();
+
+  const { owner, bookId } = useParams();
   const { user } = useContext(AuthContext);
 
-  console.log(userId, bookId);
-
-  const [data, setData] = useFetchData(
-    `http://localhost:3001/swap/${userId}/${bookId}`
+  const [bookData] = useFetchData(
+    `http://localhost:3001/swap/${owner}/${bookId}`
   );
 
   const navigate = useNavigate();
 
   const selectBookToSwap = (book) => {
+    // const book = myBooks.find((book) => book.title === bookTitle);
     setBookToSwap(book);
   };
 
   const handleSubmit = (e) => {
     e.preventDefault();
     const request = {
-      requestor: user.userId,
-      requestedBook: data.requestedBookDetails,
-      bookOwner: userId,
+      requestor: user.username,
+      requestedBook: bookData,
+      bookOwner: owner,
       bookToSwap: bookToSwap,
     };
 
@@ -37,7 +38,7 @@ export default function SwapRequest() {
       return;
     }
 
-    fetch(`http://localhost:3001/swap/${user.userId}/${bookId}/${userId}`, {
+    fetch(`http://localhost:3001/swap/${owner}/${bookId}/${user.username}`, {
       method: 'POST',
       headers: {
         Authorization: `Bearer ${localStorage.getItem('token')}`,
@@ -47,32 +48,31 @@ export default function SwapRequest() {
     });
   };
 
-  // useEffect(() => {
-  //   if (user) {
-  //     if (user.username !== owner) {
-  //       setMyBooks(user.booksAvailable);
-  //     } else {
-  //       alert('Please select other users');
-  //       navigate('/books/listings');
-  //     }
-  //   }
-  // }, [user]);
+  useEffect(() => {
+    if (user) {
+      if (user.username !== owner) {
+        setMyBooks(user.booksAvailable);
+      } else {
+        alert('Please select other users');
+        navigate('/books/listings');
+      }
+    }
+  }, [user]);
 
-  if (!data) return null;
   return (
     <div>
       <h1>Swap Request Pages</h1>
       <h2>Requested Book</h2>
       <ul>
-        <li>Owner: {data.requestedBookDetails.owner}</li>
-        {data ? <li>Book Title: {data.requestedBookDetails.title}</li> : null}
+        <li>Owner: {owner}</li>
+        {bookData ? <li>Book Title: {bookData.title}</li> : null}
       </ul>
 
       <form method="POST">
         {user ? (
           <div>
             <Dropdown
-              options={data.userBooks}
+              options={user.booksAvailable}
               setterFunction={selectBookToSwap}
             />
           </div>

@@ -20,7 +20,7 @@ function App() {
           <Route path="/signup" element={<SignUp />} />
           <Route path="/books/listings" element={<BookListings />} />
           <Route
-            path="/swap/:owner/:bookId"
+            path="/swap/:userId/:bookId"
             element={
               <PrivateRoute>
                 <SwapRequest />
