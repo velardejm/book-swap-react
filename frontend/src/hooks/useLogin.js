@@ -18,7 +18,7 @@ const useLogin = (formData) => {
     if (data.token) {
       // setIsLoggedIn(true);
       localStorage.setItem('token', data.token);
-      return data;
+      return true;
     } else {
       alert(data.message);
       return false;

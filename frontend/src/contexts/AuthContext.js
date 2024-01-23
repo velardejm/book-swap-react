@@ -7,6 +7,7 @@ export const AuthContextProvider = ({ children }) => {
   const [user, setUser] = useState(null);
 
   useEffect(() => {
+    // console.log('from context');
     if (localStorage.getItem('token')) {
       const authenticate = async () => {
         const res = await fetch('http://localhost:3001/users/authenticate', {

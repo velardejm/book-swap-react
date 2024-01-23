@@ -19,7 +19,7 @@ usersRouter.get("/dashboard", authenticateToken, (req, res) => {
 
 usersRouter.get("/authenticate", authenticateToken, (req, res) => {
   const { usersData } = loadData();
-  const user = usersData.find((u) => u.username === req.user.username);
+  const user = usersData.find((user) => user.userId === req.user.userId);
   if (user) {
     res.status(200).json({ data: user });
   }

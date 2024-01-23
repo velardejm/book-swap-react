@@ -1,7 +1,8 @@
 import { useState } from 'react';
+
 import FormInput from '../shared/FormInput';
+
 import { updateForm } from '../../utils/helpers';
-import { useNavigate } from 'react-router-dom';
 import useHandleModalEscape from '../../hooks/useHandleModalEscape';
 
 export default function AddBook({ closeModal, data, setData }) {
@@ -11,8 +12,6 @@ export default function AddBook({ closeModal, data, setData }) {
     genre: '',
     condition: '',
   });
-
-  const navigate = useNavigate();
 
   useHandleModalEscape(closeModal);
 
@@ -36,12 +35,10 @@ export default function AddBook({ closeModal, data, setData }) {
     });
 
     if (res.status === 200) {
-      const { booksAvailable, ...details } = data;
-      booksAvailable.push(formData);
-      const { ...newData } = data;
-      setData(newData);
+      const { updatedBookList } = await res.json();
+      console.log(updatedBookList);
+      setData(updatedBookList);
       closeModal();
-      navigate('/users/dashboard');
     }
   };
 
