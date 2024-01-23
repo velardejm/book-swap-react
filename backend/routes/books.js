@@ -14,15 +14,15 @@ booksRouter.get("/", authenticateToken, (req, res) => {
 });
 
 booksRouter.get("/listings", (req, res) => {
-  const bookListings = usersData.map((user) => {
-    return {
-      owner: user.username,
-      books: user.booksAvailable,
-    };
-  });
+  // const bookListings = usersData.map((user) => {
+  //   return {
+  //     owner: user.username,
+  //     books: user.booksAvailable,
+  //   };
+  // });
 
   res.status(200).json({
-    data: bookListings,
+    data: usersData,
   });
 });
 
