@@ -1,5 +1,6 @@
-import { useState, useEffect, useContext } from 'react';
-import { useNavigate } from 'react-router-dom';
+// import { useState, useEffect, useContext } from 'react';
+// import { useNavigate } from 'react-router-dom';
+import { useContext } from 'react';
 import { AuthContext } from '../../contexts/AuthContext';
 
 import useFetchData from '../../hooks/useFetchData';
@@ -11,7 +12,8 @@ export default function BookListings() {
 
   // const [listings, setListings] = useState([]);
   // const navigate = useNavigate();
-  // const { user, isLoggedIn } = useContext(AuthContext);
+  const { user } = useContext(AuthContext);
+
 
   // useEffect(() => {
   //   const fetchData = async () => {
@@ -37,16 +39,15 @@ export default function BookListings() {
 
   if (!usersData) return null;
 
-  const listingsComponent = usersData.map(({ name, booksAvailable }, index) => {
+  const listingsComponent = usersData.map(({ userId, name, booksAvailable }, index) => {
     return (
       <div key={index}>
-        <p>{name}</p>
-        {/* {user ? (owner === user.username ? null : owner) : owner} */}
+        {user ? (user.userId === userId ? null : <p>{name}</p>) : <p>{name}</p>}
         <ul className="mx-3">
           {booksAvailable.map((book, index) => {
-            // if (user) {
-            //   if (owner === user.username) return null;
-            // }
+            if (user) {
+              if (user.userId === userId) return null;
+            }
 
             return (
               <li key={index}>

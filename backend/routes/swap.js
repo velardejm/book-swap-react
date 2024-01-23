@@ -18,7 +18,6 @@ swapRouter.post("/:owner/:bookId/:user", authenticateToken, (req, res) => {
   const { usersTransactionData } = data;
   const { requestor, requestedBook, bookToSwap, bookOwner } = req.body;
   bookToSwap.inTransaction = true;
-  console.log(bookToSwap);
 
   const userTransactionIndex = usersTransactionData.findIndex(
     (data) => data.username === bookOwner
