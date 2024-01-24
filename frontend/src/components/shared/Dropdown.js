@@ -5,7 +5,7 @@ export default function Dropdown({ options, setterFunction }) {
 
   const handleChange = (e) => {
     // setValue(e.target.value);
-    setterFunction(e.target.value);
+    setterFunction(options[e.target.value]);
   };
 
   return (
@@ -15,7 +15,7 @@ export default function Dropdown({ options, setterFunction }) {
         <option>Select a book...</option>
         {options.map((book, index) => {
           return (
-            <option key={index} value={book.title}>
+            <option key={index} value={index}>
               {book.title}
             </option>
           );

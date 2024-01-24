@@ -38,7 +38,7 @@ export default function LogIn() {
       <Logo />
       {isLoggedIn ? (
         <p className="font-bold text-2xl text-center px-5 my-20">
-          You are already logged in as {user.username}.
+          You are already logged in as
         </p>
       ) : (
         <>

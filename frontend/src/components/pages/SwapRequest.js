@@ -9,8 +9,6 @@ export default function SwapRequest() {
   const { userId, bookId } = useParams();
   const { user } = useContext(AuthContext);
 
-  console.log(userId, bookId);
-
   const [data, setData] = useFetchData(
     `http://localhost:3001/swap/${userId}/${bookId}`
   );
@@ -23,19 +21,18 @@ export default function SwapRequest() {
 
   const handleSubmit = (e) => {
     e.preventDefault();
-    const request = {
-      requestor: user.userId,
-      requestedBook: data.requestedBookDetails,
-      bookOwner: userId,
-      bookToSwap: bookToSwap,
-    };
-
-    console.log(request);
 
     if (bookToSwap === null) {
       alert('Please select a book to swap.');
       return;
     }
+
+    const request = {
+      requestedBookId: data.requestedBookDetails.bookId,
+      bookOwnerId: userId,
+      bookToSwapId: bookToSwap.bookId,
+      requestorId: user.userId,
+    };
 
     fetch(`http://localhost:3001/swap/${user.userId}/${bookId}/${userId}`, {
       method: 'POST',
