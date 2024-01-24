@@ -19,7 +19,7 @@ export default function SwapRequest() {
     setBookToSwap(book);
   };
 
-  const handleSubmit = (e) => {
+  const handleSubmit = async (e) => {
     e.preventDefault();
 
     if (bookToSwap === null) {
@@ -34,7 +34,7 @@ export default function SwapRequest() {
       requestorId: user.userId,
     };
 
-    fetch(`http://localhost:3001/swap/${user.userId}/${bookId}/${userId}`, {
+    const res = await fetch(`http://localhost:3001/swap/${user.userId}/${bookId}/${userId}`, {
       method: 'POST',
       headers: {
         Authorization: `Bearer ${localStorage.getItem('token')}`,
@@ -42,6 +42,11 @@ export default function SwapRequest() {
       },
       body: JSON.stringify(request),
     });
+
+    if(res.status !== 200) {
+      const {error} = await res.json();
+      alert(error);
+    }
   };
 
   // useEffect(() => {

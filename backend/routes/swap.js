@@ -25,8 +25,6 @@ swapRouter.get("/:owner/:bookId", authenticateToken, (req, res) => {
 });
 
 swapRouter.post("/:user/:bookId/:owner", authenticateToken, (req, res) => {
-  // const requestor = usersData.find(user => user.userId === req.body.requestorId);
-
   const { requestedBookId, bookOwnerId, bookToSwapId, requestorId } = req.body;
 
   const { incomingRequests } = usersTransactionData.find(
@@ -49,13 +47,11 @@ swapRouter.post("/:user/:bookId/:owner", authenticateToken, (req, res) => {
 
   if (requestIndex === -1) {
     incomingRequests.push(request);
-    saveData(data)
+    saveData(data);
     res.status(200).send("Request sent successfullly.");
   } else {
-    res.status(404).send("Request failed.");
+    res.status(404).json({error:"Request already exists."});
   }
-
-  console.log(incomingRequests);
 });
 
 module.exports = swapRouter;
