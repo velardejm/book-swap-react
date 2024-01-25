@@ -4,7 +4,7 @@ const cors = require("cors");
 
 const authenticationRoutes = require("./routes/authentication");
 const bookRoutes = require("./routes/books");
-const userRoutes = require("./routes/user");
+const userRoutes = require("./routes/users");
 const swapRoutes = require("./routes/swap");
 
 const app = express();

@@ -32,21 +32,25 @@ export default function SwapRequest() {
       bookOwnerId: userId,
       bookToSwapId: bookToSwap.bookId,
       requestorId: user.userId,
+      requestor: user.name,
+      bookToSwap: bookToSwap,
+      requestedBook: data.requestedBookDetails,
     };
 
-    const res = await fetch(`http://localhost:3001/swap/${user.userId}/${bookId}/${userId}`, {
-      method: 'POST',
-      headers: {
-        Authorization: `Bearer ${localStorage.getItem('token')}`,
-        'Content-type': 'application/json',
-      },
-      body: JSON.stringify(request),
-    });
+    const res = await fetch(
+      `http://localhost:3001/swap/${user.userId}/${bookId}/${userId}`,
+      {
+        method: 'POST',
+        headers: {
+          Authorization: `Bearer ${localStorage.getItem('token')}`,
+          'Content-type': 'application/json',
+        },
+        body: JSON.stringify(request),
+      }
+    );
 
-    if(res.status !== 200) {
-      const {error} = await res.json();
-      alert(error);
-    }
+    const { message } = await res.json();
+    alert(message);
   };
 
   // useEffect(() => {

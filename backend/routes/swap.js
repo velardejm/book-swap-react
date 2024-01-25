@@ -25,7 +25,15 @@ swapRouter.get("/:owner/:bookId", authenticateToken, (req, res) => {
 });
 
 swapRouter.post("/:user/:bookId/:owner", authenticateToken, (req, res) => {
-  const { requestedBookId, bookOwnerId, bookToSwapId, requestorId } = req.body;
+  const {
+    requestedBookId,
+    bookOwnerId,
+    bookToSwapId,
+    requestorId,
+    requestor,
+    bookToSwap,
+    requestedBook,
+  } = req.body;
 
   const { incomingRequests } = usersTransactionData.find(
     (user) => user.userId === bookOwnerId
@@ -38,19 +46,27 @@ swapRouter.post("/:user/:bookId/:owner", authenticateToken, (req, res) => {
     bookToSwapId: bookToSwapId,
   };
 
-  const requestCheckString = requestedBookId + requestorId + bookToSwapId;
+  const requestCheckString = requestedBookId + requestorId;
 
   const requestIndex = incomingRequests.findIndex((request) => {
-    const { requestedBookId, requestorId, bookToSwapId } = request;
-    return requestedBookId + requestorId + bookToSwapId === requestCheckString;
+    const { requestedBookId, requestorId } = request;
+    return requestedBookId + requestorId === requestCheckString;
   });
 
+  console.log(requestIndex);
+
   if (requestIndex === -1) {
-    incomingRequests.push(request);
+    incomingRequests.push({
+      ...request,
+      requestor,
+      bookToSwap,
+      requestedBook,
+      status: "reviewByOwner",
+    });
     saveData(data);
-    res.status(200).send("Request sent successfullly.");
+    res.status(200).json({ message: "Request sent successfully." });
   } else {
-    res.status(404).json({error:"Request already exists."});
+    res.status(404).json({ message: "Request already exists." });
   }
 });
 

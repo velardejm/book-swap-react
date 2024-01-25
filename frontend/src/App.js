@@ -9,6 +9,7 @@ import BookListings from './components/pages/BookListings';
 import SwapRequest from './components/pages/SwapRequest';
 import { AuthContextProvider } from './contexts/AuthContext';
 import Dashboard from './components/Dashboard/Dashboard';
+import Transactions from './components/Transactions/Transactions';
 
 function App() {
   return (
@@ -28,6 +29,7 @@ function App() {
             }
           />
           <Route path="/users/dashboard" element={<Dashboard />} />
+          <Route path="/users/transactions" element={<Transactions />} />
           <Route path="*" element={<NotFound />} />
         </Routes>
       </AuthContextProvider>
