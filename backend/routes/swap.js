@@ -104,7 +104,7 @@ swapRouter.post("/respond/:transactionId", authenticateToken, (req, res) => {
   const bookToSwapIndex = booksAvailable.findIndex(
     (book) => book.bookId === bookToSwapId
   );
-  const requestorBook = booksAvailable.splice(bookToSwapIndex, 1);
+  const bookToSwap = booksAvailable.splice(bookToSwapIndex, 1);
 
   const { booksAvailable: ownerBooksAvailable } = usersData.find(
     (user) => user.userId === bookOwnerId
@@ -112,10 +112,10 @@ swapRouter.post("/respond/:transactionId", authenticateToken, (req, res) => {
   const requestedBookBookIndex = ownerBooksAvailable.findIndex(
     (book) => book.bookId === requestedBookId
   );
-  const requestedBook = booksAvailable.splice(requestedBookBookIndex, 1);
+  const requestedBook = ownerBooksAvailable.splice(requestedBookBookIndex, 1);
 
-  booksAvailable.push(requestedBook);
-  ownerBooksAvailable.push(requestorBook);
+  booksAvailable.push(requestedBook[0]);
+  ownerBooksAvailable.push(bookToSwap[0]);
 
   // MOVE TRANSACTION TO TRANSACTIONS TO CONFIRM
 
