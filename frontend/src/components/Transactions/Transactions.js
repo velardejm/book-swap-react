@@ -1,16 +1,16 @@
 import IncomingRequests from './IncomingRequests';
 import TransactionsToConfirm from './TransactionsToConfirm';
 import useFetchData from '../../hooks/useFetchData';
-// import { useEffect, useState } from 'react';
+import SentRequests from './SentRequests';
 
 export default function Transactions() {
-  const [userTransactions, setUserTransactions] = useFetchData(
+  const [userTransactions, setUserTransactions, context] = useFetchData(
     'http://localhost:3001/users/transactions'
   );
 
   if (!userTransactions) return null;
-  // setIncomingRequests(userTransactions.incomingRequests);
-  const { incomingRequests, transactionsToConfirm } = userTransactions;
+  const { incomingRequests, transactionsToConfirm, sentRequests, userId } =
+    userTransactions;
 
   return (
     <div>
@@ -21,7 +21,12 @@ export default function Transactions() {
         setUserTransactions={setUserTransactions}
       />
       <hr></hr>
-      <TransactionsToConfirm transactionsToConfirm={transactionsToConfirm} />
+      <SentRequests sentRequests={sentRequests} />
+      <hr></hr>
+      <TransactionsToConfirm
+        transactionsToConfirm={transactionsToConfirm}
+        userId={userId}
+      />
     </div>
   );
 }

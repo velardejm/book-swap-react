@@ -33,6 +33,7 @@ export default function IncomingRequests({
 
   return (
     <div>
+      <h1>Received Requests</h1>
       {incomingRequests.map((request, index) => {
         const { requestId, requestedBook, bookToSwap, requestor } = request;
         return (
@@ -48,20 +49,19 @@ export default function IncomingRequests({
               </div>
             </div>
             <div className="flex justify-center">
-              <Link
+              <button
                 onClick={() => respondToRequest('accept', requestId)}
                 className="text-green-800 mr-5"
-                to="#"
               >
                 Accept Offer
-              </Link>
-              <Link
+              </button>
+
+              <button
                 onClick={() => respondToRequest('reject', requestId)}
                 className="text-red-800 ml-5"
-                to="#"
               >
                 Reject Offer
-              </Link>
+              </button>
             </div>
           </div>
         );

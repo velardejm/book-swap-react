@@ -79,6 +79,22 @@
           "genre": "2",
           "condition": "2",
           "inTransaction": false
+        },
+        {
+          "bookId": "693527618",
+          "title": "aaa",
+          "author": "aaa",
+          "genre": "aaa",
+          "condition": "aaa",
+          "inTransaction": false
+        },
+        {
+          "bookId": "701241658",
+          "title": "bbb",
+          "author": "bbb",
+          "genre": "bbb",
+          "condition": "bbb",
+          "inTransaction": false
         }
       ]
     }
@@ -140,6 +156,58 @@
             "inTransaction": true
           },
           "status": "reviewByOwner"
+        },
+        {
+          "requestId": "680840324",
+          "bookOwnerId": "49ad7a9c-34e8-46af-936c-7349e7d5e93e",
+          "requestedBookId": "693527618",
+          "requestorId": "3b672444-8784-453c-b3f5-9ccc21dcc0a8",
+          "bookToSwapId": "378159048",
+          "requestor": "New User 1",
+          "bookToSwap": {
+            "bookId": "378159048",
+            "title": "1",
+            "author": "1",
+            "genre": "1",
+            "condition": "1",
+            "inTransaction": true
+          },
+          "requestedBook": {
+            "owner": "1",
+            "bookId": "693527618",
+            "title": "aaa",
+            "author": "aaa",
+            "genre": "aaa",
+            "condition": "aaa",
+            "inTransaction": true
+          },
+          "status": "reviewByOwner"
+        },
+        {
+          "requestId": "374319215",
+          "bookOwnerId": "49ad7a9c-34e8-46af-936c-7349e7d5e93e",
+          "requestedBookId": "701241658",
+          "requestorId": "3b672444-8784-453c-b3f5-9ccc21dcc0a8",
+          "bookToSwapId": "378159048",
+          "requestor": "New User 1",
+          "bookToSwap": {
+            "bookId": "378159048",
+            "title": "1",
+            "author": "1",
+            "genre": "1",
+            "condition": "1",
+            "inTransaction": true
+          },
+          "requestedBook": {
+            "owner": "1",
+            "bookId": "701241658",
+            "title": "bbb",
+            "author": "bbb",
+            "genre": "bbb",
+            "condition": "bbb",
+            "inTransaction": true
+          },
+          "status": "reviewByOwner"
         }
       ],
       "transactionsToConfirm": [],
@@ -197,6 +265,58 @@
             "author": "2",
             "genre": "2",
             "condition": "2",
+            "inTransaction": true
+          },
+          "status": "reviewByOwner"
+        },
+        {
+          "requestId": "680840324",
+          "bookOwnerId": "49ad7a9c-34e8-46af-936c-7349e7d5e93e",
+          "requestedBookId": "693527618",
+          "requestorId": "3b672444-8784-453c-b3f5-9ccc21dcc0a8",
+          "bookToSwapId": "378159048",
+          "requestor": "New User 1",
+          "bookToSwap": {
+            "bookId": "378159048",
+            "title": "1",
+            "author": "1",
+            "genre": "1",
+            "condition": "1",
+            "inTransaction": true
+          },
+          "requestedBook": {
+            "owner": "1",
+            "bookId": "693527618",
+            "title": "aaa",
+            "author": "aaa",
+            "genre": "aaa",
+            "condition": "aaa",
+            "inTransaction": true
+          },
+          "status": "reviewByOwner"
+        },
+        {
+          "requestId": "374319215",
+          "bookOwnerId": "49ad7a9c-34e8-46af-936c-7349e7d5e93e",
+          "requestedBookId": "701241658",
+          "requestorId": "3b672444-8784-453c-b3f5-9ccc21dcc0a8",
+          "bookToSwapId": "378159048",
+          "requestor": "New User 1",
+          "bookToSwap": {
+            "bookId": "378159048",
+            "title": "1",
+            "author": "1",
+            "genre": "1",
+            "condition": "1",
+            "inTransaction": true
+          },
+          "requestedBook": {
+            "owner": "1",
+            "bookId": "701241658",
+            "title": "bbb",
+            "author": "bbb",
+            "genre": "bbb",
+            "condition": "bbb",
             "inTransaction": true
           },
           "status": "reviewByOwner"

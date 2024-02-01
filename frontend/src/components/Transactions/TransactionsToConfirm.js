@@ -1,6 +1,9 @@
 import { Link } from 'react-router-dom';
 
-export default function TransactionsToConfirm({ transactionsToConfirm }) {
+export default function TransactionsToConfirm({
+  transactionsToConfirm,
+  userId,
+}) {
   return (
     <div>
       <h1>Transactions to Confirm</h1>
@@ -12,13 +15,15 @@ export default function TransactionsToConfirm({ transactionsToConfirm }) {
             requestedBook,
             bookToSwap,
             requestor,
-            requestorId,
             bookOwnerId,
             requestorConfirmed,
             ownerConfirmed,
           } = transaction;
+
+          const userType = userId === bookOwnerId ? 'Book Owner' : 'Requestor';
           return (
             <div key={index} className="bg-blue-100 mb-5 p-2">
+              <p>You are the {userType}</p>
               <div className="flex">
                 <div className="w-1/2">
                   <p>Request Id: {requestId}</p>
@@ -30,9 +35,9 @@ export default function TransactionsToConfirm({ transactionsToConfirm }) {
                 </div>
               </div>
               <div className="flex justify-center">
-                <Link onClick={() => {}} className="text-green-800 mr-5" to="#">
+                <button onClick={() => {}} className="text-green-800 mr-5">
                   Confirm
-                </Link>
+                </button>
               </div>
             </div>
           );

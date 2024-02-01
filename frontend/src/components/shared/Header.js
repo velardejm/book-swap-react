@@ -32,15 +32,23 @@ export default function Header() {
     <div>
       {isLoggedIn ? (
         <div>
-          <Button
+          {/* <Button
             label={'Log out'}
             className={'btn bg-orange-400 mx-2'}
             onClick={handleLogOut}
-          />
+          /> */}
+
+          <a
+            href="/"
+            className="btn bg-red-400 mx-2 py-3"
+            onClick={() => localStorage.removeItem('token')}
+          >
+            Log Out
+          </a>
 
           <Button
             label={'To Dashboard'}
-            className={'btn bg-orange-400 mx-2'}
+            className={'btn bg-blue-400 mx-2'}
             onClick={() => navigate('/users/dashboard')}
           />
         </div>
