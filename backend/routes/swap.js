@@ -80,46 +80,110 @@ swapRouter.post("/:user/:bookId/:owner", authenticateToken, (req, res) => {
   }
 });
 
+// swapRouter.post("/respond/:transactionId", authenticateToken, (req, res) => {
+//   // steps
+//   // 1. Find index
+//   // 2. If accepted, swap books
+//   // 3. If rejected, move transaction to closed.
+
+//   const transactionData = usersTransactionData.find(
+//     (data) => data.userId === req.user.userId
+//   );
+//   const { incomingRequests, transactionsToConfirm } = transactionData;
+//   const requestIndex = incomingRequests.findIndex(
+//     (request) => request.requestId === req.body.requestId
+//   );
+//   const respondedRequest = incomingRequests.splice(requestIndex, 1);
+//   const { requestorId, bookToSwapId, bookOwnerId, requestedBookId } =
+//     respondedRequest[0];
+
+//   // SWAP BOOK
+//   const { booksAvailable } = usersData.find(
+//     (user) => user.userId === requestorId
+//   );
+//   const bookToSwapIndex = booksAvailable.findIndex(
+//     (book) => book.bookId === bookToSwapId
+//   );
+//   const bookToSwap = booksAvailable.splice(bookToSwapIndex, 1);
+
+//   const { booksAvailable: ownerBooksAvailable } = usersData.find(
+//     (user) => user.userId === bookOwnerId
+//   );
+//   const requestedBookBookIndex = ownerBooksAvailable.findIndex(
+//     (book) => book.bookId === requestedBookId
+//   );
+//   const requestedBook = ownerBooksAvailable.splice(requestedBookBookIndex, 1);
+
+//   booksAvailable.push(requestedBook[0]);
+//   ownerBooksAvailable.push(bookToSwap[0]);
+
+//   //MOVE BOOKS TO TRANSACTIONS TO BE CONFIRMED
+
+//   // MOVE TRANSACTION TO TRANSACTIONS TO CONFIRM
+
+//   transactionsToConfirm.push(respondedRequest[0]);
+//   const {
+//     sentRequests,
+//     transactionsToConfirm: requestorTransactionsToConfirm,
+//   } = usersTransactionData.find((user) => user.userId === requestorId);
+//   const sentRequestIndex = sentRequests.findIndex(
+//     (request) => request.requestId === req.body.requestId
+//   );
+//   const sentRequest = sentRequests.splice(sentRequestIndex, 1);
+//   requestorTransactionsToConfirm.push(sentRequest);
+
+//   saveData(data);
+//   res.status(200).json({ data: incomingRequests });
+// });
+
 swapRouter.post("/respond/:transactionId", authenticateToken, (req, res) => {
   // steps
   // 1. Find index
   // 2. If accepted, swap books
   // 3. If rejected, move transaction to closed.
 
-  const transactionData = usersTransactionData.find(
+  const userTransactionData = usersTransactionData.find(
     (data) => data.userId === req.user.userId
   );
-  const { incomingRequests, transactionsToConfirm } = transactionData;
+  const { incomingRequests, transactionsToConfirm } = userTransactionData;
   const requestIndex = incomingRequests.findIndex(
     (request) => request.requestId === req.body.requestId
   );
-  const respondedRequest = incomingRequests.splice(requestIndex, 1);
+  const receivedSwapRequest = incomingRequests.splice(requestIndex, 1);
   const { requestorId, bookToSwapId, bookOwnerId, requestedBookId } =
-    respondedRequest[0];
+    receivedSwapRequest[0];
 
   // SWAP BOOK
-  const { booksAvailable } = usersData.find(
-    (user) => user.userId === requestorId
-  );
-  const bookToSwapIndex = booksAvailable.findIndex(
-    (book) => book.bookId === bookToSwapId
-  );
-  const bookToSwap = booksAvailable.splice(bookToSwapIndex, 1);
+  // const { booksAvailable } = usersData.find(
+  //   (user) => user.userId === requestorId
+  // );
+  // const bookToSwapIndex = booksAvailable.findIndex(
+  //   (book) => book.bookId === bookToSwapId
+  // );
+  // const bookToSwap = booksAvailable.splice(bookToSwapIndex, 1);
 
-  const { booksAvailable: ownerBooksAvailable } = usersData.find(
-    (user) => user.userId === bookOwnerId
-  );
-  const requestedBookBookIndex = ownerBooksAvailable.findIndex(
-    (book) => book.bookId === requestedBookId
-  );
-  const requestedBook = ownerBooksAvailable.splice(requestedBookBookIndex, 1);
+  // const { booksAvailable: ownerBooksAvailable } = usersData.find(
+  //   (user) => user.userId === bookOwnerId
+  // );
+  // const requestedBookBookIndex = ownerBooksAvailable.findIndex(
+  //   (book) => book.bookId === requestedBookId
+  // );
+  // const requestedBook = ownerBooksAvailable.splice(requestedBookBookIndex, 1);
 
-  booksAvailable.push(requestedBook[0]);
-  ownerBooksAvailable.push(bookToSwap[0]);
+  // booksAvailable.push(requestedBook[0]);
+  // ownerBooksAvailable.push(bookToSwap[0]);
+
+  //MOVE BOOKS TO TRANSACTIONS TO BE CONFIRMED
 
   // MOVE TRANSACTION TO TRANSACTIONS TO CONFIRM
 
-  transactionsToConfirm.push(respondedRequest[0]);
+  const transactionToConfirm = {
+    ...receivedSwapRequest[0],
+    requestorConfirmed: false,
+    ownerConfirmed: false,
+  };
+
+  transactionsToConfirm.push(transactionToConfirm);
   const {
     sentRequests,
     transactionsToConfirm: requestorTransactionsToConfirm,
@@ -127,11 +191,11 @@ swapRouter.post("/respond/:transactionId", authenticateToken, (req, res) => {
   const sentRequestIndex = sentRequests.findIndex(
     (request) => request.requestId === req.body.requestId
   );
-  const sentRequest = sentRequests.splice(sentRequestIndex, 1);
-  requestorTransactionsToConfirm.push(sentRequest);
+  const sentSwapRequest = sentRequests.splice(sentRequestIndex, 1);
+  requestorTransactionsToConfirm.push(transactionToConfirm);
 
   saveData(data);
-  res.status(200).json({ data: incomingRequests });
+  res.status(200).json({ data: userTransactionData });
 });
 
 module.exports = swapRouter;

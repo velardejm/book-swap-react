@@ -1,10 +1,14 @@
+import { useEffect } from 'react';
 import useFetchData from '../../hooks/useFetchData';
 import { Link } from 'react-router-dom';
 
-export default function IncomingRequests() {
-  const [incomingRequests, setIncomingRequests] = useFetchData(
-    'http://localhost:3001/users/transactions'
-  );
+export default function IncomingRequests({
+  incomingRequests,
+  setUserTransactions,
+}) {
+  // const [incomingRequests, setIncomingRequests] = useFetchData(
+  //   'http://localhost:3001/users/transactions'
+  // );
 
   const respondToRequest = async (response, requestId) => {
     const res = await fetch(`http://localhost:3001/swap/respond/${requestId}`, {
@@ -21,7 +25,7 @@ export default function IncomingRequests() {
 
     if (res.status === 200) {
       const { data } = await res.json();
-      setIncomingRequests(data);
+      setUserTransactions(data);
     }
   };
 

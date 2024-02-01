@@ -9,7 +9,7 @@ export default function Header() {
   const [isLoginModalOpen, setIsLoginModalOpen] = useState(false);
   const [isButtonsLoaded, setIsButtonsLoaded] = useState(false);
   const navigate = useNavigate();
-  const {isLoggedIn, logOut} = useContext(AuthContext);
+  const { isLoggedIn, logOut } = useContext(AuthContext);
 
   useEffect(() => {
     setIsButtonsLoaded(true);
@@ -31,11 +31,19 @@ export default function Header() {
   const buttonComponents = (
     <div>
       {isLoggedIn ? (
-        <Button
-          label={'Log out'}
-          className={'btn bg-orange-400 mx-2'}
-          onClick={handleLogOut}
-        />
+        <div>
+          <Button
+            label={'Log out'}
+            className={'btn bg-orange-400 mx-2'}
+            onClick={handleLogOut}
+          />
+
+          <Button
+            label={'To Dashboard'}
+            className={'btn bg-orange-400 mx-2'}
+            onClick={() => navigate('/users/dashboard')}
+          />
+        </div>
       ) : (
         <>
           {/* <Link to="/login"> */}

@@ -29,7 +29,7 @@ usersRouter.get("/transactions", authenticateToken, (req, res) => {
     (user) => user.userId === req.user.userId
   );
   if (userTransactionData) {
-    res.status(200).json({ data: userTransactionData.incomingRequests });
+    res.status(200).json({ data: userTransactionData });
   } else {
     res.status(401).json({ error: "Transaction data not found." });
   }
