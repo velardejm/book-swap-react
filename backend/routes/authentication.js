@@ -33,6 +33,7 @@ authenticationRouter.post("/signup", async (req, res) => {
     sentRequests: [],
     transactionsToConfirm: [],
     closedTransactions: [],
+    cancelledTransactions: [],
   };
 
   const foundExistingUser = !!data.users.find(

@@ -2,6 +2,7 @@ import IncomingRequests from './IncomingRequests';
 import TransactionsToConfirm from './TransactionsToConfirm';
 import useFetchData from '../../hooks/useFetchData';
 import SentRequests from './SentRequests';
+import CancelledTransactions from './CancelledTransactions';
 
 export default function Transactions() {
   const [userTransactions, setUserTransactions, context] = useFetchData(
@@ -9,8 +10,13 @@ export default function Transactions() {
   );
 
   if (!userTransactions) return null;
-  const { incomingRequests, transactionsToConfirm, sentRequests, userId } =
-    userTransactions;
+  const {
+    incomingRequests,
+    transactionsToConfirm,
+    sentRequests,
+    cancelledTransactions,
+    userId,
+  } = userTransactions;
 
   return (
     <div>
@@ -27,6 +33,8 @@ export default function Transactions() {
         transactionsToConfirm={transactionsToConfirm}
         userId={userId}
       />
+      <hr></hr>
+      <CancelledTransactions cancelledTransactions={cancelledTransactions} />
     </div>
   );
 }

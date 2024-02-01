@@ -145,7 +145,8 @@ swapRouter.post("/respond/:transactionId", authenticateToken, (req, res) => {
   const userTransactionData = usersTransactionData.find(
     (data) => data.userId === req.user.userId
   );
-  const { incomingRequests, transactionsToConfirm } = userTransactionData;
+  const { incomingRequests, transactionsToConfirm, cancelledTransactions } =
+    userTransactionData;
   const requestIndex = incomingRequests.findIndex(
     (request) => request.requestId === req.body.requestId
   );
@@ -183,16 +184,24 @@ swapRouter.post("/respond/:transactionId", authenticateToken, (req, res) => {
     ownerConfirmed: false,
   };
 
-  transactionsToConfirm.push(transactionToConfirm);
   const {
     sentRequests,
     transactionsToConfirm: requestorTransactionsToConfirm,
+    cancelledTransactions: requestorCancelledTransactions,
   } = usersTransactionData.find((user) => user.userId === requestorId);
+
   const sentRequestIndex = sentRequests.findIndex(
     (request) => request.requestId === req.body.requestId
   );
   const sentSwapRequest = sentRequests.splice(sentRequestIndex, 1);
-  requestorTransactionsToConfirm.push(transactionToConfirm);
+
+  if (req.body.response === "accept") {
+    transactionsToConfirm.push(transactionToConfirm);
+    requestorTransactionsToConfirm.push(transactionToConfirm);
+  } else {
+    cancelledTransactions.push(receivedSwapRequest[0]);
+    requestorCancelledTransactions.push(sentSwapRequest[0]);
+  }
 
   saveData(data);
   res.status(200).json({ data: userTransactionData });

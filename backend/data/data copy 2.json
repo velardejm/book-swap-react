@@ -211,7 +211,8 @@
         }
       ],
       "transactionsToConfirm": [],
-      "closedTransactions": []
+      "closedTransactions": [],
+      "cancelledTransactions": []
     },
     {
       "username": "1",
@@ -324,7 +325,8 @@
       ],
       "sentRequests": [],
       "transactionsToConfirm": [],
-      "closedTransactions": []
+      "closedTransactions": [],
+      "cancelledTransactions": []
     }
   ]
 }
