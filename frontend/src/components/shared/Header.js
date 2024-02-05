@@ -62,7 +62,7 @@ export default function Header() {
           />
           {/* </Link> */}
 
-          <Link to="/signup">
+          <Link to="/account/signup">
             <Button label={'Sign up'} className={'btn bg-blue-500'} />
           </Link>
         </>

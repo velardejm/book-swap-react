@@ -5,7 +5,6 @@ import FormInput from '../shared/FormInput';
 import Logo from '../shared/Logo';
 import useSignUp from '../../hooks/useSignUp';
 
-
 export default function SignUp() {
   const [formData, setFormData] = useState({
     name: '',
@@ -15,7 +14,6 @@ export default function SignUp() {
     passwordConfirmation: '',
   });
   const [submitEnabled, setSubmitEnabled] = useState(false);
-
 
   const signUp = useSignUp();
   const navigate = useNavigate();
@@ -27,10 +25,10 @@ export default function SignUp() {
 
   const handleSubmit = async (e) => {
     e.preventDefault();
-    
+
     const successfulSignUp = await signUp(formData);
     if (successfulSignUp) {
-      navigate('/login');
+      navigate('/');
     }
   };
 

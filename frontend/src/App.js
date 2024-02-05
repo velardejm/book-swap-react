@@ -10,6 +10,7 @@ import SwapRequest from './components/pages/SwapRequest';
 import { AuthContextProvider } from './contexts/AuthContext';
 import Dashboard from './components/Dashboard/Dashboard';
 import Transactions from './components/Transactions/Transactions';
+import CreateDb from './components/CreateDb';
 
 function App() {
   return (
@@ -18,7 +19,7 @@ function App() {
         <Routes>
           <Route path="/" element={<Home />} />
           <Route path="/login" element={<LogIn />} />
-          <Route path="/signup" element={<SignUp />} />
+          <Route path="/account/signup" element={<SignUp />} />
           <Route path="/books/listings" element={<BookListings />} />
           <Route
             path="/swap/:userId/:bookId"
@@ -31,6 +32,7 @@ function App() {
           <Route path="/users/dashboard" element={<Dashboard />} />
           <Route path="/users/transactions" element={<Transactions />} />
           <Route path="*" element={<NotFound />} />
+          <Route path="/pg-create" element={<CreateDb />} />
         </Routes>
       </AuthContextProvider>
     </Router>
