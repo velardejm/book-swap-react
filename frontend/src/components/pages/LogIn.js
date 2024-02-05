@@ -25,7 +25,8 @@ export default function LogIn() {
     const userData = await logIn();
     if (userData) {
       setIsLoggedIn(true);
-      navigate(from);
+      // navigate(from);
+      navigate('/');
     }
   };
 

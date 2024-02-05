@@ -1,6 +1,7 @@
 const express = require("express");
 const accountRouter = express.Router();
 const bcrypt = require("bcrypt");
+const jwt = require("jsonwebtoken");
 
 const { pool } = require("../db");
 
@@ -9,44 +10,51 @@ accountRouter.post("/signup", async (req, res) => {
   const hashedPassword = await bcrypt.hash(password, 10);
 
   try {
-    // Define the SQL query with placeholders
+    await pool.query("BEGIN");
+
     const sqlInsertUser =
-      "INSERT INTO Users (username, password) VALUES ($1, $2) RETURNING user_id";
+      "INSERT INTO Users (username, password) VALUES ($1, $2) RETURNING id";
     const sqlInsertUserInfo =
-      "INSERT INTO UserInfo (user_id, name, email) VALUES ($1, $2, $3)";
+      "INSERT INTO UsersInfo (id, name, email, user_id) VALUES ($1, $2, $3, $4)";
 
-    // Define the values to be inserted
+    const result = await pool.query(sqlInsertUser, [username, hashedPassword]);
 
-    // Execute the prepared statements with parameters
-    pool.query(sqlInsertUser, [username, password], (err, result) => {
-      if (err) {
-        console.error("Error inserting user:", err.stack);
-        return;
-      }
+    await pool.query(sqlInsertUserInfo, [
+      result.rows[0].id,
+      name,
+      email,
+      result.rows[0].id,
+    ]);
 
-      const userId = result.rows[0].user_id;
-
-      // Insert user information into UserInfo table
-      pool.query(sqlInsertUserInfo, [userId, name, email], (err, result) => {
-        if (err) {
-          console.error("Error inserting user info:", err.stack);
-          return;
-        }
-
-        console.log("User and user info inserted successfully");
-        // Close the pool when done
-        // pool.end();
-      });
-    });
-
-    res
-      .status(200)
-      .json({ message: "New User Account was created successfully." });
+    pool.query("COMMIT");
+    res.status(200).json({ message: "Account created successfully." });
   } catch (err) {
-    console.log(err);
-    res
-      .status(400)
-      .json({ message: "Registration failed, please try again later." });
+    pool.query("ROLLBACK");
+    res.status(400).json({ message: "Account creation failed." });
+  }
+});
+
+accountRouter.post("/login", async (req, res) => {
+  const { username, password } = req.body;
+
+  const sqlGetPassword = "SELECT id, password FROM users WHERE username = $1";
+
+  const pass = await pool.query(sqlGetPassword, [username]);
+
+  if (pass.rows.length > 0) {
+    const { id, password: savedPassword } = pass.rows[0];
+
+    if (await bcrypt.compare(password, savedPassword)) {
+      const token = jwt.sign({ userId: id, username: username }, "SECRET", {
+        expiresIn: 3600,
+      });
+
+      res.status(200).json({ token: token });
+    } else {
+      res.status(401).json({ message: "Incorrect password." });
+    }
+  } else {
+    res.status(401).json({ message: "User not found." });
   }
 });
 

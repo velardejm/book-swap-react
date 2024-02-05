@@ -5,7 +5,7 @@ const useLogin = (formData) => {
   // const { setIsLoggedIn } = useContext(AuthContext);
 
   const logIn = async () => {
-    const res = await fetch('http://localhost:3001/account/login', {
+    const res = await fetch('http://localhost:3001/login', {
       method: 'POST',
       headers: {
         'Content-type': 'application/json',
