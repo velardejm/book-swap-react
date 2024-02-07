@@ -1,7 +1,14 @@
 const express = require("express");
 const { loadData, saveData } = require("../utils/helpers");
 const authenticateToken = require("../middleware/authenticateToken");
+const checkToken = require("../middleware/checkToken");
 const { pool } = require("../db");
+
+const {
+  queryGetBooks,
+  queryGetAllBooks,
+  queryGetListing,
+} = require("../utils/helper-queries");
 
 const booksRouter = express.Router();
 
@@ -9,24 +16,11 @@ const data = loadData();
 const { usersData, usersTransactionData } = data;
 
 booksRouter.get("/", authenticateToken, async (req, res) => {
-  const sqlGetBookIds = "SELECT (book_id) FROM ownedbooks WHERE user_id=$1";
-  const sqlGetBooks = "SELECT * FROM books WHERE id = ANY($1)";
-
-  const bookIds = await pool.query(sqlGetBookIds, [req.user.userId]);
-
-  const bookIdsArray = bookIds.rows.map((bookId) => bookId.book_id);
-
-  console.log(bookIdsArray);
-
-  const books = await pool.query(sqlGetBooks, [bookIdsArray]);
-  console.log(books.rows);
-
-  // const userData = usersData.find((user) => user.userId === req.user.userId);
-  // const { booksAvailable } = userData;
-  res.status(200).json({ data: books.rows });
+  const books = await queryGetBooks(req.user.userId);
+  res.status(200).json({ data: books });
 });
 
-booksRouter.get("/listings", (req, res) => {
+booksRouter.get("/listings", checkToken, async (req, res) => {
   // const bookListings = usersData.map((user) => {
   //   return {
   //     owner: user.username,
@@ -34,8 +28,18 @@ booksRouter.get("/listings", (req, res) => {
   //   };
   // });
 
+  let bookListing = [];
+
+  if (req.user) {
+    const books = await queryGetListing(req.user.userId);
+    bookListing = books;
+  } else {
+    const result = await queryGetAllBooks();
+    bookListing = result.rows;
+  }
+
   res.status(200).json({
-    data: usersData,
+    data: bookListing,
   });
 });
 
@@ -59,10 +63,13 @@ booksRouter.post("/", authenticateToken, async (req, res) => {
       condition,
     ]);
 
-    pool.query(sqlAssignBook, [req.user.userId, result.rows[0].id]);
+    await pool.query(sqlAssignBook, [req.user.userId, result.rows[0].id]);
+
+    const books = await queryGetBooks(req.user.userId);
 
     pool.query("COMMIT");
-    res.status(200).json({ message: "Book added successfully." });
+    console.log(books);
+    res.status(200).json({ data: books });
   } catch (err) {
     console.log(err);
 

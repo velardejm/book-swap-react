@@ -31,9 +31,8 @@ export default function AddBook({ closeModal, data, setData }) {
     });
 
     if (res.status === 200) {
-      // const { updatedBookList } = await res.json();
-      // console.log(updatedBookList);
-      // setData(updatedBookList);
+      const { data } = await res.json();
+      setData(data);
       closeModal();
     }
   };

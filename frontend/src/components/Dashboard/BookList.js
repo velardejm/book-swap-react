@@ -10,21 +10,14 @@ export default function BookList() {
   const [books, setBooks] = useFetchData('http://localhost:3001/books');
   const [isModalOpen, setIsModalOpen] = useState(false);
 
-  console.log(books);
-
   return (
-    // <div>
-    //   <h1>Book List</h1>
-    // </div>
     <div className="flex flex-col items-center mb-5 pb-5">
       <h1>Book Listing</h1>
       <div>
         {!books
           ? null
           : books.map((book, index) => {
-              // return <BookDetails book={book} key={index} />;
-              const { id, title, author, genre, condition } = book;
-              return <p key={index}>{author}</p>;
+              return <BookDetails book={book} key={book.id} />;
             })}
       </div>
       <button
@@ -39,7 +32,7 @@ export default function BookList() {
         isModalOpen={isModalOpen}
         closeModal={() => setIsModalOpen(false)}
         data={books}
-        setData={setBooks}
+        setData={(data) => setBooks(data)}
       ></Modal>
     </div>
   );
