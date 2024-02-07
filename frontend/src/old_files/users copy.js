@@ -6,10 +6,6 @@ const usersRouter = express.Router();
 
 const { usersData, usersTransactionData } = loadData();
 
-usersRouter.get("/authenticate", authenticateToken, (req, res) => {
-  res.status(200).json({ data: "hi" });
-});
-
 usersRouter.get("/dashboard", authenticateToken, (req, res) => {
   const userData = usersData.find((data) => data.userId === req.user.userId);
   const { username, userId, ...transactions } = usersTransactionData.find(
@@ -18,6 +14,14 @@ usersRouter.get("/dashboard", authenticateToken, (req, res) => {
 
   const data = { ...userData, ...transactions };
   res.status(200).json({ data: data });
+});
+
+usersRouter.get("/authenticate", authenticateToken, (req, res) => {
+  // const { usersData } = loadData();
+  const user = usersData.find((user) => user.userId === req.user.userId);
+  if (user) {
+    res.status(200).json({ data: user });
+  }
 });
 
 usersRouter.get("/transactions", authenticateToken, (req, res) => {

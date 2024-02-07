@@ -27,17 +27,13 @@ export default function AddBook({ closeModal, data, setData }) {
         Authorization: `Bearer ${localStorage.getItem('token')}`,
         'Content-Type': 'application/json',
       },
-      body: JSON.stringify({
-        bookId: Math.floor(Math.random() * 1000000000).toString(),
-        ...formData,
-        inTransaction: false,
-      }),
+      body: JSON.stringify(formData),
     });
 
     if (res.status === 200) {
-      const { updatedBookList } = await res.json();
-      console.log(updatedBookList);
-      setData(updatedBookList);
+      // const { updatedBookList } = await res.json();
+      // console.log(updatedBookList);
+      // setData(updatedBookList);
       closeModal();
     }
   };

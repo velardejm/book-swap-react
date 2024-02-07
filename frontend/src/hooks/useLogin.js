@@ -1,9 +1,4 @@
-// import { useContext } from 'react';
-// import { AuthContext } from '../contexts/AuthContext';
-
 const useLogin = (formData) => {
-  // const { setIsLoggedIn } = useContext(AuthContext);
-
   const logIn = async () => {
     const res = await fetch('http://localhost:3001/account/login', {
       method: 'POST',
@@ -16,7 +11,6 @@ const useLogin = (formData) => {
     const data = await res.json();
 
     if (data.token) {
-      // setIsLoggedIn(true);
       localStorage.setItem('token', data.token);
       return true;
     } else {

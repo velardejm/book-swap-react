@@ -18,7 +18,7 @@ export default function useAuthenticate() {
 
         if (responseObject) {
           setIsLoggedIn(true);
-          setUser(responseObject.data);
+          // setUser(responseObject.data);
         } else {
           setIsLoggedIn(false);
           localStorage.removeItem('token');

@@ -29,6 +29,7 @@ function App() {
               </PrivateRoute>
             }
           />
+
           <Route path="/users/dashboard" element={<Dashboard />} />
           <Route path="/users/transactions" element={<Transactions />} />
           <Route path="*" element={<NotFound />} />

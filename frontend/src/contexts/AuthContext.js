@@ -7,8 +7,7 @@ export const AuthContextProvider = ({ children }) => {
   const [user, setUser] = useState(null);
 
   useEffect(() => {
-    // console.log('from context');
-    if (localStorage.getItem('token')) {
+    if (localStorage.getItem('token') !== null) {
       const authenticate = async () => {
         const res = await fetch('http://localhost:3001/users/authenticate', {
           method: 'GET',
@@ -18,9 +17,8 @@ export const AuthContextProvider = ({ children }) => {
           },
         });
 
-        const responseObject = await res.json();
-
-        if (responseObject) {
+        if (res.status === 200) {
+          const responseObject = await res.json();
           setIsLoggedIn(true);
           setUser(responseObject.data);
         } else {
@@ -41,9 +39,7 @@ export const AuthContextProvider = ({ children }) => {
   };
 
   return (
-    <AuthContext.Provider
-      value={{ isLoggedIn, setIsLoggedIn, logOut, user, setUser }}
-    >
+    <AuthContext.Provider value={{ isLoggedIn, setIsLoggedIn, logOut, user }}>
       {children}
     </AuthContext.Provider>
   );

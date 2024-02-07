@@ -25,8 +25,8 @@ export default function LoginModal({ isLoginModalOpen, closeLoginModal }) {
 
     const isLoginSuccessful = await logIn();
     if (isLoginSuccessful) {
-      // navigate(from);
-      navigate('/');
+      navigate(from);
+      // navigate('/');
     }
   };
 
