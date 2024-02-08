@@ -46,7 +46,7 @@ booksRouter.get("/listings", checkToken, async (req, res) => {
 // ADD NEW BOOK
 booksRouter.post("/", authenticateToken, async (req, res) => {
   try {
-    pool.query("BEGIN");
+    await pool.query("BEGIN");
 
     const { title, author, genre, condition } = req.body;
 

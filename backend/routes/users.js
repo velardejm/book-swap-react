@@ -7,7 +7,7 @@ const usersRouter = express.Router();
 const { usersData, usersTransactionData } = loadData();
 
 usersRouter.get("/authenticate", authenticateToken, (req, res) => {
-  res.status(200).json({ data: "hi" });
+  res.status(200).json({ data: req.user });
 });
 
 usersRouter.get("/dashboard", authenticateToken, (req, res) => {

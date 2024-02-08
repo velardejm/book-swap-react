@@ -9,8 +9,6 @@ export default function BookListings() {
     'http://localhost:3001/books/listings'
   );
 
-  console.log(bookListing);
-
   const navigate = useNavigate();
   const { user, isLoggedIn } = useContext(AuthContext);
 
@@ -30,7 +28,19 @@ export default function BookListings() {
       <h1>Listings</h1>
       <ul>
         {bookListing.map((book) => {
-          return <li key={book.id}>{book.title}</li>;
+          return (
+            <li key={book.id}>
+              <p>{book.title}</p>
+              <button
+                className="text-blue-500"
+                onClick={() => {
+                  handleClick(`/swap/${user.userId}/${book.id}`);
+                }}
+              >
+                Swap
+              </button>
+            </li>
+          );
         })}
       </ul>
     </div>
@@ -56,14 +66,14 @@ export default function BookListings() {
 //               <li key={index}>
 //                 <p>
 //                   {book.title}
-//                   <button
-//                     className="text-blue-500"
-//                     onClick={() => {
-//                       handleClick(`/swap/${userId}/${book.bookId}`);
-//                     }}
-//                   >
-//                     Swap
-//                   </button>
+// <button
+//   className="text-blue-500"
+//   onClick={() => {
+//     handleClick(`/swap/${userId}/${book.bookId}`);
+//   }}
+// >
+//   Swap
+// </button>
 //                 </p>
 //               </li>
 //             );

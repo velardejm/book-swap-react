@@ -15,6 +15,11 @@ export default function SwapRequest() {
 
   const navigate = useNavigate();
 
+  if (!data) return null;
+  const { requestedBook, bookOwner, userBooks } = data;
+
+  console.log(data);
+
   const selectBookToSwap = (book) => {
     setBookToSwap(book);
   };
@@ -28,13 +33,15 @@ export default function SwapRequest() {
     }
 
     const request = {
-      requestedBookId: data.requestedBookDetails.bookId,
-      bookOwnerId: userId,
-      bookToSwapId: bookToSwap.bookId,
-      requestorId: user.userId,
-      requestor: user.name,
-      bookToSwap: bookToSwap,
-      requestedBook: data.requestedBookDetails,
+      requestedBookId: requestedBook.id,
+      offerredBookId: bookToSwap.id,
+      // requestedBookId: data.requestedBookDetails.bookId,
+      // bookOwnerId: userId,
+      // bookToSwapId: bookToSwap.bookId,
+      // requestorId: user.userId,
+      // requestor: user.name,
+      // bookToSwap: bookToSwap,
+      // requestedBook: data.requestedBookDetails,
     };
 
     const res = await fetch(
@@ -53,48 +60,21 @@ export default function SwapRequest() {
     alert(message);
   };
 
-  // useEffect(() => {
-  //   if (user) {
-  //     if (user.username !== owner) {
-  //       setMyBooks(user.booksAvailable);
-  //     } else {
-  //       alert('Please select other users');
-  //       navigate('/books/listings');
-  //     }
-  //   }
-  // }, [user]);
-
-  if (!data) return null;
   return (
     <div>
       <h1>Swap Request Pages</h1>
       <h2>Requested Book</h2>
       <ul>
-        <li>Owner: {data.requestedBookDetails.owner}</li>
-        {data ? <li>Book Title: {data.requestedBookDetails.title}</li> : null}
+        <li>Owner: {bookOwner}</li>
+        <li>Book Title: {requestedBook.title}</li>
       </ul>
 
       <form method="POST">
         {user ? (
           <div>
-            <Dropdown
-              options={data.userBooks}
-              setterFunction={selectBookToSwap}
-            />
+            <Dropdown options={userBooks} setterFunction={selectBookToSwap} />
           </div>
         ) : null}
-
-        {/* Field to enter any cash amount that could be offerred in addition the the above. */}
-        {/* Allow radio for buy only option */}
-        {/* TODO
-            1. Fetch login user data
-            2. Show user's  list of books in a dropdown list
-            3. Send a post request to send the request to the owner of the book. 
-            Authentication is required to allow adding the swap request to the book owner's data.
-            Only up to three requests can be made by one user to another user at a time.
-            Previous requests must be resolved before further requests could be made.
-            4. Update dashboard to show a section of requests made.
-            This is to be expanded further to show new, pending, rejected, and completed requests  */}
         <button type="submit" onClick={handleSubmit}>
           Send Request
         </button>
