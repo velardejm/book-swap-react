@@ -42,6 +42,24 @@ CREATE TABLE SwapRequests (
 );
 
 
+
+CREATE TABLE SwapRequests (
+    id SERIAL PRIMARY KEY,
+    requester_id INT,
+    requestee_id INT,
+    requested_book_id INT,
+    offerred_book_id INT,
+    status VARCHAR(20) DEFAULT 'pending' CHECK (status IN ('pending', 'accepted', 'rejected', 'completed')),
+    FOREIGN KEY (requester_id) REFERENCES Users(id),
+    FOREIGN KEY (requestee_id) REFERENCES Users(id),
+    FOREIGN KEY (requested_book_id) REFERENCES Books(id),
+    FOREIGN KEY (offerred_book_id) REFERENCES Books(id),
+    CONSTRAINT unique_combination UNIQUE(requester_id, requested_book_id)
+);
+
+
+
+
 CREATE TABLE AcceptedSwaps (
     id SERIAL PRIMARY KEY,
     request_id INT,

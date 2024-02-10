@@ -71,7 +71,7 @@ swapRouter.post(
       const sqlGetBookOwnerId =
         "SELECT user_id FROM ownedbooks WHERE book_id=$1";
       const sqlSaveSwapRequest =
-        "INSERT INTO swaprequests (requester_id, requestee_id, requested_book_id, offerred_book_id) VALUES ($1, $2, $3, $4) ";
+        "INSERT INTO swaprequests (requester_id, requestee_id, requested_book_id, offerred_book_id) VALUES ($1, $2, $3, $4) ON CONFLICT (requester_id, requested_book_id) DO NOTHING RETURNING *";
 
       await pool.query("BEGIN");
 
@@ -79,7 +79,7 @@ swapRouter.post(
         requestedBookId,
       ]);
 
-      await pool.query(sqlSaveSwapRequest, [
+      const result = await pool.query(sqlSaveSwapRequest, [
         req.user.userId,
         bookOwnerIdResult.rows[0].user_id,
         requestedBookId,
@@ -87,7 +87,12 @@ swapRouter.post(
       ]);
 
       await pool.query("COMMIT");
-      res.status(200).json({ message: "Swap request sent successfully." });
+
+      if (result.rows.length > 0) {
+        res.status(200).json({ message: "Swap request sent successfully." });
+      } else {
+        res.status(409).json({ message: "Request already exist" });
+      }
     } catch {
       pool.query("ROLLBACK");
       res.status(400).json({ message: "Swap request failed." });
