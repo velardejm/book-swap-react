@@ -1,6 +1,9 @@
 const express = require("express");
 const { loadData } = require("../utils/helpers");
 const authenticateToken = require("../middleware/authenticateToken");
+const { pool } = require("../db");
+
+const { queryGetBook, queryGetUserName } = require("../utils/helper-queries");
 
 const usersRouter = express.Router();
 
@@ -20,17 +23,45 @@ usersRouter.get("/dashboard", authenticateToken, (req, res) => {
   res.status(200).json({ data: data });
 });
 
-usersRouter.get("/transactions", authenticateToken, (req, res) => {
-  const userTransactionData = usersTransactionData.find(
-    (user) => user.userId === req.user.userId
-  );
-  if (userTransactionData) {
-    res
-      .status(200)
-      .json({ data: { ...userTransactionData, userId: req.user.userId } });
-  } else {
-    res.status(401).json({ error: "Transaction data not found." });
+usersRouter.get("/transactions", authenticateToken, async (req, res) => {
+  sqlGetIncomingRequests = "SELECT * FROM swaprequests WHERE requestee_id = $1";
+
+  const incomingRequestResults = await pool.query(sqlGetIncomingRequests, [
+    req.user.userId,
+  ]);
+
+  if (incomingRequestResults.rowCount > 0) {
+    const swapRequests = [];
+
+    await Promise.all(
+      incomingRequestResults.rows.map(async (row) => {
+        const { requester_id, requested_book_id, offerred_book_id } = row;
+        const requestedBook = await queryGetBook(requested_book_id);
+        const offerredBook = await queryGetBook(offerred_book_id);
+        const requesterName = await queryGetUserName(requester_id);
+        const requestData = {
+          requestId: row.id,
+          requesterName: requesterName,
+          requestedBook,
+          offerredBook,
+        };
+        swapRequests.push(requestData);
+      })
+    );
+
+    res.status(200).json({ data: { swapRequests: swapRequests } });
   }
+
+  // const userTransactionData = usersTransactionData.find(
+  //   (user) => user.userId === req.user.userId
+  // );
+  // if (userTransactionData) {
+  //   res
+  //     .status(200)
+  //     .json({ data: { ...userTransactionData, userId: req.user.userId } });
+  // } else {
+  //   res.status(401).json({ error: "Transaction data not found." });
+  // }
 });
 
 module.exports = usersRouter;

@@ -1,4 +1,3 @@
-const { query } = require("express");
 const { pool } = require("../db");
 
 exports.queryGetAllBooks = async function () {
@@ -27,4 +26,16 @@ exports.queryGetListing = async function (id) {
   const books = await pool.query(sqlGetBooks, [bookIdsArray]);
 
   return books.rows;
+};
+
+exports.queryGetBook = async function (id) {
+  const sqlGetBook = "SELECT * FROM books WHERE id=$1";
+  const result = await pool.query(sqlGetBook, [id]);
+  return result.rows[0];
+};
+
+exports.queryGetUserName = async function (id) {
+  const sqlGetUserName = "SELECT name FROM usersinfo WHERE id=$1";
+  const result = await pool.query(sqlGetUserName, [id]);
+  return result.rows[0].name;
 };

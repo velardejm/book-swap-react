@@ -2,6 +2,7 @@ import { useEffect, useState } from 'react';
 import useFetchData from '../../hooks/useFetchData';
 import BookList from './BookList';
 import { Link } from 'react-router-dom';
+import Transactions from '../Transactions/Transactions';
 
 export default function Dashboard() {
   // const [data, setData] = useFetchData('http://localhost:3001/users/dashboard');
@@ -14,7 +15,8 @@ export default function Dashboard() {
   return (
     <div>
       <h1>Dashboard</h1>
-      <BookList />
+      {/* <BookList /> */}
+      <Transactions />
     </div>
   );
 }

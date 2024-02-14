@@ -2,10 +2,7 @@ import { useEffect } from 'react';
 import useFetchData from '../../hooks/useFetchData';
 import { Link } from 'react-router-dom';
 
-export default function IncomingRequests({
-  incomingRequests,
-  setUserTransactions,
-}) {
+export default function SwapRequests({ swapRequests, setUserTransactions }) {
   // const [incomingRequests, setIncomingRequests] = useFetchData(
   //   'http://localhost:3001/users/transactions'
   // );
@@ -29,16 +26,19 @@ export default function IncomingRequests({
     }
   };
 
-  if (!incomingRequests) return null;
+  if (!swapRequests) return null;
 
   return (
     <div>
       <h1>Received Requests</h1>
-      {incomingRequests.map((request, index) => {
-        const { requestId, requestedBook, bookToSwap, requestor } = request;
+      {swapRequests.map((request, index) => {
+        const { requestId, requesterName, requestedBook, offerredBook } =
+          request;
+
+        console.log(requestId);
         return (
           <div key={index} className="bg-blue-100 mb-5 p-2">
-            <div className="flex">
+            {/* <div className="flex">
               <div className="w-1/2">
                 <p>Request Id: {requestId}</p>
                 <p>Requested Book: {requestedBook.title}</p>
@@ -47,17 +47,20 @@ export default function IncomingRequests({
                 <p>Requestor: {requestor}</p>
                 <p>Offerred Book: {bookToSwap.title}</p>
               </div>
+            </div> */}
+            <div>
+              <p>{requesterName}</p>
             </div>
             <div className="flex justify-center">
               <button
-                onClick={() => respondToRequest('accept', requestId)}
+                onClick={() => respondToRequest('accept', 1)}
                 className="text-green-800 mr-5"
               >
                 Accept Offer
               </button>
 
               <button
-                onClick={() => respondToRequest('reject', requestId)}
+                onClick={() => respondToRequest('reject', 2)}
                 className="text-red-800 ml-5"
               >
                 Reject Offer

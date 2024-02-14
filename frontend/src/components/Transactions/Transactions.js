@@ -1,4 +1,4 @@
-import IncomingRequests from './IncomingRequests';
+import SwapRequests from './SwapRequests';
 import TransactionsToConfirm from './TransactionsToConfirm';
 import useFetchData from '../../hooks/useFetchData';
 import SentRequests from './SentRequests';
@@ -11,30 +11,30 @@ export default function Transactions() {
 
   if (!userTransactions) return null;
   const {
-    incomingRequests,
-    transactionsToConfirm,
-    sentRequests,
-    cancelledTransactions,
-    userId,
+    swapRequests,
+    // transactionsToConfirm,
+    // sentRequests,
+    // cancelledTransactions,
+    // userId,
   } = userTransactions;
 
   return (
     <div>
       <h1>Transactions Page</h1>
       <hr></hr>
-      <IncomingRequests
-        incomingRequests={incomingRequests}
+      <SwapRequests
+        swapRequests={swapRequests}
         setUserTransactions={setUserTransactions}
       />
       <hr></hr>
-      <SentRequests sentRequests={sentRequests} />
+      {/* <SentRequests sentRequests={sentRequests} />
       <hr></hr>
       <TransactionsToConfirm
         transactionsToConfirm={transactionsToConfirm}
         userId={userId}
       />
       <hr></hr>
-      <CancelledTransactions cancelledTransactions={cancelledTransactions} />
+      <CancelledTransactions cancelledTransactions={cancelledTransactions} /> */}
     </div>
   );
 }
