@@ -24,6 +24,7 @@ export default function Transactions() {
       <hr></hr>
       <SwapRequests
         swapRequests={swapRequests}
+        userTransactions={userTransactions}
         setUserTransactions={setUserTransactions}
       />
       <hr></hr>

@@ -57,6 +57,10 @@ CREATE TABLE SwapRequests (
     CONSTRAINT unique_combination UNIQUE(requester_id, requested_book_id)
 );
 
+CREATE UNIQUE INDEX unique_pending_combination 
+ON SwapRequests (requester_id, requested_book_id) 
+WHERE status = 'pending';
+
 
 
 

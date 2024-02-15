@@ -2,7 +2,11 @@ import { useEffect } from 'react';
 import useFetchData from '../../hooks/useFetchData';
 import { Link } from 'react-router-dom';
 
-export default function SwapRequests({ swapRequests, setUserTransactions }) {
+export default function SwapRequests({
+  swapRequests,
+  userTransactions,
+  setUserTransactions,
+}) {
   // const [incomingRequests, setIncomingRequests] = useFetchData(
   //   'http://localhost:3001/users/transactions'
   // );
@@ -21,8 +25,16 @@ export default function SwapRequests({ swapRequests, setUserTransactions }) {
     });
 
     if (res.status === 200) {
-      const { data } = await res.json();
-      setUserTransactions(data);
+      const responseObject = await res.json();
+      console.log(responseObject.message);
+      // if (response === 'reject') {
+      const respondedRequestId = swapRequests.findIndex(
+        (i) => i.requestId === requestId
+      );
+      swapRequests.splice(respondedRequestId, 1);
+      const { swapRequests: previousData, ...rest } = userTransactions;
+      setUserTransactions({ swapRequests, ...rest });
+      // }
     }
   };
 
@@ -49,18 +61,20 @@ export default function SwapRequests({ swapRequests, setUserTransactions }) {
               </div>
             </div> */}
             <div>
-              <p>{requesterName}</p>
+              <p>Requested book: {requestedBook.title}</p>
+              <p>Offerred book: {offerredBook.title}</p>
+              <p>Swap requested by: {requesterName}</p>
             </div>
             <div className="flex justify-center">
               <button
-                onClick={() => respondToRequest('accept', 1)}
+                onClick={() => respondToRequest('accept', requestId)}
                 className="text-green-800 mr-5"
               >
                 Accept Offer
               </button>
 
               <button
-                onClick={() => respondToRequest('reject', 2)}
+                onClick={() => respondToRequest('reject', requestId)}
                 className="text-red-800 ml-5"
               >
                 Reject Offer

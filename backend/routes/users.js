@@ -24,10 +24,12 @@ usersRouter.get("/dashboard", authenticateToken, (req, res) => {
 });
 
 usersRouter.get("/transactions", authenticateToken, async (req, res) => {
-  sqlGetIncomingRequests = "SELECT * FROM swaprequests WHERE requestee_id = $1";
+  sqlGetIncomingRequests =
+    "SELECT * FROM swaprequests WHERE requestee_id = $1 AND status = $2";
 
   const incomingRequestResults = await pool.query(sqlGetIncomingRequests, [
     req.user.userId,
+    "pending",
   ]);
 
   if (incomingRequestResults.rowCount > 0) {

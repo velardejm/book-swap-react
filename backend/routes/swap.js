@@ -2,7 +2,11 @@ const express = require("express");
 const { loadData, saveData } = require("../utils/helpers");
 const authenticateToken = require("../middleware/authenticateToken");
 const { pool } = require("../db");
-const { queryGetBooks } = require("../utils/helper-queries");
+const {
+  queryGetBooks,
+  queryGetSwapRequests,
+  querySwapBook,
+} = require("../utils/helper-queries");
 
 const swapRouter = express.Router();
 
@@ -200,6 +204,32 @@ swapRouter.post(
 //   res.status(200).json({ data: incomingRequests });
 // });
 
-swapRouter.post("/respond/:transactionId", authenticateToken, (req, res) => {});
+swapRouter.post(
+  "/respond/:transactionId",
+  authenticateToken,
+  async (req, res) => {
+    try {
+      const { response, requestId } = req.body;
+      pool.query("BEGIN");
+
+      if (response === "reject") {
+        const sqlRejectRequest =
+          "UPDATE swaprequests SET status = $1 WHERE id = $2";
+        await pool.query(sqlRejectRequest, ["rejected", requestId]);
+      }
+
+      if (response === "accept") {
+        const request = await queryGetSwapRequests(requestId);
+        const { id, requester_id, requestee_id } = request;
+        await querySwapBook(id, requester_id, requestee_id);
+      }
+
+      pool.query("COMMIT");
+      res.status(200).json({ message: "ok" });
+    } catch {
+      pool.query("ROLLBACK");
+    }
+  }
+);
 
 module.exports = swapRouter;
