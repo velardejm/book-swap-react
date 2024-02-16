@@ -38,8 +38,8 @@ export default function SwapRequest() {
       // requestedBookId: data.requestedBookDetails.bookId,
       // bookOwnerId: userId,
       // bookToSwapId: bookToSwap.bookId,
-      // requestorId: user.userId,
-      // requestor: user.name,
+      requesterId: user.userId,
+      // requester: user.name,
       // bookToSwap: bookToSwap,
       // requestedBook: data.requestedBookDetails,
     };

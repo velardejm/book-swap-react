@@ -4,7 +4,7 @@ const authenticateToken = require("../middleware/authenticateToken");
 const { pool } = require("../db");
 const {
   queryGetBooks,
-  queryGetSwapRequests,
+  queryGetSwapRequest,
   querySwapBook,
 } = require("../utils/helper-queries");
 
@@ -38,21 +38,6 @@ swapRouter.get("/:owner/:bookId", authenticateToken, async (req, res) => {
 
     res.status(200).json({ data: data });
   } catch {}
-
-  // const bookOwner = usersData.find((user) => user.userId === req.params.owner);
-  // const requestedBook = bookOwner.booksAvailable.find(
-  //   (book) => book.bookId === req.params.bookId
-  // );
-  // const user = usersData.find((user) => user.userId === req.user.userId);
-  // const userBooks = user.booksAvailable.filter(
-  //   (book) => book.inTransaction === false
-  // );
-  // res.status(200).json({
-  //   data: {
-  //     requestedBookDetails: { owner: bookOwner.name, ...requestedBook },
-  //     userBooks: userBooks,
-  //   },
-  // });
 });
 
 swapRouter.post(
@@ -64,18 +49,48 @@ swapRouter.post(
         // requestedBookId,
         // bookOwnerId,
         // bookToSwapId,
-        // requestorId,
-        // requestor,
+        requesterId,
+        // requester,
         // bookToSwap,
         // requestedBook,
         requestedBookId,
         offerredBookId,
       } = req.body;
 
+      const sqlCheckExistingRequest =
+        "SELECT * FROM swaprequests WHERE requester_id = $1 AND requested_book_id=$2 AND status = $3 ";
+
+      const existingCheckResult = await pool.query(sqlCheckExistingRequest, [
+        requesterId,
+        requestedBookId,
+        "pending",
+      ]);
+
+      if (existingCheckResult.rowCount > 0) {
+        res.status(409).json({ message: "Request already exist" });
+        return;
+      }
+
+      const sqlCheckEquivalentRequest =
+        "SELECT * FROM swaprequests WHERE requestee_id = $1 AND requested_book_id = $2 AND offerred_book_id = $3 AND status = $4";
+
+      const equivalentCheckResult = await pool.query(
+        sqlCheckEquivalentRequest,
+        [req.user.userId, offerredBookId, requestedBookId, "pending"]
+      );
+
+      if (equivalentCheckResult.rowCount > 0) {
+        res.status(409).json({
+          message:
+            "An equilvaent reuest already exists. Please check your incoming Swap requests.",
+        });
+        return;
+      }
+
       const sqlGetBookOwnerId =
         "SELECT user_id FROM ownedbooks WHERE book_id=$1";
       const sqlSaveSwapRequest =
-        "INSERT INTO swaprequests (requester_id, requestee_id, requested_book_id, offerred_book_id) VALUES ($1, $2, $3, $4) ON CONFLICT (requester_id, requested_book_id) DO NOTHING RETURNING *";
+        "INSERT INTO swaprequests (requester_id, requestee_id, requested_book_id, offerred_book_id) VALUES ($1, $2, $3, $4)";
 
       await pool.query("BEGIN");
 
@@ -92,117 +107,16 @@ swapRouter.post(
 
       await pool.query("COMMIT");
 
-      if (result.rows.length > 0) {
+      if (result.rowCount > 0) {
         res.status(200).json({ message: "Swap request sent successfully." });
-      } else {
-        res.status(409).json({ message: "Request already exist" });
       }
-    } catch {
+    } catch (err) {
+      console.log(err);
       pool.query("ROLLBACK");
       res.status(400).json({ message: "Swap request failed." });
     }
-
-    // const { incomingRequests } = usersTransactionData.find(
-    //   (user) => user.userId === bookOwnerId
-    // );
-
-    // const { sentRequests } = usersTransactionData.find(
-    //   (user) => user.userId === requestorId
-    // );
-
-    // const request = {
-    //   requestId: Math.floor(Math.random() * 1000000000).toString(),
-    //   bookOwnerId: bookOwnerId,
-    //   requestedBookId: requestedBookId,
-    //   requestorId: requestorId,
-    //   bookToSwapId: bookToSwapId,
-    // };
-
-    // const requestCheckString = requestedBookId + requestorId;
-
-    // const requestIndex = incomingRequests.findIndex((request) => {
-    //   const { requestedBookId, requestorId } = request;
-    //   return requestedBookId + requestorId === requestCheckString;
-    // });
-
-    // if (requestIndex === -1) {
-    //   requestedBook.inTransaction = true;
-    //   bookToSwap.inTransaction = true;
-
-    //   const requestData = {
-    //     ...request,
-    //     requestor,
-    //     bookToSwap,
-    //     requestedBook,
-    //     status: "reviewByOwner",
-    //   };
-
-    //   incomingRequests.push(requestData);
-    //   sentRequests.push(requestData);
-
-    //   saveData(data);
-    //   res.status(200).json({ message: "Request sent successfully." });
-    // } else {
-    //   res.status(404).json({ message: "Request already exists." });
-    // }
   }
 );
-
-// swapRouter.post("/respond/:transactionId", authenticateToken, (req, res) => {
-//   // steps
-//   // 1. Find index
-//   // 2. If accepted, swap books
-//   // 3. If rejected, move transaction to closed.
-
-//   const transactionData = usersTransactionData.find(
-//     (data) => data.userId === req.user.userId
-//   );
-//   const { incomingRequests, transactionsToConfirm } = transactionData;
-//   const requestIndex = incomingRequests.findIndex(
-//     (request) => request.requestId === req.body.requestId
-//   );
-//   const respondedRequest = incomingRequests.splice(requestIndex, 1);
-//   const { requestorId, bookToSwapId, bookOwnerId, requestedBookId } =
-//     respondedRequest[0];
-
-//   // SWAP BOOK
-//   const { booksAvailable } = usersData.find(
-//     (user) => user.userId === requestorId
-//   );
-//   const bookToSwapIndex = booksAvailable.findIndex(
-//     (book) => book.bookId === bookToSwapId
-//   );
-//   const bookToSwap = booksAvailable.splice(bookToSwapIndex, 1);
-
-//   const { booksAvailable: ownerBooksAvailable } = usersData.find(
-//     (user) => user.userId === bookOwnerId
-//   );
-//   const requestedBookBookIndex = ownerBooksAvailable.findIndex(
-//     (book) => book.bookId === requestedBookId
-//   );
-//   const requestedBook = ownerBooksAvailable.splice(requestedBookBookIndex, 1);
-
-//   booksAvailable.push(requestedBook[0]);
-//   ownerBooksAvailable.push(bookToSwap[0]);
-
-//   //MOVE BOOKS TO TRANSACTIONS TO BE CONFIRMED
-
-//   // MOVE TRANSACTION TO TRANSACTIONS TO CONFIRM
-
-//   transactionsToConfirm.push(respondedRequest[0]);
-//   const {
-//     sentRequests,
-//     transactionsToConfirm: requestorTransactionsToConfirm,
-//   } = usersTransactionData.find((user) => user.userId === requestorId);
-//   const sentRequestIndex = sentRequests.findIndex(
-//     (request) => request.requestId === req.body.requestId
-//   );
-//   const sentRequest = sentRequests.splice(sentRequestIndex, 1);
-//   requestorTransactionsToConfirm.push(sentRequest);
-
-//   saveData(data);
-//   res.status(200).json({ data: incomingRequests });
-// });
 
 swapRouter.post(
   "/respond/:transactionId",
@@ -219,9 +133,22 @@ swapRouter.post(
       }
 
       if (response === "accept") {
-        const request = await queryGetSwapRequests(requestId);
-        const { id, requester_id, requestee_id } = request;
-        await querySwapBook(id, requester_id, requestee_id);
+        const request = await queryGetSwapRequest(requestId);
+        const {
+          id,
+          requester_id,
+          requestee_id,
+          requested_book_id,
+          offerred_book_id,
+        } = request;
+
+        await querySwapBook(
+          id,
+          requester_id,
+          requestee_id,
+          requested_book_id,
+          offerred_book_id
+        );
       }
 
       pool.query("COMMIT");

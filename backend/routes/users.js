@@ -24,19 +24,19 @@ usersRouter.get("/dashboard", authenticateToken, (req, res) => {
 });
 
 usersRouter.get("/transactions", authenticateToken, async (req, res) => {
-  sqlGetIncomingRequests =
+  sqlGetSwapRequests =
     "SELECT * FROM swaprequests WHERE requestee_id = $1 AND status = $2";
 
-  const incomingRequestResults = await pool.query(sqlGetIncomingRequests, [
+  const swapRequestResults = await pool.query(sqlGetSwapRequests, [
     req.user.userId,
     "pending",
   ]);
 
-  if (incomingRequestResults.rowCount > 0) {
+  if (swapRequestResults.rowCount > 0) {
     const swapRequests = [];
 
     await Promise.all(
-      incomingRequestResults.rows.map(async (row) => {
+      swapRequestResults.rows.map(async (row) => {
         const { requester_id, requested_book_id, offerred_book_id } = row;
         const requestedBook = await queryGetBook(requested_book_id);
         const offerredBook = await queryGetBook(offerred_book_id);

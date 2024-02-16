@@ -21,7 +21,6 @@ export const AuthContextProvider = ({ children }) => {
           const responseObject = await res.json();
           setIsLoggedIn(true);
           setUser(responseObject.data);
-          // console.log(user);
         } else {
           setIsLoggedIn(false);
           localStorage.removeItem('token');

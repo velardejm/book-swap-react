@@ -54,7 +54,6 @@ CREATE TABLE SwapRequests (
     FOREIGN KEY (requestee_id) REFERENCES Users(id),
     FOREIGN KEY (requested_book_id) REFERENCES Books(id),
     FOREIGN KEY (offerred_book_id) REFERENCES Books(id),
-    CONSTRAINT unique_combination UNIQUE(requester_id, requested_book_id)
 );
 
 CREATE UNIQUE INDEX unique_pending_combination 

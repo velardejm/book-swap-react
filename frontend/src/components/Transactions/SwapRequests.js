@@ -1,6 +1,6 @@
 import { useEffect } from 'react';
 import useFetchData from '../../hooks/useFetchData';
-import { Link } from 'react-router-dom';
+// import { useNavigate } from 'react-router-dom';
 
 export default function SwapRequests({
   swapRequests,
@@ -26,15 +26,12 @@ export default function SwapRequests({
 
     if (res.status === 200) {
       const responseObject = await res.json();
-      console.log(responseObject.message);
-      // if (response === 'reject') {
       const respondedRequestId = swapRequests.findIndex(
         (i) => i.requestId === requestId
       );
       swapRequests.splice(respondedRequestId, 1);
       const { swapRequests: previousData, ...rest } = userTransactions;
       setUserTransactions({ swapRequests, ...rest });
-      // }
     }
   };
 
