@@ -3,6 +3,7 @@ import { useParams, useNavigate } from 'react-router-dom';
 import useFetchData from '../../hooks/useFetchData';
 import Dropdown from '../shared/Dropdown';
 import { AuthContext } from '../../contexts/AuthContext';
+import Header from '../Header/Header';
 
 export default function SwapRequest() {
   const [bookToSwap, setBookToSwap] = useState(null);
@@ -62,6 +63,7 @@ export default function SwapRequest() {
 
   return (
     <div>
+      <Header />
       <h1>Swap Request Pages</h1>
       <h2>Requested Book</h2>
       <ul>

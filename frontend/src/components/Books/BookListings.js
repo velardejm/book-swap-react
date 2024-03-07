@@ -1,6 +1,7 @@
 import { useNavigate } from 'react-router-dom';
 import { useContext } from 'react';
 import { AuthContext } from '../../contexts/AuthContext';
+import Header from '../Header/Header';
 
 import useFetchData from '../../hooks/useFetchData';
 
@@ -25,6 +26,7 @@ export default function BookListings() {
 
   return (
     <div>
+      <Header />
       <h1>Listings</h1>
       <ul>
         {bookListing.map((book) => {

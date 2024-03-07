@@ -1,10 +1,10 @@
 import { useState, useContext } from 'react';
-import Logo from '../shared/Logo';
+import Logo from '../Header/Logo';
 import { updateForm } from '../../utils/helpers';
 import FormInput from '../shared/FormInput';
 import useGetPreviousRoute from '../../hooks/useGetPreviousRoute';
 import { AuthContext } from '../../contexts/AuthContext';
-import useLogin from '../../hooks/useLogin';
+// import useLogin from '../../hooks/useLogin';
 
 export default function LogIn() {
   const [formData, setFormData] = useState({
@@ -12,9 +12,9 @@ export default function LogIn() {
     password: '',
   });
   const [from, navigate] = useGetPreviousRoute();
-  const { isLoggedIn, setIsLoggedIn, user } = useContext(AuthContext);
+  const { isLoggedIn, setIsLoggedIn, logIn, user } = useContext(AuthContext);
 
-  const logIn = useLogin(formData);
+  // const logIn = useLogin(formData);
 
   const handleChange = (e) => {
     updateForm(e, setFormData);
@@ -22,7 +22,7 @@ export default function LogIn() {
 
   const handleSubmit = async (e) => {
     e.preventDefault();
-    const userData = await logIn();
+    const userData = await logIn(formData);
     if (userData) {
       setIsLoggedIn(true);
       // navigate(from);

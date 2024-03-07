@@ -1,7 +1,7 @@
-import Button from './Button';
+import Button from '../shared/Button';
 import { Link, useNavigate } from 'react-router-dom';
 import { useState, useEffect, useContext } from 'react';
-import LoginModal from '../pages/LoginModal';
+import LoginModal from '../LogIn/LoginModal';
 import Logo from './Logo';
 import { AuthContext } from '../../contexts/AuthContext';
 
@@ -9,7 +9,7 @@ export default function Header() {
   const [isLoginModalOpen, setIsLoginModalOpen] = useState(false);
   const [isButtonsLoaded, setIsButtonsLoaded] = useState(false);
   const navigate = useNavigate();
-  const { isLoggedIn, logOut } = useContext(AuthContext);
+  const { isLoggedIn, logOut, user } = useContext(AuthContext);
 
   useEffect(() => {
     setIsButtonsLoaded(true);
@@ -31,12 +31,14 @@ export default function Header() {
   const buttonComponents = (
     <div>
       {isLoggedIn ? (
-        <div>
+        <div className="flex">
           {/* <Button
             label={'Log out'}
             className={'btn bg-orange-400 mx-2'}
             onClick={handleLogOut}
           /> */}
+
+          {isLoggedIn && user ? <p>Welcome {user.name}</p> : null}
 
           <a
             href="/"

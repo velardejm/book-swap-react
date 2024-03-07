@@ -9,8 +9,9 @@ const usersRouter = express.Router();
 
 const { usersData, usersTransactionData } = loadData();
 
-usersRouter.get("/authenticate", authenticateToken, (req, res) => {
-  res.status(200).json({ data: req.user });
+usersRouter.get("/authenticate", authenticateToken, async (req, res) => {
+  const userName = await queryGetUserName(req.user.userId);
+  res.status(200).json({ data: { name: userName, ...req.user } });
 });
 
 usersRouter.get("/dashboard", authenticateToken, (req, res) => {

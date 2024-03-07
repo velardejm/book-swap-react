@@ -1,6 +1,6 @@
 import { useState } from 'react';
 
-import BookDetails from '../shared/BookDetails';
+import BookDetails from '../Books/BookDetails';
 import Modal from '../shared/Modal';
 import AddBook from './AddBook';
 

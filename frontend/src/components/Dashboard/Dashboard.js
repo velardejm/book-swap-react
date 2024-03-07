@@ -3,7 +3,7 @@ import useFetchData from '../../hooks/useFetchData';
 import BookList from './BookList';
 import { Link } from 'react-router-dom';
 import Transactions from '../Transactions/Transactions';
-import Header from '../shared/Header';
+import Header from '../Header/Header';
 
 export default function Dashboard() {
   // const [data, setData] = useFetchData('http://localhost:3001/users/dashboard');
