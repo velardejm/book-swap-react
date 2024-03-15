@@ -1,10 +1,5 @@
-// import { useState } from 'react';
-
 export default function Dropdown({ options, setterFunction }) {
-  // const [value, setValue] = useState('');
-
   const handleChange = (e) => {
-    // setValue(e.target.value);
     setterFunction(options[e.target.value]);
   };
 

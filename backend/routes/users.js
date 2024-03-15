@@ -54,17 +54,6 @@ usersRouter.get("/transactions", authenticateToken, async (req, res) => {
 
     res.status(200).json({ data: { swapRequests: swapRequests } });
   }
-
-  // const userTransactionData = usersTransactionData.find(
-  //   (user) => user.userId === req.user.userId
-  // );
-  // if (userTransactionData) {
-  //   res
-  //     .status(200)
-  //     .json({ data: { ...userTransactionData, userId: req.user.userId } });
-  // } else {
-  //   res.status(401).json({ error: "Transaction data not found." });
-  // }
 });
 
 module.exports = usersRouter;

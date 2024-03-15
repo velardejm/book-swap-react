@@ -21,11 +21,6 @@ export default function CancelledTransactions({ cancelledTransactions }) {
                     <p>Offerred Book: {bookToSwap.title}</p>
                   </div>
                 </div>
-                {/* <div className="flex justify-center">
-                  <button onClick={() => {}} className="text-red-800 mr-5">
-                    Cancel
-                  </button>
-                </div> */}
               </div>
             );
           })}

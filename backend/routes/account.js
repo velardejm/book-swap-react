@@ -1,9 +1,9 @@
 const express = require("express");
-const accountRouter = express.Router();
 const bcrypt = require("bcrypt");
 const jwt = require("jsonwebtoken");
-
 const { pool } = require("../db");
+
+const accountRouter = express.Router();
 
 accountRouter.post("/signup", async (req, res) => {
   const { name, email, username, password } = req.body;

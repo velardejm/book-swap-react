@@ -16,8 +16,6 @@ export default function LoginModal({ isLoginModalOpen, closeLoginModal }) {
 
   const { logIn, setIsLoggedIn } = useContext(AuthContext);
 
-  // const logIn = useLogin(formData);
-
   useHandleModalEscape(closeLoginModal);
 
   const handleChange = (e) => {
@@ -29,9 +27,7 @@ export default function LoginModal({ isLoginModalOpen, closeLoginModal }) {
 
     const isLoginSuccessful = await logIn(formData);
     if (isLoginSuccessful) {
-      // setIsLoggedIn(true);
       navigate(from);
-      // navigate('/');
     }
   };
 

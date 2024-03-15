@@ -1,6 +1,5 @@
 import SwapRequests from './SwapRequests';
 import TransactionsToConfirm from './TransactionsToConfirm';
-import useFetchData from '../../hooks/useFetchData';
 import SentRequests from './SentRequests';
 import CancelledTransactions from './CancelledTransactions';
 
@@ -10,10 +9,6 @@ export default function Transactions({
   books,
   setBooks,
 }) {
-  // const [userTransactions, setUserTransactions] = useFetchData(
-  //   'http://localhost:3001/users/transactions'
-  // );
-
   if (!userTransactions) return null;
   const {
     swapRequests,

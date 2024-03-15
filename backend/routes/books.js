@@ -21,13 +21,6 @@ booksRouter.get("/", authenticateToken, async (req, res) => {
 });
 
 booksRouter.get("/listings", checkToken, async (req, res) => {
-  // const bookListings = usersData.map((user) => {
-  //   return {
-  //     owner: user.username,
-  //     books: user.booksAvailable,
-  //   };
-  // });
-
   let bookListing = [];
 
   if (req.user) {
@@ -77,16 +70,6 @@ booksRouter.post("/", authenticateToken, async (req, res) => {
 
     pool.query("ROLLBACK");
   }
-
-  // const userData = usersData.find((user) => user.userId === req.user.userId);
-  // if (userData) {
-  //   userData.booksAvailable.push(req.body);
-  //   saveData(data);
-  //   const { booksAvailable } = userData;
-  //   res.status(200).json({
-  //     updatedBookList: booksAvailable,
-  //   });
-  // }
 });
 
 module.exports = booksRouter;

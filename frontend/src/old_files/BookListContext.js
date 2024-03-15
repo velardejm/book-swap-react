@@ -1,6 +1,6 @@
 import { createContext, useContext, useEffect, useState } from 'react';
 
-import { AuthContext } from './AuthContext';
+import { AuthContext } from '../contexts/AuthContext';
 
 export const BookListContext = createContext();
 

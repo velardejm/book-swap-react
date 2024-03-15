@@ -11,13 +11,6 @@ export default function Dashboard() {
     'http://localhost:3001/users/transactions'
   );
 
-  // const [data, setData] = useFetchData('http://localhost:3001/users/dashboard');
-  // console.log(data);
-
-  // if (!data) {
-  //   return null;
-  // }
-
   return (
     <div>
       <Header />

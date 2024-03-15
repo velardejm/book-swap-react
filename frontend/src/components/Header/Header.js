@@ -15,11 +15,6 @@ export default function Header() {
     setIsButtonsLoaded(true);
   }, []);
 
-  const handleLogOut = () => {
-    logOut();
-    navigate('/');
-  };
-
   const openLoginModal = () => {
     setIsLoginModalOpen(true);
   };
@@ -32,12 +27,6 @@ export default function Header() {
     <div>
       {isLoggedIn ? (
         <div className="flex">
-          {/* <Button
-            label={'Log out'}
-            className={'btn bg-orange-400 mx-2'}
-            onClick={handleLogOut}
-          /> */}
-
           {isLoggedIn && user ? <p>Welcome {user.name}</p> : null}
 
           <a
@@ -62,13 +51,11 @@ export default function Header() {
         </div>
       ) : (
         <>
-          {/* <Link to="/login"> */}
           <Button
             label={'Log in'}
             className={'btn bg-blue-500 mx-2'}
             onClick={openLoginModal}
           />
-          {/* </Link> */}
 
           <Link to="/signup">
             <Button label={'Sign up'} className={'btn bg-blue-500'} />

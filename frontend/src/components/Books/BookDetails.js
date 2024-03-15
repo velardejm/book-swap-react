@@ -1,5 +1,4 @@
 export default function BookDetails({ book }) {
-  // const { bookId, title, author, genre, condition } = book;
   const { id, title, author, genre, condition } = book;
 
   return (

@@ -28,7 +28,6 @@ export default function SignUp() {
 
     const successfulSignUp = await signUp(formData);
     if (successfulSignUp) {
-      // navigate('/login');
     }
   };
 

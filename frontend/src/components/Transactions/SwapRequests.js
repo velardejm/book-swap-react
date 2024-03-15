@@ -1,7 +1,3 @@
-import { useEffect } from 'react';
-import useFetchData from '../../hooks/useFetchData';
-// import { useNavigate } from 'react-router-dom';
-
 export default function SwapRequests({
   swapRequests,
   userTransactions,
@@ -9,10 +5,6 @@ export default function SwapRequests({
   books,
   setBooks,
 }) {
-  // const [incomingRequests, setIncomingRequests] = useFetchData(
-  //   'http://localhost:3001/users/transactions'
-  // );
-
   const respondToRequest = async (response, requestId) => {
     const res = await fetch(`http://localhost:3001/swap/respond/${requestId}`, {
       method: 'POST',
@@ -33,8 +25,6 @@ export default function SwapRequests({
         (i) => i.requestId === requestId
       );
       swapRequests.splice(respondedRequestId, 1);
-      // const { swapRequests: previousData, ...rest } = userTransactions;
-      // setUserTransactions({ swapRequests, ...rest });
       setUserTransactions(swapRequests);
 
       if (response === 'accept') {
@@ -42,8 +32,6 @@ export default function SwapRequests({
           (i) => i.id === requestedBookId
         );
         books.splice(requestedBookIndex, 1);
-        // console.log(newArr);
-        // console.log([...books.slice(requestedBookIndex), receivedBook]);
         setBooks([...books, receivedBook]);
       }
     }
@@ -61,16 +49,6 @@ export default function SwapRequests({
         console.log(requestId);
         return (
           <div key={index} className="bg-blue-100 mb-5 p-2">
-            {/* <div className="flex">
-              <div className="w-1/2">
-                <p>Request Id: {requestId}</p>
-                <p>Requested Book: {requestedBook.title}</p>
-              </div>
-              <div className="w-1/2">
-                <p>Requestor: {requestor}</p>
-                <p>Offerred Book: {bookToSwap.title}</p>
-              </div>
-            </div> */}
             <div>
               <p>Requested book: {requestedBook.title}</p>
               <p>Offerred book: {offerredBook.title}</p>
