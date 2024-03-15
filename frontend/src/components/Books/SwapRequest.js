@@ -64,23 +64,37 @@ export default function SwapRequest() {
   return (
     <div>
       <Header />
-      <h1>Swap Request Pages</h1>
-      <h2>Requested Book</h2>
-      <ul>
-        <li>Owner: {bookOwner}</li>
-        <li>Book Title: {requestedBook.title}</li>
-      </ul>
-
-      <form method="POST">
-        {user ? (
+      <div className="w-1/2 m-auto">
+        <h1>Swap Request Pages</h1>
+        <div className="flex justify-between bg-blue-100 p-10">
           <div>
-            <Dropdown options={userBooks} setterFunction={selectBookToSwap} />
+            <h2>Requested Book</h2>
+            <ul>
+              <li>Owner: {bookOwner}</li>
+              <li>Book Title: {requestedBook.title}</li>
+            </ul>
           </div>
-        ) : null}
-        <button type="submit" onClick={handleSubmit}>
-          Send Request
-        </button>
-      </form>
+          <div>
+            <form method="POST" className="flex flex-col items-center">
+              {user ? (
+                <div>
+                  <Dropdown
+                    options={userBooks}
+                    setterFunction={selectBookToSwap}
+                  />
+                </div>
+              ) : null}
+              <button
+                className="btn bg-green-500 w-40 mt-5"
+                type="submit"
+                onClick={handleSubmit}
+              >
+                Send Request
+              </button>
+            </form>
+          </div>
+        </div>
+      </div>
     </div>
   );
 }

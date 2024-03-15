@@ -53,6 +53,12 @@ export default function Header() {
             className={'btn bg-blue-400 mx-2'}
             onClick={() => navigate('/users/dashboard')}
           />
+
+          <Button
+            label={'To Listings'}
+            className={'btn bg-blue-400 mx-2'}
+            onClick={() => navigate('/books/listings')}
+          />
         </div>
       ) : (
         <>
@@ -64,7 +70,7 @@ export default function Header() {
           />
           {/* </Link> */}
 
-          <Link to="/account/signup">
+          <Link to="/signup">
             <Button label={'Sign up'} className={'btn bg-blue-500'} />
           </Link>
         </>
