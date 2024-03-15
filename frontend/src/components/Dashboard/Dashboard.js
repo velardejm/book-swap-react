@@ -6,6 +6,11 @@ import Transactions from '../Transactions/Transactions';
 import Header from '../Header/Header';
 
 export default function Dashboard() {
+  const [books, setBooks] = useFetchData('http://localhost:3001/books');
+  const [userTransactions, setUserTransactions] = useFetchData(
+    'http://localhost:3001/users/transactions'
+  );
+
   // const [data, setData] = useFetchData('http://localhost:3001/users/dashboard');
   // console.log(data);
 
@@ -17,8 +22,13 @@ export default function Dashboard() {
     <div>
       <Header />
       <h1>Dashboard</h1>
-      <BookList />
-      <Transactions />
+      <BookList books={books} setBooks={setBooks} />
+      <Transactions
+        userTransactions={userTransactions}
+        setUserTransactions={setUserTransactions}
+        books={books}
+        setBooks={setBooks}
+      />
     </div>
   );
 }

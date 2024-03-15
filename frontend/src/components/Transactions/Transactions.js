@@ -4,10 +4,15 @@ import useFetchData from '../../hooks/useFetchData';
 import SentRequests from './SentRequests';
 import CancelledTransactions from './CancelledTransactions';
 
-export default function Transactions() {
-  const [userTransactions, setUserTransactions, context] = useFetchData(
-    'http://localhost:3001/users/transactions'
-  );
+export default function Transactions({
+  userTransactions,
+  setUserTransactions,
+  books,
+  setBooks,
+}) {
+  // const [userTransactions, setUserTransactions] = useFetchData(
+  //   'http://localhost:3001/users/transactions'
+  // );
 
   if (!userTransactions) return null;
   const {
@@ -26,6 +31,8 @@ export default function Transactions() {
         swapRequests={swapRequests}
         userTransactions={userTransactions}
         setUserTransactions={setUserTransactions}
+        books={books}
+        setBooks={setBooks}
       />
       <hr></hr>
       {/* <SentRequests sentRequests={sentRequests} />

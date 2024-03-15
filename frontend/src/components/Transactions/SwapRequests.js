@@ -6,6 +6,8 @@ export default function SwapRequests({
   swapRequests,
   userTransactions,
   setUserTransactions,
+  books,
+  setBooks,
 }) {
   // const [incomingRequests, setIncomingRequests] = useFetchData(
   //   'http://localhost:3001/users/transactions'
@@ -26,12 +28,24 @@ export default function SwapRequests({
 
     if (res.status === 200) {
       const responseObject = await res.json();
+      const { receivedBook, requestedBookId } = responseObject;
       const respondedRequestId = swapRequests.findIndex(
         (i) => i.requestId === requestId
       );
       swapRequests.splice(respondedRequestId, 1);
-      const { swapRequests: previousData, ...rest } = userTransactions;
-      setUserTransactions({ swapRequests, ...rest });
+      // const { swapRequests: previousData, ...rest } = userTransactions;
+      // setUserTransactions({ swapRequests, ...rest });
+      setUserTransactions(swapRequests);
+
+      if (response === 'accept') {
+        const requestedBookIndex = books.findIndex(
+          (i) => i.id === requestedBookId
+        );
+        books.splice(requestedBookIndex, 1);
+        // console.log(newArr);
+        // console.log([...books.slice(requestedBookIndex), receivedBook]);
+        setBooks([...books, receivedBook]);
+      }
     }
   };
 

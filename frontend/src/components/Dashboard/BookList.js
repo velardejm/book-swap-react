@@ -6,8 +6,8 @@ import AddBook from './AddBook';
 
 import useFetchData from '../../hooks/useFetchData';
 
-export default function BookList() {
-  const [books, setBooks] = useFetchData('http://localhost:3001/books');
+export default function BookList({ books, setBooks }) {
+  // const [books, setBooks] = useFetchData('http://localhost:3001/books');
   const [isModalOpen, setIsModalOpen] = useState(false);
 
   return (

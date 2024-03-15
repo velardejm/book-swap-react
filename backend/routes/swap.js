@@ -6,6 +6,7 @@ const {
   queryGetBooks,
   queryGetSwapRequest,
   querySwapBook,
+  queryGetBook,
 } = require("../utils/helper-queries");
 
 const swapRouter = express.Router();
@@ -122,6 +123,8 @@ swapRouter.post(
   "/respond/:transactionId",
   authenticateToken,
   async (req, res) => {
+    let receivedBook = null;
+    let requestedBookId = null;
     try {
       const { response, requestId } = req.body;
       pool.query("BEGIN");
@@ -149,10 +152,18 @@ swapRouter.post(
           requested_book_id,
           offerred_book_id
         );
-      }
 
+        receivedBook = await queryGetBook(offerred_book_id);
+        requestedBookId = requested_book_id;
+      }
       pool.query("COMMIT");
-      res.status(200).json({ message: "ok" });
+
+      const data = {
+        receivedBook: receivedBook,
+        requestedBookId: requestedBookId,
+      };
+
+      res.status(200).json({ ...data });
     } catch {
       pool.query("ROLLBACK");
     }
