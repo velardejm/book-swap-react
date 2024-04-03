@@ -1,11 +1,19 @@
+import { createClient } from "@supabase/supabase-js";
+
+
+
+
+
 import { useEffect, useState } from 'react';
 import { updateForm } from '../../utils/helpers';
 import { useNavigate } from 'react-router-dom';
 import FormInput from '../shared/FormInput';
 import Logo from '../shared/Logo';
-import useSignUp from '../../hooks/useSignUp';
+
+import supabase from '../../supabase';
 
 export default function SignUp() {
+
   const [formData, setFormData] = useState({
     name: '',
     email: '',
@@ -15,7 +23,7 @@ export default function SignUp() {
   });
   const [submitEnabled, setSubmitEnabled] = useState(false);
 
-  const signUp = useSignUp();
+  
   const navigate = useNavigate();
   const { name, email, username, password, passwordConfirmation } = formData;
 
@@ -24,12 +32,38 @@ export default function SignUp() {
   };
 
   const handleSubmit = async (e) => {
+
+    /*
+    TODO
+    1. Handle conflicts
+    2. Find out how to perform multiple queries (roll back if a query fails) - serch: supabase transactions
+    */
+
     e.preventDefault();
 
-    const successfulSignUp = await signUp(formData);
-    if (successfulSignUp) {
-      // navigate('/login');
+    try {
+      await supabase
+        .from('users')
+        .insert({ username: username, password: password });
+
+      const { data } = await supabase
+        .from('users')
+        .select()
+        .eq('username', username);
+
+      await supabase
+        .from('usersinfo')
+        .insert({ 'id': data[0].id, 'name': name, 'email': email, 'user_id': data[0].id });
+
+      // await supabase.rpc('COMMIT');
+      alert('Sign up succesful!');
+
+    } catch {
+      alert('Supabase query error!');
+      // await supabase.rpc('ROLLBACK');
+
     }
+
   };
 
   useEffect(() => {
@@ -84,9 +118,8 @@ export default function SignUp() {
           onChangeHandler={handleChange}
         />
         <button
-          className={`btn bg-blue-500 w-28 self-center ${
-            submitEnabled ? '' : 'bg-gray-500'
-          }`}
+          className={`btn bg-blue-500 w-28 self-center ${submitEnabled ? '' : 'bg-gray-500'
+            }`}
           type="submit"
           disabled={!submitEnabled}
         >
