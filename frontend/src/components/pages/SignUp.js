@@ -1,16 +1,8 @@
-import { createClient } from "@supabase/supabase-js";
-
-
-
-
-
 import { useEffect, useState } from 'react';
-import { updateForm } from '../../utils/helpers';
+import { updateForm, signUp } from '../../utils/helpers';
 import { useNavigate } from 'react-router-dom';
 import FormInput from '../shared/FormInput';
 import Logo from '../shared/Logo';
-
-import supabase from '../../supabase';
 
 export default function SignUp() {
 
@@ -23,9 +15,9 @@ export default function SignUp() {
   });
   const [submitEnabled, setSubmitEnabled] = useState(false);
 
-  
   const navigate = useNavigate();
-  const { name, email, username, password, passwordConfirmation } = formData;
+  const { passwordConfirmation, ...registrationData } = formData;
+  const {name, email, username, password} = registrationData
 
   const handleChange = (e) => {
     updateForm(e, setFormData);
@@ -40,29 +32,43 @@ export default function SignUp() {
     */
 
     e.preventDefault();
+    signUp(passwordConfirmation, registrationData);
 
-    try {
-      await supabase
-        .from('users')
-        .insert({ username: username, password: password });
 
-      const { data } = await supabase
-        .from('users')
-        .select()
-        .eq('username', username);
+    // try {
+    //   const { data: newUserData, error: addUserError } = await supabase.from('users')
+    //     .upsert({ username: username, password: password })
+    //     .select('id');
 
-      await supabase
-        .from('usersinfo')
-        .insert({ 'id': data[0].id, 'name': name, 'email': email, 'user_id': data[0].id });
+    //     const newUserId = newUserData[0].id;
 
-      // await supabase.rpc('COMMIT');
-      alert('Sign up succesful!');
+    //     console.log(newUserId);
 
-    } catch {
-      alert('Supabase query error!');
-      // await supabase.rpc('ROLLBACK');
+    //   if (addUserError) throw addUserError;
 
-    }
+    //   const { error: addUserDetailsError } = await supabase
+    //     .from('usersinfo')
+    //     .insert({ 'id': newUserId, 'name': name, 'email': email, 'user_id': newUserId });
+
+    //   if(addUserDetailsError) {
+    //     const {error: userDeleteError} = await supabase.from('users').delete().eq('id', newUserId);
+    //     if(userDeleteError) throw userDeleteError;
+    //     throw addUserDetailsError;
+    //   }
+
+    //   alert("Signed up successfully.");
+
+    // } catch (error) {
+    //   alert("Sign up failed.")
+    //   console.log(error);
+    // }
+
+
+
+    // await supabase.rpc('COMMIT');
+    // alert('Sign up succesful!');
+
+
 
   };
 
