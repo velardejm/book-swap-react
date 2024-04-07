@@ -16,8 +16,6 @@ export const signUp = async (passwordConfirmation, registrationData) => {
   const { name, email, username, password } = registrationData;
   
   if (password !== passwordConfirmation) {
-    console.log(password);
-    console.log(passwordConfirmation);
     alert('Incorrect password verification.');
   } else {
     try {
@@ -40,10 +38,10 @@ export const signUp = async (passwordConfirmation, registrationData) => {
       }
 
       alert("Signed up successfully.");
+      return true;
 
     } catch (error) {
-      alert("Sign up failed.")
-      console.log(error);
+      alert('Username or E-mail already exists');
     }
   }
 

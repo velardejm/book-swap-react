@@ -25,50 +25,11 @@ export default function SignUp() {
 
   const handleSubmit = async (e) => {
 
-    /*
-    TODO
-    1. Handle conflicts
-    2. Find out how to perform multiple queries (roll back if a query fails) - serch: supabase transactions
-    */
-
     e.preventDefault();
-    signUp(passwordConfirmation, registrationData);
-
-
-    // try {
-    //   const { data: newUserData, error: addUserError } = await supabase.from('users')
-    //     .upsert({ username: username, password: password })
-    //     .select('id');
-
-    //     const newUserId = newUserData[0].id;
-
-    //     console.log(newUserId);
-
-    //   if (addUserError) throw addUserError;
-
-    //   const { error: addUserDetailsError } = await supabase
-    //     .from('usersinfo')
-    //     .insert({ 'id': newUserId, 'name': name, 'email': email, 'user_id': newUserId });
-
-    //   if(addUserDetailsError) {
-    //     const {error: userDeleteError} = await supabase.from('users').delete().eq('id', newUserId);
-    //     if(userDeleteError) throw userDeleteError;
-    //     throw addUserDetailsError;
-    //   }
-
-    //   alert("Signed up successfully.");
-
-    // } catch (error) {
-    //   alert("Sign up failed.")
-    //   console.log(error);
-    // }
-
-
-
-    // await supabase.rpc('COMMIT');
-    // alert('Sign up succesful!');
-
-
+    const isSignUpSuccessful = await signUp(passwordConfirmation, registrationData);
+    if(isSignUpSuccessful) {
+      navigate('/');
+    }
 
   };
 
