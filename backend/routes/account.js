@@ -9,6 +9,7 @@ accountRouter.post("/signup", async (req, res) => {
   const { name, email, username, password } = req.body;
   const hashedPassword = await bcrypt.hash(password, 10);
 
+  
   try {
     await pool.query("BEGIN");
 

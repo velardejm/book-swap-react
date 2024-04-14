@@ -1,13 +1,13 @@
 CREATE TABLE Users (
     id SERIAL PRIMARY KEY,
-    username VARCHAR(255) NOT NULL,
+    username VARCHAR(255) NOT NULL UNIQUE,
     password VARCHAR(255) NOT NULL
 );
 
 CREATE TABLE UsersInfo (
     id INT PRIMARY KEY,
     name VARCHAR(255) NOT NULL,
-    email VARCHAR(255) NOT NULL,
+    email VARCHAR(255) NOT NULL UNIQUE,
     user_id INT,
     FOREIGN KEY (user_id) REFERENCES Users(id)
 );
@@ -43,18 +43,18 @@ CREATE TABLE SwapRequests (
 
 
 
-CREATE TABLE SwapRequests (
-    id SERIAL PRIMARY KEY,
-    requester_id INT,
-    requestee_id INT,
-    requested_book_id INT,
-    offerred_book_id INT,
-    status VARCHAR(20) DEFAULT 'pending' CHECK (status IN ('pending', 'accepted', 'rejected', 'completed')),
-    FOREIGN KEY (requester_id) REFERENCES Users(id),
-    FOREIGN KEY (requestee_id) REFERENCES Users(id),
-    FOREIGN KEY (requested_book_id) REFERENCES Books(id),
-    FOREIGN KEY (offerred_book_id) REFERENCES Books(id),
-);
+-- CREATE TABLE SwapRequests (
+--     id SERIAL PRIMARY KEY,
+--     requester_id INT,
+--     requestee_id INT,
+--     requested_book_id INT,
+--     offerred_book_id INT,
+--     status VARCHAR(20) DEFAULT 'pending' CHECK (status IN ('pending', 'accepted', 'rejected', 'completed')),
+--     FOREIGN KEY (requester_id) REFERENCES Users(id),
+--     FOREIGN KEY (requestee_id) REFERENCES Users(id),
+--     FOREIGN KEY (requested_book_id) REFERENCES Books(id),
+--     FOREIGN KEY (offerred_book_id) REFERENCES Books(id),
+-- );
 
 CREATE UNIQUE INDEX unique_pending_combination 
 ON SwapRequests (requester_id, requested_book_id) 
@@ -82,5 +82,4 @@ CREATE TABLE CompletedSwaps (
     request_id INT,
     FOREIGN KEY (request_id) REFERENCES AcceptedSwaps(id)
 );
-
 
