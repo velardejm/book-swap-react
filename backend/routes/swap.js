@@ -4,6 +4,7 @@ const authenticateToken = require("../middleware/authenticateToken");
 const { pool } = require("../db");
 const {
   queryGetBooks,
+  queryGetAvailableBooks,
   queryGetSwapRequest,
   querySwapBook,
   queryGetBook,
@@ -29,7 +30,7 @@ swapRouter.get("/:owner/:bookId", authenticateToken, async (req, res) => {
       bookOwnerId.rows[0].user_id,
     ]);
 
-    const userBooks = await queryGetBooks(req.user.userId);
+    const userBooks = await queryGetAvailableBooks(req.user.userId);
 
     const data = {
       requestedBook: book.rows[0],
@@ -38,7 +39,7 @@ swapRouter.get("/:owner/:bookId", authenticateToken, async (req, res) => {
     };
 
     res.status(200).json({ data: data });
-  } catch {}
+  } catch { }
 });
 
 swapRouter.post(
@@ -92,6 +93,7 @@ swapRouter.post(
         "SELECT user_id FROM ownedbooks WHERE book_id=$1";
       const sqlSaveSwapRequest =
         "INSERT INTO swaprequests (requester_id, requestee_id, requested_book_id, offerred_book_id) VALUES ($1, $2, $3, $4)";
+      const sqlUpdateBookSwapAvailability = "UPDATE books SET status = $1 WHERE id  = $2";
 
       await pool.query("BEGIN");
 
@@ -105,6 +107,8 @@ swapRouter.post(
         requestedBookId,
         offerredBookId,
       ]);
+      
+      await pool.query(sqlUpdateBookSwapAvailability, ['pending_swap', offerredBookId]);
 
       await pool.query("COMMIT");
 

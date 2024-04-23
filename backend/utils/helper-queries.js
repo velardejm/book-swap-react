@@ -17,13 +17,25 @@ exports.queryGetBooks = async function (id) {
   return bookResults.rows;
 };
 
+exports.queryGetAvailableBooks = async function (id) {
+  const sqlGetBookIds = "SELECT (book_id) FROM ownedbooks WHERE user_id = $1";
+
+  const bookIds = await pool.query(sqlGetBookIds, [id]);
+  const bookIdsArray = bookIds.rows.map((i) => i.book_id);
+
+  const sqlGetBooks = "SELECT * FROM books WHERE id = ANY($1) AND status != $2";
+  const bookResults = await pool.query(sqlGetBooks, [bookIdsArray, 'pending_swap']);
+  return bookResults.rows;
+};
+
+
 exports.queryGetListing = async function (id) {
   const sqlGetBookIds = "SELECT (book_id) FROM ownedbooks WHERE user_id != $1";
   const bookIds = await pool.query(sqlGetBookIds, [id]);
   const bookIdsArray = bookIds.rows.map((i) => i.book_id);
 
-  const sqlGetBooks = "SELECT * FROM books WHERE id = ANY($1)";
-  const books = await pool.query(sqlGetBooks, [bookIdsArray]);
+  const sqlGetBooks = "SELECT * FROM books WHERE id = ANY($1)AND status != $2";
+  const books = await pool.query(sqlGetBooks, [bookIdsArray, 'pending_swap']);
 
   return books.rows;
 };
