@@ -1,7 +1,7 @@
 import { useState, useContext } from 'react';
 import Logo from '../Header/Logo';
 import { updateForm } from '../../utils/helpers';
-import FormInput from '../shared/FormInput';
+import FormInput from '../../components/shared/FormInput';
 import useGetPreviousRoute from '../../hooks/useGetPreviousRoute';
 import { AuthContext } from '../../contexts/AuthContext';
 

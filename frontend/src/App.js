@@ -1,17 +1,17 @@
 import { BrowserRouter as Router, Routes, Route } from 'react-router-dom';
 
-import Home from './components/Home/Home';
-import LogIn from './components/LogIn/LogIn';
-import SignUp from './components/SignUp/SignUp';
-import NotFound from './components/pages/NotFound';
-import PrivateRoute from './components/shared/PrivateRoute';
+import Home from './pages/Home';
+import LogIn from './components/Auth/LogIn';
+import SignUp from './components/Auth/SignUp';
+import NotFound from './pages/NotFound';
+import PrivateRoute from './components/Common/PrivateRoute';
 import BookListings from './components/Books/BookListings';
-import SwapRequest from './components/Books/SwapRequest';
+import SwapRequest from './components/Forms/SwapRequest';
 // import { AuthContextProvider } from './contexts/AuthContext';
 
-import Dashboard from './components/Dashboard/Dashboard';
-import Transactions from './components/Transactions/Transactions';
-import CreateDb from './components/CreateDb';
+import Dashboard from './pages/Dashboard';
+import Transactions from './components/Dashboard/Transactions';
+// import CreateDb from './components/CreateDb';
 
 function App() {
   return (
@@ -34,7 +34,7 @@ function App() {
         <Route path="/users/dashboard" element={<Dashboard />} />
         <Route path="/users/transactions" element={<Transactions />} />
         <Route path="*" element={<NotFound />} />
-        <Route path="/pg-create" element={<CreateDb />} />
+        {/* <Route path="/pg-create" element={<CreateDb />} /> */}
       </Routes>
       {/* </AuthContextProvider> */}
     </Router>

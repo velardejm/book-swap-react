@@ -1,7 +1,7 @@
 import { useState } from 'react';
 
 import BookDetails from '../Books/BookDetails';
-import Modal from '../shared/Modal';
+import Modal from '../Modal/Modal';
 import AddBook from './AddBook';
 
 import useFetchData from '../../hooks/useFetchData';

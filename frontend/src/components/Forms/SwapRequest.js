@@ -1,7 +1,7 @@
 import { useState, useEffect, useContext } from 'react';
 import { useParams, useNavigate } from 'react-router-dom';
 import useFetchData from '../../hooks/useFetchData';
-import Dropdown from '../shared/Dropdown';
+import Dropdown from '../../components/shared/Dropdown';
 import { AuthContext } from '../../contexts/AuthContext';
 import Header from '../Header/Header';
 

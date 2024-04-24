@@ -1,7 +1,7 @@
 import { useEffect, useState } from 'react';
 import { updateForm } from '../../utils/helpers';
 import { useNavigate } from 'react-router-dom';
-import FormInput from '../shared/FormInput';
+import FormInput from '../../components/shared/FormInput';
 import Logo from '../Header/Logo';
 import useSignUp from '../../hooks/useSignUp';
 

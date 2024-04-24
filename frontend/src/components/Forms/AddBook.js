@@ -1,6 +1,6 @@
 import { useState } from 'react';
 
-import FormInput from '../shared/FormInput';
+import FormInput from '../../components/shared/FormInput';
 
 import { updateForm } from '../../utils/helpers';
 import useHandleModalEscape from '../../hooks/useHandleModalEscape';
