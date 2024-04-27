@@ -1,11 +1,19 @@
-import { useContext } from 'react';
+import SignUpModal from '../components/SignUpModal/SignUpModal';
+
+import { useContext, useState } from 'react';
 import { Link } from 'react-router-dom';
 import { AuthContext } from '../contexts/AuthContext';
 
 import Header from '../components/Header/Header';
 
 export default function Home() {
+  const [isSignUpModalOpen, setIsSignUpModalOpen] = useState(false);
+
   const { isLoggedIn } = useContext(AuthContext);
+
+  const closeSignUpModal = () => {
+    setIsSignUpModalOpen(false);
+  }
 
   if (isLoggedIn === null) {
     return null;
@@ -29,8 +37,9 @@ export default function Home() {
         <div>
           {isLoggedIn ? null : (
             <Link
-              to="/signup"
+              to="/"
               className="bg-orange-500 text-white font-bold text-lg p-2 rounded-md w-32 mr-4"
+              onClick={() => setIsSignUpModalOpen(true)}
             >
               Join now!
             </Link>
@@ -44,6 +53,8 @@ export default function Home() {
           </Link>
         </div>
       </div>
+
+      {isSignUpModalOpen ? <SignUpModal closeSignUpModal={closeSignUpModal} /> : null}
     </>
   );
 }

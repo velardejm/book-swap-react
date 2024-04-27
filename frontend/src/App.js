@@ -8,7 +8,6 @@ import SignUp from './components/Auth/SignUp';
 import BookListings from './components/Books/BookListings';
 // import SwapRequest from './components/Forms/SwapRequest';
 // import { AuthContextProvider } from './contexts/AuthContext';
-import SignUpModal from './components/SignUpModal/SignUpModal';
 
 // import Dashboard from './pages/Dashboard';
 // import Transactions from './components/Dashboard/Transactions';
@@ -39,7 +38,7 @@ function App() {
         </Routes>
       </Router>
 
-      <SignUpModal />
+
     </>
 
 
