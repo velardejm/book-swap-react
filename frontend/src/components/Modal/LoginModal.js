@@ -1,7 +1,7 @@
 import { useState, useContext } from 'react';
 import { updateForm } from '../../utils/helpers';
-import FormInput from '../shared/FormInput';
-import useGetPreviousRoute from '../../hooks/useGetPreviousRoute';
+import FormInput from '../Common/FormInput';
+import useGetPreviousRoute from '../..//hooks/useGetPreviousRoute';
 // import useLogin from '../../hooks/useLogin';
 import useHandleModalEscape from '../../hooks/useHandleModalEscape';
 import { AuthContext } from '../../contexts/AuthContext';

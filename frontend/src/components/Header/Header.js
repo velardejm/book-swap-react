@@ -1,7 +1,7 @@
-import Button from '../shared/Button';
+import Button from '../Common/Button';
 import { Link, useNavigate } from 'react-router-dom';
 import { useState, useEffect, useContext } from 'react';
-import LoginModal from '../LogIn/LoginModal';
+import LoginModal from '../Modal/LoginModal';
 import Logo from './Logo';
 import { AuthContext } from '../../contexts/AuthContext';
 
