@@ -4,7 +4,6 @@ import { useState } from "react";
 import { updateForm } from "../../utils/helpers";
 // import useHandleModalEscape from "../../hooks/useHandleModalEscape";
 
-
 export default function SignUpModal({ closeSignUpModal }) {
     const [formData, setFormData] = useState({
         name: '',
@@ -12,6 +11,7 @@ export default function SignUpModal({ closeSignUpModal }) {
         username: '',
         password: '',
         passwordConfirmation: '',
+        userAndEmailAvailable: null
     });
 
     const [signUpPage, setSignUpPage] = useState(1);
@@ -37,8 +37,6 @@ export default function SignUpModal({ closeSignUpModal }) {
                 <div>
                     <h1>Sign Up</h1>
                 </div>
-
-                {/* USE SWITCH CASE TO MOVE BETWEN SIGNUP PAGES */}
                 {selectPage()}
 
 

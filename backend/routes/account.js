@@ -5,6 +5,15 @@ const { pool } = require("../db");
 
 const accountRouter = express.Router();
 
+
+
+
+accountRouter.get("/signup/:step", async (req, res) => {
+  console.log(req.params.step);
+    res.status(200).send();
+})
+
+
 accountRouter.post("/signup", async (req, res) => {
   const { name, email, username, password } = req.body;
   const hashedPassword = await bcrypt.hash(password, 10);

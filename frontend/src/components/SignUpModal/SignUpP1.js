@@ -3,23 +3,33 @@ import FormInput from "../Common/FormInput";
 export default function SignUpP1({ formData, setFormData, handleChange, setSignUpPage }) {
     const { name, username, email } = formData
 
-    const checkIsValid = () => {
+    const checkIsValid = async (username, email) => {
         // Request to check if username or email already exists
-        const isValid = false;
 
-        if (isValid) {
-            setSignUpPage(2)
+        const response = await fetch('http://localhost:3001/account/signup/1', {
+            method: 'GET',
+        });
+
+        if (response.status === 200) {
+            setFormData((prev) => {
+                return {
+                    ...prev,
+                    userAndEmailAvailable: true
+                }
+            });
+            console.log(formData);
+            setSignUpPage(2);
         } else {
             alert("Username or Email already exists");
             setFormData((prev) => {
                 return {
                     ...prev,
                     username: '',
-                    email: ''
+                    email: '',
+                    userAndEmailAvailable: false
                 }
             });
             // Autofocus on username form input (using ref?)
-
         }
 
     }
@@ -57,7 +67,7 @@ export default function SignUpP1({ formData, setFormData, handleChange, setSignU
                 <button
                     className={`btn bg-blue-500 w-28 self-center mt-2`}
                     type="button"
-                    onClick={() => checkIsValid()}
+                    onClick={() => checkIsValid(username, email)}
                 >
                     Next
                 </button>
