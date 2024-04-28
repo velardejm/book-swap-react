@@ -7,7 +7,11 @@ export default function SignUpP1({ formData, setFormData, handleChange, setSignU
         // Request to check if username or email already exists
 
         const response = await fetch('http://localhost:3001/account/signup/1', {
-            method: 'GET',
+            method: 'POST',
+            headers: {
+                'Content-type': 'application/json',
+            },
+            body: JSON.stringify(formData),
         });
 
         if (response.status === 200) {
@@ -24,8 +28,6 @@ export default function SignUpP1({ formData, setFormData, handleChange, setSignU
             setFormData((prev) => {
                 return {
                     ...prev,
-                    username: '',
-                    email: '',
                     userAndEmailAvailable: false
                 }
             });
@@ -67,7 +69,7 @@ export default function SignUpP1({ formData, setFormData, handleChange, setSignU
                 <button
                     className={`btn bg-blue-500 w-28 self-center mt-2`}
                     type="button"
-                    onClick={() => checkIsValid(username, email)}
+                    onClick={() => checkIsValid()}
                 >
                     Next
                 </button>

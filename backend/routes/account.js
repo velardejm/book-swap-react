@@ -7,10 +7,37 @@ const accountRouter = express.Router();
 
 
 
+accountRouter.post("/signup/:step", async (req, res) => {
+  if (req.params.step === '1') {
+    console.log('checking');
+    const { username, email } = req.body;
+    // const sqlCheckRegistration = "SELECT EXISTS (SELECT 1 FROM users WHERE username = $1 OR email = $2) AS exists";
+    const sqlCheckUsername = "SELECT EXISTS (SELECT 1 FROM users WHERE username = $1) AS usernameexists";
+    const sqlCheckEmail = "SELECT EXISTS (SELECT 1 FROM users WHERE email = $1) AS emailexists";
+    const usernameCheckResponse = await pool.query(sqlCheckUsername, [username]);
+    const emailCheckResponse = await pool.query(sqlCheckEmail, [email]);
+    const usernameExists = (usernameCheckResponse.rows[0].usernameexists);
+    const emailExists = (emailCheckResponse.rows[0].emailexists);
 
-accountRouter.get("/signup/:step", async (req, res) => {
-  console.log(req.params.step);
-    res.status(200).send();
+    // console.log(usernameExists);
+    // console.log(emailExists);
+
+    let errorMessage = '';
+
+    console.log(usernameExists && emailExists);
+
+    if (usernameExists && emailExists) errorMessage = 'Username and email already exists';
+    else if (usernameExists) errorMessage = 'Username  already exists';
+    else if (emailExists) errorMessage = 'Email already exists';
+
+    console.log(errorMessage);
+
+    if (false) {
+      res.status(409).send();
+    } else {
+      res.status(200).send();
+    }
+  }
 })
 
 
@@ -18,7 +45,7 @@ accountRouter.post("/signup", async (req, res) => {
   const { name, email, username, password } = req.body;
   const hashedPassword = await bcrypt.hash(password, 10);
 
-  
+
   try {
     await pool.query("BEGIN");
 
