@@ -1,10 +1,25 @@
 import FormInput from "../Common/FormInput";
+import { useState, useEffect, useRef } from "react";
 
 export default function SignUpP1({ formData, setFormData, handleChange, setSignUpPage }) {
-    const { name, username, email } = formData
+    const [isNextEnabled, setIsNextEnabled] = useState(false);
+    const { name, username, email } = formData;
 
-    const checkIsValid = async (username, email) => {
-        // Request to check if username or email already exists
+    useEffect(() => {
+        if(name && username && email) {
+            setIsNextEnabled(true);
+        } else {
+            setIsNextEnabled(false);
+        }
+    }, [formData])
+
+    const isEmailOrUsernameTaken = async () => {
+        if(!isEmailValid()) {
+            alert('Invalid email.');
+
+            return;
+        }
+
 
         const response = await fetch('http://localhost:3001/account/signup/1', {
             method: 'POST',
@@ -36,6 +51,12 @@ export default function SignUpP1({ formData, setFormData, handleChange, setSignU
 
     }
 
+    const isEmailValid = () => {
+        const emailInput = document.querySelector('input[type="email"]');
+        emailInput.focus();
+        return emailInput.validity.valid;
+    }
+
     return (
         <div>
             <form>
@@ -53,7 +74,7 @@ export default function SignUpP1({ formData, setFormData, handleChange, setSignU
                     type="text"
                     name="username"
                     onChangeHandler={handleChange}
-                    autofocus={true}
+                    autofocus={false}
                     value={username}
                 />
 
@@ -67,10 +88,12 @@ export default function SignUpP1({ formData, setFormData, handleChange, setSignU
                 />
 
                 <button
-                    className={`btn bg-blue-500 w-28 self-center mt-2`}
+                    className={`btn bg-blue-500 w-28 self-center mt-2 ${isNextEnabled? '' : 'bg-gray-500'}`}
                     type="button"
-                    onClick={() => checkIsValid()}
+                    onClick={() => isEmailOrUsernameTaken()}
+                    disabled={!isNextEnabled}
                 >
+                    {/* TODO: ADD SUBMIT ON ENTER */}
                     Next
                 </button>
             </form>

@@ -33,14 +33,16 @@ export default function SignUpModal({ closeSignUpModal }) {
 
     return (
         <div className="bg-slate-900 bg-opacity-80 w-dvw h-dvh absolute top-0 left-0 flex items-center justify-center">
-            <div className="bg-green-100 px-10 py-10">
+
+            <div className="bg-green-100 pb-10">
                 <div>
-                    <h1>Sign Up</h1>
+                    <button onClick={closeSignUpModal} className="block ml-auto mr-4 mt-2">x</button>
                 </div>
-                {selectPage()}
 
-
-
+                <div className="px-10">
+                    <h1 className="text-center py-5 text-xl font-bold">Sign Up</h1>
+                    {selectPage()}
+                </div>
             </div>
         </div>
     )
