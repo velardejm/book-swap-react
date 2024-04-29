@@ -39,7 +39,8 @@ export default function SignUpP1({ formData, setFormData, handleChange, setSignU
             console.log(formData);
             setSignUpPage(2);
         } else {
-            alert("Username or Email already exists");
+            const responseObject = await response.json();
+            alert(responseObject.errorMessage);
             setFormData((prev) => {
                 return {
                     ...prev,

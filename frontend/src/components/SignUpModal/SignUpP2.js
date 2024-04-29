@@ -1,11 +1,56 @@
+import { useState, useEffect } from "react";
 import FormInput from "../Common/FormInput";
 
+
 export default function SignUpP2({ formData, handleChange, setSignUpPage }) {
+    const { password, passwordConfirmation } = formData;
+    const [isSubmitEnabled, setIsSubmitEnabled] = useState(false);
+
+    useEffect(() => {
+        if (password && passwordConfirmation) {
+            setIsSubmitEnabled(true);
+        } else {
+            setIsSubmitEnabled(false);
+        }
+    }, [formData])
+
+    const handleSubmit = async (e) => {
+        e.preventDefault();
+
+        if (password === passwordConfirmation) {
+            // sign up logic
+
+            try {
+                const response = await fetch('http://localhost:3001/account/signup/2', {
+                    method: 'POST',
+                    headers: {
+                        'Content-type': 'application/json',
+                    },
+                    body: JSON.stringify(formData),
+                });
+
+                if (response.status === 400) {
+                    alert('Username or E-mail already exists');
+                    return false;
+                } else {
+                    alert('Registration Successful!');
+                    return true;
+                }
+
+            } catch (err) {
+                console.log(err);
+            }
+
+        } else {
+            alert("Incorrect password verification.");
+        }
+    }
+
+
+
     return (
         <div>
             <form>
-
-
                 <FormInput
                     label="Password:"
                     type="password"
@@ -31,8 +76,10 @@ export default function SignUpP2({ formData, handleChange, setSignUpPage }) {
                 </button>
 
                 <button
-                    className={`btn bg-blue-500 w-28 self-center mt-2`}
+                    className={`btn bg-blue-500 w-28 self-center mt-2 ${isSubmitEnabled ? '' : 'bg-gray-500'}`}
                     type="submit"
+                    disabled={!isSubmitEnabled}
+                    onClick={handleSubmit}
                 >
                     Sign Up
                 </button>
