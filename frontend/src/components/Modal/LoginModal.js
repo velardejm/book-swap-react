@@ -1,12 +1,12 @@
 import { useState, useContext } from 'react';
 import { updateForm } from '../../utils/helpers';
 import FormInput from '../Common/FormInput';
-import useGetPreviousRoute from '../..//hooks/useGetPreviousRoute';
+import useGetPreviousRoute from '../../hooks/useGetPreviousRoute';
 // import useLogin from '../../hooks/useLogin';
 import useHandleModalEscape from '../../hooks/useHandleModalEscape';
 import { AuthContext } from '../../contexts/AuthContext';
 
-export default function LoginModal({ isLoginModalOpen, closeLoginModal }) {
+export default function LoginModal({ setIsLoginModalOpen }) {
   const [formData, setFormData] = useState({
     username: '',
     password: '',
@@ -16,7 +16,7 @@ export default function LoginModal({ isLoginModalOpen, closeLoginModal }) {
 
   const { logIn, setIsLoggedIn } = useContext(AuthContext);
 
-  useHandleModalEscape(closeLoginModal);
+  useHandleModalEscape(() => setIsLoginModalOpen(false));
 
   const handleChange = (e) => {
     updateForm(e, setFormData);
@@ -31,16 +31,14 @@ export default function LoginModal({ isLoginModalOpen, closeLoginModal }) {
     }
   };
 
-  if (!isLoginModalOpen) {
-    return null;
-  }
+
 
   return (
     <div
       id="parent-div"
       onClick={(e) => {
         if (e.target.id === 'parent-div') {
-          closeLoginModal();
+          setIsLoginModalOpen(false);
         }
       }}
       className="bg-slate-900 bg-opacity-80 w-dvw h-dvh absolute top-0 left-0 flex items-center justify-center"

@@ -1,4 +1,5 @@
 import Button from '../Common/Button';
+import SignUpModal from '../SignUpModal/SignUpModal';
 import { Link, useNavigate } from 'react-router-dom';
 import { useState, useEffect, useContext } from 'react';
 import LoginModal from '../Modal/LoginModal';
@@ -6,7 +7,9 @@ import Logo from './Logo';
 import { AuthContext } from '../../contexts/AuthContext';
 
 export default function Header() {
+
   const [isLoginModalOpen, setIsLoginModalOpen] = useState(false);
+  const [isSignUpModalOpen, setIsSignUpModalOpen] = useState(false);
   const [isButtonsLoaded, setIsButtonsLoaded] = useState(false);
   const navigate = useNavigate();
   const { isLoggedIn, logOut, user } = useContext(AuthContext);
@@ -14,14 +17,6 @@ export default function Header() {
   useEffect(() => {
     setIsButtonsLoaded(true);
   }, []);
-
-  const openLoginModal = () => {
-    setIsLoginModalOpen(true);
-  };
-
-  const closeLoginModal = () => {
-    setIsLoginModalOpen(false);
-  };
 
   const buttonComponents = (
     <div>
@@ -54,11 +49,11 @@ export default function Header() {
           <Button
             label={'Log in'}
             className={'btn bg-blue-500 mx-2'}
-            onClick={openLoginModal}
+            onClick={() => setIsLoginModalOpen(true)}
           />
 
-          <Link to="/signup">
-            <Button label={'Sign up'} className={'btn bg-blue-500'} />
+          <Link to="/">
+            <Button label={'Sign up'} className={'btn bg-blue-500'} onClick={() => setIsSignUpModalOpen(true)} />
           </Link>
         </>
       )}
@@ -69,10 +64,11 @@ export default function Header() {
     <div className="flex justify-between items-center h-24 px-2">
       <Logo />
       {isButtonsLoaded ? buttonComponents : null}
-      <LoginModal
-        isLoginModalOpen={isLoginModalOpen}
-        closeLoginModal={closeLoginModal}
-      />
+      {isLoginModalOpen ? <LoginModal
+        setIsLoginModalOpen={setIsLoginModalOpen}
+      /> : null}
+      {isSignUpModalOpen ? <SignUpModal setIsSignUpModalOpen={setIsSignUpModalOpen} /> : null}
+
     </div>
   );
 }

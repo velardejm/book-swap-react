@@ -8,12 +8,7 @@ import Header from '../components/Header/Header';
 
 export default function Home() {
   const [isSignUpModalOpen, setIsSignUpModalOpen] = useState(false);
-
   const { isLoggedIn } = useContext(AuthContext);
-
-  const closeSignUpModal = () => {
-    setIsSignUpModalOpen(false);
-  }
 
   if (isLoggedIn === null) {
     return null;
@@ -54,7 +49,7 @@ export default function Home() {
         </div>
       </div>
 
-      {isSignUpModalOpen ? <SignUpModal closeSignUpModal={closeSignUpModal} /> : null}
+      {isSignUpModalOpen ? <SignUpModal setIsSignUpModalOpen={setIsSignUpModalOpen} /> : null}
     </>
   );
 }

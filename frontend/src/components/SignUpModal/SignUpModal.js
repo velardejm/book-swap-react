@@ -4,7 +4,7 @@ import { useState } from "react";
 import { updateForm } from "../../utils/helpers";
 // import useHandleModalEscape from "../../hooks/useHandleModalEscape";
 
-export default function SignUpModal({ closeSignUpModal }) {
+export default function SignUpModal({ setIsSignUpModalOpen }) {
     const [formData, setFormData] = useState({
         name: '',
         email: '',
@@ -36,7 +36,7 @@ export default function SignUpModal({ closeSignUpModal }) {
 
             <div className="bg-green-100 pb-10">
                 <div>
-                    <button onClick={closeSignUpModal} className="block ml-auto mr-4 mt-2">x</button>
+                    <button onClick={() => setIsSignUpModalOpen(false)} className="block ml-auto mr-4 mt-2">x</button>
                 </div>
 
                 <div className="px-10">

@@ -1,10 +1,12 @@
 import { useState, useEffect } from "react";
+import { useNavigate } from 'react-router-dom';
 import FormInput from "../Common/FormInput";
 
 
 export default function SignUpP2({ formData, handleChange, setSignUpPage }) {
     const { password, passwordConfirmation } = formData;
     const [isSubmitEnabled, setIsSubmitEnabled] = useState(false);
+    const navigate = useNavigate();
 
     useEffect(() => {
         if (password && passwordConfirmation) {
@@ -31,10 +33,11 @@ export default function SignUpP2({ formData, handleChange, setSignUpPage }) {
 
                 if (response.status === 400) {
                     alert('Username or E-mail already exists');
-                    return false;
+                    // return false;
                 } else {
                     alert('Registration Successful!');
-                    return true;
+                    // return true;
+                    navigate("/books/listings", {replace:true});
                 }
 
             } catch (err) {
