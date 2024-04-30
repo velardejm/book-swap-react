@@ -61,7 +61,7 @@ export default function Header() {
   );
 
   return (
-    <div className="flex justify-between items-center h-24 px-2">
+    <div className="flex justify-between items-center h-24 px-2 bg-orange-100">
       <Logo />
       {isButtonsLoaded ? buttonComponents : null}
       {isLoginModalOpen ? <LoginModal
