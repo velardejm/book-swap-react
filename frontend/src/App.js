@@ -4,9 +4,9 @@ import Home from './pages/Home';
 import DashboardRoutes from './pages/Dashboard/DashboardRoutes';
 import SignUp from './components/Auth/SignUp';
 import BookListings from './components/Books/BookListings';
+import PrivateRoute from './components/Common/PrivateRoute';
 // import LogIn from './components/Auth/LogIn';
 // import NotFound from './pages/NotFound';
-// import PrivateRoute from './components/Common/PrivateRoute';
 // import SwapRequest from './components/Forms/SwapRequest';
 // import { AuthContextProvider } from './contexts/AuthContext';
 // import Dashboard from './pages/Dashboard';
@@ -21,7 +21,12 @@ function App() {
           <Route path="/" element={<Home />} />
           <Route path="/signup" element={<SignUp />} />
           <Route path="/books/listings" element={<BookListings />} />
-          <Route path="/user/*" element={<DashboardRoutes />} />
+          <Route path="/user/*"
+            element={<PrivateRoute>
+              <DashboardRoutes />
+            </PrivateRoute>} />
+
+
           {/* <Route path="/login" element={<LogIn />} />
         <Route
           path="/swap/:userId/:bookId"

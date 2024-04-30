@@ -1,30 +1,49 @@
-import { useContext } from 'react';
+import { useEffect, useState, useContext } from 'react';
 import { Navigate } from 'react-router-dom';
 import { AuthContext } from '../../contexts/AuthContext';
 
 const PrivateRoute = ({ children }) => {
-  // const { isLoggedIn, setIsLoggedIn } = useContext(AuthContext);
-  const { isLoggedIn } = useContext(AuthContext);
+  const [isLoading, setIsLoading] = useState(true);
+  const { isLoggedIn, authenticate } = useContext(AuthContext);
 
-  // const authenticate = async () => {
-  //   const res = await fetch('http://localhost:3001/users/authenticate', {
-  //     method: 'GET',
-  //     headers: {
-  //       Authorization: `Bearer ${localStorage.getItem('token')}`,
-  //       'Content-type': 'application/json',
-  //     },
-  //   });
+  let component = null;
 
-  //   if (res.status === 200) {
-  //     setIsLoggedIn(true);
-  //   }
-  // };
+  useEffect(() => {
+    if (isLoggedIn !== null) {
+      console.log('loaded');
+      setIsLoading(false);
+    }
+  }, [isLoggedIn]);
 
-  // if (isLoggedIn === null) {
-  //   authenticate();
-  // } else {
-  return isLoggedIn ? <>{children}</> : <Navigate to="/login" />;
-  // }
+  useEffect(() => {
+    if (isLoading === false) {
+      console.log('test');
+      component = isLoggedIn ? <>{children}</> : <Navigate to="/" />
+    }
+  }, [isLoading]);
+
+  return component;
+
+
 };
 
 export default PrivateRoute;
+
+
+// const authenticate = async () => {
+//   const res = await fetch('http://localhost:3001/users/authenticate', {
+//     method: 'GET',
+//     headers: {
+//       Authorization: `Bearer ${localStorage.getItem('token')}`,
+//       'Content-type': 'application/json',
+//     },
+//   });
+
+//   if (res.status === 200) {
+//     setIsLoggedIn(true);
+//   }
+// };
+
+// if (isLoggedIn === null) {
+//   authenticate();
+// } else {
