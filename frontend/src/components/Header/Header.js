@@ -35,7 +35,7 @@ export default function Header() {
           <Button
             label={'To Dashboard'}
             className={'btn bg-blue-400 mx-2'}
-            onClick={() => navigate('/users/dashboard')}
+            onClick={() => navigate('/user')}
           />
 
           <Button

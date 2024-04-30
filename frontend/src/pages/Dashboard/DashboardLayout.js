@@ -6,8 +6,8 @@ export default function DashboardLayout() {
         <div>
             <Header />
             <div className="flex">
-                <nav className="bg-blue-100 pl-5 pr-20 h-dvh">
-                    <ul>
+                <nav className="bg-blue-100 pl-5 pr-10 h-dvh">
+                    <ul className="w-max">
                         <li>
                             <Link to="1">Test 1 Link</Link>
                         </li>
