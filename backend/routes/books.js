@@ -15,7 +15,7 @@ const booksRouter = express.Router();
 const data = loadData();
 const { usersData, usersTransactionData } = data;
 
-booksRouter.get("/", authenticateToken, async (req, res) => {
+booksRouter.get("/mybooks", authenticateToken, async (req, res) => {
   const books = await queryGetBooks(req.user.userId);
   res.status(200).json({ data: books });
 });

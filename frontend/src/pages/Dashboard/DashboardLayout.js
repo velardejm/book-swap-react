@@ -9,10 +9,10 @@ export default function DashboardLayout() {
                 <nav className="bg-blue-100 pl-5 pr-10 h-dvh">
                     <ul className="w-max">
                         <li>
-                            <Link to="1">Test 1 Link</Link>
+                            <Link to="mybooks">My Books</Link>
                         </li>
                         <li>
-                            <Link to="2">Test 2 Link</Link>
+                            <Link to="requests">Swap Requests</Link>
                         </li>
                     </ul>
                 </nav>

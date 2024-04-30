@@ -19,6 +19,7 @@ export default function SwapRequests({
     });
 
     if (res.status === 200) {
+      // THIS PART SHOWS THE SWAP IN THE FRONT END. AT THIS POINT, SWAP HAS ALREADY BEEN MADE IN THE BACKEND
       const responseObject = await res.json();
       const { receivedBook, requestedBookId } = responseObject;
       const respondedRequestId = swapRequests.findIndex(

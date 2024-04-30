@@ -24,7 +24,7 @@ usersRouter.get("/dashboard", authenticateToken, (req, res) => {
   res.status(200).json({ data: data });
 });
 
-usersRouter.get("/transactions", authenticateToken, async (req, res) => {
+usersRouter.get("/swap-requests", authenticateToken, async (req, res) => {
   sqlGetSwapRequests =
     "SELECT * FROM swaprequests WHERE requestee_id = $1 AND status = $2";
 
@@ -39,21 +39,60 @@ usersRouter.get("/transactions", authenticateToken, async (req, res) => {
     await Promise.all(
       swapRequestResults.rows.map(async (row) => {
         const { requester_id, requested_book_id, offerred_book_id } = row;
+
         const requestedBook = await queryGetBook(requested_book_id);
         const offerredBook = await queryGetBook(offerred_book_id);
         const requesterName = await queryGetUserName(requester_id);
+
+        const swapRequestData = {
+          requestId: row.id,
+          requesterName: requesterName,
+          requestedBook,
+          offerredBook,
+        };
+        
+        swapRequests.push(swapRequestData);
+      })
+    );
+
+    res.status(200).json({ data: { swapRequests: swapRequests } });
+  }
+});
+
+usersRouter.get("/transactions", authenticateToken, async (req, res) => {
+  sqlGetSwapRequests =
+    "SELECT * FROM swaprequests WHERE requestee_id = $1 AND status = $2";
+
+  const swapRequestsQueryResults = await pool.query(sqlGetSwapRequests, [
+    req.user.userId,
+    "pending",
+  ]);
+
+  if (swapRequestsQueryResults.rowCount > 0) {
+    const swapRequests = [];
+
+    await Promise.all(
+      swapRequestsQueryResults.rows.map(async (row) => {
+        const { requester_id, requested_book_id, offerred_book_id } = row;
+
+        const requestedBook = await queryGetBook(requested_book_id);
+        const offerredBook = await queryGetBook(offerred_book_id);
+        const requesterName = await queryGetUserName(requester_id);
+
         const requestData = {
           requestId: row.id,
           requesterName: requesterName,
           requestedBook,
           offerredBook,
         };
+        
         swapRequests.push(requestData);
       })
     );
 
     res.status(200).json({ data: { swapRequests: swapRequests } });
   }
+  res.end();
 });
 
 module.exports = usersRouter;
