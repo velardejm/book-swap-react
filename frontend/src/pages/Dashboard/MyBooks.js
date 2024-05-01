@@ -17,8 +17,8 @@ export default function BookList() {
         {!books
           ? null
           : books.map((book, index) => {
-              return <BookDetails book={book} key={book.id} />;
-            })}
+            return <BookDetails book={book} key={book.id} />;
+          })}
       </div>
 
       <button
@@ -29,14 +29,18 @@ export default function BookList() {
         Add Book
       </button>
 
-      <Modal
+      {/* <Modal
         component={AddBook}
         isModalOpen={isModalOpen}
         closeModal={() => setIsModalOpen(false)}
         data={books}
         setData={(data) => setBooks(data)}
-      ></Modal>
-      
+      ></Modal> */}
+
+      {isModalOpen ? <Modal setIsModalOpen={setIsModalOpen}>
+        <AddBook books={books} setBooks={setBooks}/>
+      </Modal> : null}
+
     </div>
   );
 }

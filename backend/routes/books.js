@@ -37,14 +37,14 @@ booksRouter.get("/listings", checkToken, async (req, res) => {
 });
 
 // ADD NEW BOOK
-booksRouter.post("/", authenticateToken, async (req, res) => {
+booksRouter.post("/new", authenticateToken, async (req, res) => {
   try {
     await pool.query("BEGIN");
 
     const { title, author, genre, condition } = req.body;
 
     const sqlAddBook =
-      "INSERT INTO books (title, author, genre, condition) VALUES ($1, $2, $3, $4) RETURNING id";
+      "INSERT INTO books (title, author, genre, condition, owner_id) VALUES ($1, $2, $3, $4, $5) RETURNING id";
 
     const sqlAssignBook =
       "INSERT INTO ownedbooks (user_id, book_id) VALUES ($1, $2)";
@@ -54,6 +54,7 @@ booksRouter.post("/", authenticateToken, async (req, res) => {
       author,
       genre,
       condition,
+      req.user.userId
     ]);
 
     await pool.query(sqlAssignBook, [req.user.userId, result.rows[0].id]);

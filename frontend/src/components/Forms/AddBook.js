@@ -1,11 +1,12 @@
 import { useState } from 'react';
+import { useNavigate } from 'react-router-dom';
 
 import FormInput from '../Common/FormInput';
-
 import { updateForm } from '../../utils/helpers';
-import useHandleModalEscape from '../../hooks/useHandleModalEscape';
 
-export default function AddBook({ closeModal, data, setData }) {
+
+// export default function AddBook({ closeModal, data, setData }) {
+  export default function AddBook({books, setBooks}) {
   const [formData, setFormData] = useState({
     title: '',
     author: '',
@@ -13,7 +14,7 @@ export default function AddBook({ closeModal, data, setData }) {
     condition: '',
   });
 
-  useHandleModalEscape(closeModal);
+  const navigate = useNavigate();
 
   const handleChange = (e) => {
     updateForm(e, setFormData);
@@ -21,7 +22,7 @@ export default function AddBook({ closeModal, data, setData }) {
 
   const handleSubmit = async (e) => {
     e.preventDefault();
-    const res = await fetch('http://localhost:3001/books', {
+    const res = await fetch('http://localhost:3001/books/new', {
       method: 'POST',
       headers: {
         Authorization: `Bearer ${localStorage.getItem('token')}`,
@@ -32,9 +33,10 @@ export default function AddBook({ closeModal, data, setData }) {
 
     if (res.status === 200) {
       const { data } = await res.json();
-      setData(data);
-      closeModal();
+      setBooks(data);
     }
+    alert("Add book submitted");
+
   };
 
   return (

@@ -1,6 +1,7 @@
 CREATE TABLE Users (
     id SERIAL PRIMARY KEY,
     username VARCHAR(255) NOT NULL UNIQUE,
+    email VARCHAR(255) NOT NULL UNIQUE,
     password VARCHAR(255) NOT NULL
 );
 
@@ -20,6 +21,8 @@ CREATE TABLE Books (
     author VARCHAR(255) NOT NULL,
     genre VARCHAR(255) NOT NULL,
     condition VARCHAR(255) NOT NULL,
+    owner_id INT NOT NULL,
+    FOREIGN KEY (owner_id) REFERENCES Users(id),
     status VARCHAR(20) DEFAULT 'available' CHECK (status IN ('available', 'pending_swap'))
 );
 
