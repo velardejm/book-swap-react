@@ -1,5 +1,4 @@
 import { useState, useEffect, useContext } from 'react';
-import { useNavigate } from 'react-router-dom';
 import useFetchData from '../../hooks/useFetchData';
 import Dropdown from '../Common/Dropdown';
 import { AuthContext } from '../../contexts/AuthContext';
@@ -12,14 +11,6 @@ export default function SwapRequest({ userId, bookId }) {
   const [data, setData] = useFetchData(
     `http://localhost:3001/swap/${userId}/${bookId}`
   );
-
-  console.log(userId);
-  console.log(bookId);
-
-  console.log(data);
-
-  const navigate = useNavigate();
-
   if (!data) return null;
 
   const { requestedBook, bookOwner, userBooks } = data;
@@ -39,13 +30,7 @@ export default function SwapRequest({ userId, bookId }) {
     const request = {
       requestedBookId: requestedBook.id,
       offerredBookId: bookToSwap.id,
-      // requestedBookId: data.requestedBookDetails.bookId,
-      // bookOwnerId: userId,
-      // bookToSwapId: bookToSwap.bookId,
       requesterId: user.userId,
-      // requester: user.name,
-      // bookToSwap: bookToSwap,
-      // requestedBook: data.requestedBookDetails,
     };
 
     const res = await fetch(

@@ -51,13 +51,7 @@ swapRouter.post(
   async (req, res) => {
     try {
       const {
-        // requestedBookId,
-        // bookOwnerId,
-        // bookToSwapId,
         requesterId,
-        // requester,
-        // bookToSwap,
-        // requestedBook,
         requestedBookId,
         offerredBookId,
       } = req.body;
@@ -92,8 +86,10 @@ swapRouter.post(
         return;
       }
 
+      // TODO: Change query below to get the owner_id from the books table. Confirm if ownedbooks table could be dropped.
       const sqlGetBookOwnerId =
         "SELECT user_id FROM ownedbooks WHERE book_id=$1";
+
       const sqlSaveSwapRequest =
         "INSERT INTO swaprequests (requester_id, requestee_id, requested_book_id, offerred_book_id) VALUES ($1, $2, $3, $4)";
       const sqlUpdateBookSwapAvailability = "UPDATE books SET status = $1 WHERE id  = $2";
