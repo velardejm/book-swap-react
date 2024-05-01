@@ -14,6 +14,11 @@ export default function SwapRequest() {
     `http://localhost:3001/swap/${userId}/${bookId}`
   );
 
+  console.log(userId);
+  console.log(bookId);
+
+  console.log(data);
+
   const navigate = useNavigate();
 
   if (!data) return null;

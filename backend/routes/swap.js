@@ -37,9 +37,12 @@ swapRouter.get("/:owner/:bookId", authenticateToken, async (req, res) => {
       bookOwner: ownerDetails.rows[0].name,
       userBooks: userBooks,
     };
-
+    console.log('test');
     res.status(200).json({ data: data });
-  } catch { }
+  } catch(err) {
+    console.log(err);
+
+   }
 });
 
 swapRouter.post(
@@ -107,7 +110,7 @@ swapRouter.post(
         requestedBookId,
         offerredBookId,
       ]);
-      
+
       await pool.query(sqlUpdateBookSwapAvailability, ['pending_swap', offerredBookId]);
 
       await pool.query("COMMIT");
