@@ -32,7 +32,7 @@ export default function BookListing({ book }) {
 
       {isModalOpen ? <Modal setIsModalOpen={setIsModalOpen}>
         <h1>Swap Request</h1>
-        <SwapRequest />
+        <SwapRequest userId={user.userId} bookId={book.id}/>
       </Modal> : null}
 
 

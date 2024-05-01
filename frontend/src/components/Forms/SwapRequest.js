@@ -1,13 +1,12 @@
 import { useState, useEffect, useContext } from 'react';
-import { useParams, useNavigate } from 'react-router-dom';
+import { useNavigate } from 'react-router-dom';
 import useFetchData from '../../hooks/useFetchData';
 import Dropdown from '../Common/Dropdown';
 import { AuthContext } from '../../contexts/AuthContext';
-import Header from '../Header/Header';
 
-export default function SwapRequest() {
+
+export default function SwapRequest({ userId, bookId }) {
   const [bookToSwap, setBookToSwap] = useState(null);
-  const { userId, bookId } = useParams();
   const { user } = useContext(AuthContext);
 
   const [data, setData] = useFetchData(
@@ -67,7 +66,6 @@ export default function SwapRequest() {
 
   return (
     <div>
-      <Header />
       <div className="w-1/2 m-auto">
         <h1>Swap Request Pages</h1>
         <div className="flex justify-between bg-blue-100 p-10">
