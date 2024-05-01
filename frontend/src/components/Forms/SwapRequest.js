@@ -1,7 +1,7 @@
 import { useState, useEffect, useContext } from 'react';
 import { useParams, useNavigate } from 'react-router-dom';
 import useFetchData from '../../hooks/useFetchData';
-import Dropdown from '../../components/shared/Dropdown';
+import Dropdown from '../Common/Dropdown';
 import { AuthContext } from '../../contexts/AuthContext';
 import Header from '../Header/Header';
 
@@ -17,9 +17,8 @@ export default function SwapRequest() {
   const navigate = useNavigate();
 
   if (!data) return null;
-  const { requestedBook, bookOwner, userBooks } = data;
 
-  console.log(data);
+  const { requestedBook, bookOwner, userBooks } = data;
 
   const selectBookToSwap = (book) => {
     setBookToSwap(book);
@@ -74,6 +73,7 @@ export default function SwapRequest() {
               <li>Book Title: {requestedBook.title}</li>
             </ul>
           </div>
+          <hr></hr>
           <div>
             <form method="POST" className="flex flex-col items-center">
               {user ? (
