@@ -9,7 +9,7 @@ export default function SwapRequest({ userId, bookId }) {
   const { user } = useContext(AuthContext);
 
   const [data, setData] = useFetchData(
-    `http://localhost:3001/swap/${userId}/${bookId}`
+    `http://localhost:3001/swap/request/${bookId}`
   );
   if (!data) return null;
 
@@ -34,7 +34,7 @@ export default function SwapRequest({ userId, bookId }) {
     };
 
     const res = await fetch(
-      `http://localhost:3001/swap/${user.userId}/${bookId}/${userId}`,
+      `http://localhost:3001/swap/submit-request`,
       {
         method: 'POST',
         headers: {

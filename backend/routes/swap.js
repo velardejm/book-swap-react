@@ -15,7 +15,7 @@ const swapRouter = express.Router();
 const data = loadData();
 const { usersData, usersTransactionData } = data;
 
-swapRouter.get("/:owner/:bookId", authenticateToken, async (req, res) => {
+swapRouter.get("/request/:bookId", authenticateToken, async (req, res) => {
   // NOTE: owner params not used here, consider changing the url (remove owner params)
 
   try {
@@ -37,7 +37,8 @@ swapRouter.get("/:owner/:bookId", authenticateToken, async (req, res) => {
       bookOwner: ownerDetails.rows[0].name,
       userBooks: userBooks,
     };
-    console.log('test');
+
+    
     res.status(200).json({ data: data });
   } catch(err) {
     console.log(err);
@@ -46,7 +47,7 @@ swapRouter.get("/:owner/:bookId", authenticateToken, async (req, res) => {
 });
 
 swapRouter.post(
-  "/:user/:bookId/:owner",
+  "/submit-request",
   authenticateToken,
   async (req, res) => {
     try {

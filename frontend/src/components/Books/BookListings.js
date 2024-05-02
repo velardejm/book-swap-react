@@ -8,6 +8,8 @@ export default function BookListings() {
     'http://localhost:3001/books/listings'
   );
 
+  console.log(bookListing);
+
   if (bookListing === null) return;
 
   return (

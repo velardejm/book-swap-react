@@ -28,11 +28,9 @@ export default function BookListing({ book }) {
         Swap
       </button>
 
-      <SwapRequest />
-
       {isModalOpen ? <Modal setIsModalOpen={setIsModalOpen}>
         <h1>Swap Request</h1>
-        <SwapRequest userId={user.userId} bookId={book.id}/>
+        <SwapRequest user={user} userId={user.userId} bookId={book.id}/>
       </Modal> : null}
 
 
