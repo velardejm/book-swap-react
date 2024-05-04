@@ -66,11 +66,6 @@ exports.querySwapBook = async function (
   offerredBookId
 ) {
 
-  console.log(requesterId,
-    requesteeId,
-    requestedBookId,      
-    offerredBookId);
-
   try {
     const sqlUpdateBookOwner = "UPDATE books SET owner_id = $1 WHERE id = $2";
     await pool.query(sqlUpdateBookOwner, [requesterId, requestedBookId]);

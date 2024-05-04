@@ -1,4 +1,4 @@
-export default function SwapDetails({ request, index }) {
+export default function SwapDetails({ request, updateSwapRequests }) {
 
     const { requestId, requesterName, requestedBook, offerredBook } = request
 
@@ -14,6 +14,11 @@ export default function SwapDetails({ request, index }) {
                 requestId: requestId,
             }),
         });
+
+        updateSwapRequests(requestId);
+
+        if (res.status === 200) {
+        }
     }
 
     return (
@@ -45,35 +50,3 @@ export default function SwapDetails({ request, index }) {
 }
 
 
-// const respondToRequest = async (response, requestId) => {
-//     const res = await fetch(`http://localhost:3001/swap/respond/${requestId}`, {
-//       method: 'POST',
-//       headers: {
-//         Authorization: `Bearer ${localStorage.getItem('token')}`,
-//         'Content-type': 'application/json',
-//       },
-//       body: JSON.stringify({
-//         response: response,
-//         requestId: requestId,
-//       }),
-//     });
-
-//     if (res.status === 200) {
-//       // THIS PART SHOWS THE SWAP IN THE FRONT END. AT THIS POINT, SWAP HAS ALREADY BEEN MADE IN THE BACKEND
-//       const responseObject = await res.json();
-//       const { receivedBook, requestedBookId } = responseObject;
-//       const respondedRequestId = swapRequests.findIndex(
-//         (i) => i.requestId === requestId
-//       );
-//       swapRequests.splice(respondedRequestId, 1);
-//       setUserTransactions(swapRequests);
-
-//       if (response === 'accept') {
-//         const requestedBookIndex = books.findIndex(
-//           (i) => i.id === requestedBookId
-//         );
-//         books.splice(requestedBookIndex, 1);
-//         setBooks([...books, receivedBook]);
-//       }
-//     }
-//   };

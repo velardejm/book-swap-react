@@ -16,7 +16,7 @@ const data = loadData();
 const { usersData, usersTransactionData } = data;
 
 swapRouter.get("/request/:bookId", authenticateToken, async (req, res) => {
-  
+
   try {
     const sqlGetBook = "SELECT * FROM books WHERE id=$1";
     const sqlGetBookOwnerId =
@@ -126,11 +126,11 @@ swapRouter.post(
   "/respond",
   authenticateToken,
   async (req, res) => {
-    let receivedBook = null;
-    let requestedBookId = null;
+    // let receivedBook = null;
+    // let requestedBookId = null;
+    const { response, requestId } = req.body;
 
     try {
-      const { response, requestId } = req.body;
       pool.query("BEGIN");
       const sqlUpdateRequestStatus =
         "UPDATE swaprequests SET status = $1 WHERE id = $2";
@@ -172,6 +172,7 @@ swapRouter.post(
       res.status(200).json({ ...data });
     } catch {
       pool.query("ROLLBACK");
+      res.status(404).send({ error: "An error occurred." });
     }
 
 

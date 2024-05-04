@@ -54,8 +54,9 @@ usersRouter.get("/requests-in", authenticateToken, async (req, res) => {
         swapRequests.push(swapRequestData);
       })
     );
-
     res.status(200).json({ data: swapRequests });
+  } else {
+    res.status(200).json({ data: [] });
   }
 });
 
