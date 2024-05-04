@@ -38,12 +38,12 @@ swapRouter.get("/request/:bookId", authenticateToken, async (req, res) => {
       userBooks: userBooks,
     };
 
-    
+
     res.status(200).json({ data: data });
-  } catch(err) {
+  } catch (err) {
     console.log(err);
 
-   }
+  }
 });
 
 swapRouter.post(
@@ -124,25 +124,26 @@ swapRouter.post(
 );
 
 swapRouter.post(
-  "/respond/:transactionId",
+  "/respond",
   authenticateToken,
   async (req, res) => {
     let receivedBook = null;
     let requestedBookId = null;
+
     try {
       const { response, requestId } = req.body;
       pool.query("BEGIN");
+      const sqlUpdateRequestStatus =
+        "UPDATE swaprequests SET status = $1 WHERE id = $2";
 
       if (response === "reject") {
-        const sqlRejectRequest =
-          "UPDATE swaprequests SET status = $1 WHERE id = $2";
-        await pool.query(sqlRejectRequest, ["rejected", requestId]);
+        await pool.query(sqlUpdateRequestStatus, ["rejected", requestId]);
       }
 
       if (response === "accept") {
         const request = await queryGetSwapRequest(requestId);
         const {
-          id,
+          // id,
           requester_id,
           requestee_id,
           requested_book_id,
@@ -150,7 +151,7 @@ swapRouter.post(
         } = request;
 
         await querySwapBook(
-          id,
+          // id,
           requester_id,
           requestee_id,
           requested_book_id,
@@ -159,6 +160,8 @@ swapRouter.post(
 
         receivedBook = await queryGetBook(offerred_book_id);
         requestedBookId = requested_book_id;
+
+        await pool.query(sqlUpdateRequestStatus, ["completed", requestId]);
       }
       pool.query("COMMIT");
 
@@ -171,6 +174,10 @@ swapRouter.post(
     } catch {
       pool.query("ROLLBACK");
     }
+
+
+
+
   }
 );
 

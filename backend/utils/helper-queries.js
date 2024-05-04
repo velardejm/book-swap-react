@@ -7,10 +7,10 @@ exports.queryGetAllBooks = async function () {
 };
 
 exports.queryGetBooks = async function (id) {
-  const sqlGetBookIds = "SELECT (book_id) FROM ownedbooks WHERE user_id = $1";
+  const sqlGetBookIds = "SELECT (id) FROM books WHERE owner_id = $1";
 
   const bookIds = await pool.query(sqlGetBookIds, [id]);
-  const bookIdsArray = bookIds.rows.map((i) => i.book_id);
+  const bookIdsArray = bookIds.rows.map((i) => i.id);
 
   const sqlGetBooks = "SELECT * FROM books WHERE id = ANY($1)";
   const bookResults = await pool.query(sqlGetBooks, [bookIdsArray]);
@@ -22,7 +22,7 @@ exports.queryGetAvailableBooks = async function (id) {
 
   const bookIds = await pool.query(sqlGetBookIds, [id]);
   const bookIdsArray = bookIds.rows.map((i) => i.id);
-  
+
   const sqlGetBooks = "SELECT * FROM books WHERE id = ANY($1) AND status != $2";
   // const bookResults = await pool.query(sqlGetBooks, [bookIdsArray, 'pending_swap']);
   const bookResults = await pool.query(sqlGetBooks, [bookIdsArray, '']);
@@ -60,34 +60,59 @@ exports.queryGetSwapRequest = async function (id) {
 };
 
 exports.querySwapBook = async function (
-  requestId,
   requesterId,
   requesteeId,
   requestedBookId,
   offerredBookId
 ) {
+
+  console.log(requesterId,
+    requesteeId,
+    requestedBookId,      
+    offerredBookId);
+
   try {
-    const sqlUpdateSwapRequest =
-      "UPDATE swaprequests SET status=$1 WHERE id=$2";
-    const sqlUpdateRequestedBookOwner =
-      "UPDATE ownedbooks SET user_id = $1 WHERE user_id = $2 AND book_id = $3";
-    const sqlUpdateOfferredBookOwner =
-      "UPDATE ownedbooks SET user_id = $1 WHERE user_id = $2 AND book_id = $3";
-    pool.query("BEGIN");
-    await pool.query(sqlUpdateSwapRequest, ["accepted", requestId]);
-    await pool.query(sqlUpdateRequestedBookOwner, [
-      requesterId,
-      requesteeId,
-      requestedBookId,
-    ]);
-    await pool.query(sqlUpdateOfferredBookOwner, [
-      requesteeId,
-      requesterId,
-      offerredBookId,
-    ]);
+    const sqlUpdateBookOwner = "UPDATE books SET owner_id = $1 WHERE id = $2";
+    await pool.query(sqlUpdateBookOwner, [requesterId, requestedBookId]);
+    await pool.query(sqlUpdateBookOwner, [requesteeId, offerredBookId]);
     await pool.query("COMMIT");
   } catch (err) {
     console.log(err);
     pool.query("ROLLBACK");
   }
 };
+
+// OLD BOOK SWAP QUERY
+// exports.querySwapBook = async function (
+//   requestId,
+//   requesterId,
+//   requesteeId,
+//   requestedBookId,
+//   offerredBookId
+// ) {
+//   try {
+//     const sqlUpdateSwapRequest =
+//       "UPDATE swaprequests SET status=$1 WHERE id=$2";
+//     const sqlUpdateRequestedBookOwner =
+//       "UPDATE ownedbooks SET user_id = $1 WHERE user_id = $2 AND book_id = $3";
+//     const sqlUpdateOfferredBookOwner =
+//       "UPDATE ownedbooks SET user_id = $1 WHERE user_id = $2 AND book_id = $3";
+//     pool.query("BEGIN");
+//     await pool.query(sqlUpdateSwapRequest, ["accepted", requestId]);
+//     await pool.query(sqlUpdateRequestedBookOwner, [
+//       requesterId,
+//       requesteeId,
+//       requestedBookId,
+//     ]);
+//     await pool.query(sqlUpdateOfferredBookOwner, [
+//       requesteeId,
+//       requesterId,
+//       offerredBookId,
+//     ]);
+//     await pool.query("COMMIT");
+//   } catch (err) {
+//     console.log(err);
+//     pool.query("ROLLBACK");
+//   }
+// };
+

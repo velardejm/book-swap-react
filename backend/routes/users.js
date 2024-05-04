@@ -24,7 +24,7 @@ usersRouter.get("/dashboard", authenticateToken, (req, res) => {
   res.status(200).json({ data: data });
 });
 
-usersRouter.get("/swap-requests", authenticateToken, async (req, res) => {
+usersRouter.get("/requests-in", authenticateToken, async (req, res) => {
   sqlGetSwapRequests =
     "SELECT * FROM swaprequests WHERE requestee_id = $1 AND status = $2";
 
@@ -55,7 +55,7 @@ usersRouter.get("/swap-requests", authenticateToken, async (req, res) => {
       })
     );
 
-    res.status(200).json({ data: { swapRequests: swapRequests } });
+    res.status(200).json({ data: swapRequests });
   }
 });
 

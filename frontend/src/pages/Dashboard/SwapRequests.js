@@ -1,12 +1,21 @@
 import useAuthorizedFetch from "../../hooks/useAuthorizedFetch"
+import SwapDetails from "../../components/Swap/SwapDetails";
 
 export default function SwapRequests() {
-  const [swapRequests, setSwapRequests] = useAuthorizedFetch('http://localhost:3001/users/swap-requests');
+  const [swapRequests, setSwapRequests] = useAuthorizedFetch('http://localhost:3001/users/requests-in');
+
+  
+  if (!swapRequests) return null;
+  console.log(swapRequests);
 
 
   return (
     <div>
-      <h1>Swap Requests</h1>
+      {
+        swapRequests.map((requests, index) => {
+          return <SwapDetails request={requests} key={index} />
+        })
+      }
     </div>
   )
 }
