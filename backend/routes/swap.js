@@ -16,8 +16,7 @@ const data = loadData();
 const { usersData, usersTransactionData } = data;
 
 swapRouter.get("/request/:bookId", authenticateToken, async (req, res) => {
-  // NOTE: owner params not used here, consider changing the url (remove owner params)
-
+  
   try {
     const sqlGetBook = "SELECT * FROM books WHERE id=$1";
     const sqlGetBookOwnerId =
@@ -89,11 +88,11 @@ swapRouter.post(
 
       // TODO: Change query below to get the owner_id from the books table. Confirm if ownedbooks table could be dropped.
       const sqlGetBookOwnerId =
-        "SELECT user_id FROM ownedbooks WHERE book_id=$1";
+        "SELECT owner_id FROM books WHERE id=$1";
 
       const sqlSaveSwapRequest =
         "INSERT INTO swaprequests (requester_id, requestee_id, requested_book_id, offerred_book_id) VALUES ($1, $2, $3, $4)";
-      const sqlUpdateBookSwapAvailability = "UPDATE books SET status = $1 WHERE id  = $2";
+      // const sqlUpdateBookSwapAvailability = "UPDATE books SET status = $1 WHERE id  = $2";
 
       await pool.query("BEGIN");
 
@@ -103,12 +102,12 @@ swapRouter.post(
 
       const result = await pool.query(sqlSaveSwapRequest, [
         req.user.userId,
-        bookOwnerIdResult.rows[0].user_id,
+        bookOwnerIdResult.rows[0].owner_id,
         requestedBookId,
         offerredBookId,
       ]);
 
-      await pool.query(sqlUpdateBookSwapAvailability, ['pending_swap', offerredBookId]);
+      // await pool.query(sqlUpdateBookSwapAvailability, ['pending_swap', offerredBookId]);
 
       await pool.query("COMMIT");
 
@@ -158,16 +157,16 @@ swapRouter.post(
           offerred_book_id
         );
 
-        receivedBook = await queryGetBook(offerred_book_id);
-        requestedBookId = requested_book_id;
+        // receivedBook = await queryGetBook(offerred_book_id);
+        // requestedBookId = requested_book_id;
 
         await pool.query(sqlUpdateRequestStatus, ["completed", requestId]);
       }
       pool.query("COMMIT");
 
       const data = {
-        receivedBook: receivedBook,
-        requestedBookId: requestedBookId,
+        // receivedBook: receivedBook,
+        // requestedBookId: requestedBookId,
       };
 
       res.status(200).json({ ...data });

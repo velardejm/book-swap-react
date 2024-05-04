@@ -4,7 +4,7 @@ import Dropdown from '../Common/Dropdown';
 import { AuthContext } from '../../contexts/AuthContext';
 
 
-export default function SwapRequest({ userId, bookId }) {
+export default function SwapRequest({ bookId }) {
   const [bookToSwap, setBookToSwap] = useState(null);
   const { user } = useContext(AuthContext);
 
@@ -28,9 +28,9 @@ export default function SwapRequest({ userId, bookId }) {
     }
 
     const request = {
+      requesterId: user.userId,
       requestedBookId: requestedBook.id,
       offerredBookId: bookToSwap.id,
-      requesterId: user.userId,
     };
 
     const res = await fetch(
