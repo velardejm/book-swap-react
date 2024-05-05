@@ -1,0 +1,1 @@
+export const logOutPrompt = "Are you sure you want to log out?";

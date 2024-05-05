@@ -1,21 +1,26 @@
 import SignUpModal from '../components/SignUpModal/SignUpModal';
+import ConfirmationModal from '../components/Modal/ConfirmationModal';
 
 import { useContext, useState } from 'react';
 import { Link } from 'react-router-dom';
 import { AuthContext } from '../contexts/AuthContext';
+import { logOutPrompt } from '../utils/prompts';
 
 import Header from '../components/Header/Header';
 
 export default function Home() {
   const [isSignUpModalOpen, setIsSignUpModalOpen] = useState(false);
+  const [isModalOpen, setIsModalOpen] = useState(true);
   const { isLoggedIn } = useContext(AuthContext);
 
   if (isLoggedIn === null) {
     return null;
   }
+  
 
   return (
     <>
+      {isModalOpen ? <ConfirmationModal message={logOutPrompt} setIsModalOpen={setIsModalOpen} /> : null}
       <Header />
 
       <div className="flex flex-col justify-center items-center text-center h-[85vh] bg-blue-200 px-5">
