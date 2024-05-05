@@ -1,13 +1,21 @@
-import Button from "../Common/Button";
+import Button from '../Common/Button';
 
-export default function ConfirmationModal({ setIsModalOpen, message, confirm, cancel }) {
-
+export default function ConfirmationModal({
+  setIsModalOpen,
+  message,
+  confirm,
+  cancel,
+}) {
   return (
     <div className="bg-slate-900 bg-opacity-80 w-dvw h-dvh absolute top-0 left-0 flex items-center justify-center">
-
       <div className="bg-green-100 pb-10">
         <div>
-          <button onClick={() => setIsModalOpen(false)} className="block ml-auto mr-4 mt-2">x</button>
+          <button
+            onClick={() => setIsModalOpen(false)}
+            className="block ml-auto mr-4 mt-2"
+          >
+            x
+          </button>
         </div>
 
         <div className="px-10">
@@ -15,7 +23,7 @@ export default function ConfirmationModal({ setIsModalOpen, message, confirm, ca
           <Button
             label={'Ok'}
             className={'btn bg-blue-400 mx-2'}
-            onClick={() => console.log()}
+            onClick={confirm}
           />
 
           <Button
@@ -28,12 +36,6 @@ export default function ConfirmationModal({ setIsModalOpen, message, confirm, ca
     </div>
   );
 }
-
-
-
-
-
-
 
 // import { useState } from "react";
 
