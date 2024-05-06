@@ -89,7 +89,8 @@ export default function Header() {
           message={logOutPrompt}
           setIsModalOpen={setisLogOutPromptOpen}
           confirm={() => {
-            localStorage.removeItem('token');
+            // localStorage.removeItem('token');
+            logOut();
             navigate('/');
           }}
         />

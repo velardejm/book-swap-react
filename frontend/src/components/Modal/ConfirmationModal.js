@@ -29,7 +29,7 @@ export default function ConfirmationModal({
           <Button
             label={'Cancel'}
             className={'btn bg-orange-400 mx-2'}
-            onClick={() => console.log()}
+            onClick={() => setIsModalOpen(false)}
           />
         </div>
       </div>
