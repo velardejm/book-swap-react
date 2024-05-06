@@ -73,4 +73,16 @@ booksRouter.post("/new", authenticateToken, async (req, res) => {
   }
 });
 
+
+
+// UPDATE EXISTING BOOK
+booksRouter.patch("/edit/:bookId", authenticateToken, (req, res) => {
+
+  // 1. verify if book owner id matches with the user id.
+  //If yes, update the details of the book saved in the database.
+  
+
+});
+
+
 module.exports = booksRouter;
