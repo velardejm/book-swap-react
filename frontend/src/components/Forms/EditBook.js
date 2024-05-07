@@ -6,16 +6,14 @@ import { updateForm } from '../../utils/helpers';
 
 
 // export default function AddBook({ closeModal, data, setData }) {
-export default function EditBook({ book }) {
-  const { title, author, genre, condition } = book;
+export default function EditBook({ book, setBooks }) {
+  const { id, title, author, genre, condition } = book;
   const [formData, setFormData] = useState({
-    bookTitle: title,
+    title: title,
     author: author,
     genre: genre,
     condition: condition,
   });
-
-  const { bookTitle } = formData;
 
   const navigate = useNavigate();
 
@@ -25,20 +23,20 @@ export default function EditBook({ book }) {
 
   const handleSubmit = async (e) => {
     e.preventDefault();
-    // const res = await fetch('http://localhost:3001/books/new', {
-    //   method: 'POST',
-    //   headers: {
-    //     Authorization: `Bearer ${localStorage.getItem('token')}`,
-    //     'Content-Type': 'application/json',
-    //   },
-    //   body: JSON.stringify(formData),
-    // });
+    const res = await fetch(`http://localhost:3001/books/edit/${id}`, {
+      method: 'PATCH',
+      headers: {
+        Authorization: `Bearer ${localStorage.getItem('token')}`,
+        'Content-Type': 'application/json',
+      },
+      body: JSON.stringify(formData),
+    });
 
-    // if (res.status === 200) {
-    //   const { data } = await res.json();
-    //   setBooks(data);
-    // }
-    // alert("Add book submitted");
+    if (res.status === 200) {
+      const { data } = await res.json();
+      alert("Book saved successfully.");
+      setBooks(data);
+    }
 
   };
 
@@ -55,7 +53,7 @@ export default function EditBook({ book }) {
         type="text"
         name="title"
         onChangeHandler={handleChange}
-        value={bookTitle}
+        value={title}
         autofocus={true}
       />
 
@@ -64,6 +62,7 @@ export default function EditBook({ book }) {
         type="text"
         name="author"
         onChangeHandler={handleChange}
+        value={author}
         autofocus={false}
       />
 
@@ -72,6 +71,7 @@ export default function EditBook({ book }) {
         type="text"
         name="genre"
         onChangeHandler={handleChange}
+        value={genre}
         autofocus={false}
       />
 
@@ -80,6 +80,7 @@ export default function EditBook({ book }) {
         type="text"
         name="condition"
         onChangeHandler={handleChange}
+        value={condition}
         autofocus={false}
       />
 

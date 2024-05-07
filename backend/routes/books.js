@@ -8,6 +8,7 @@ const {
   queryGetBooks,
   queryGetAllBooks,
   queryGetListing,
+  queryGetBook
 } = require("../utils/helper-queries");
 
 const booksRouter = express.Router();
@@ -62,7 +63,6 @@ booksRouter.post("/new", authenticateToken, async (req, res) => {
     const books = await queryGetBooks(req.user.userId);
 
     pool.query("COMMIT");
-    console.log(books);
     res.status(200).json({ data: books });
   } catch (err) {
     console.log(err);
@@ -76,11 +76,26 @@ booksRouter.post("/new", authenticateToken, async (req, res) => {
 
 
 // UPDATE EXISTING BOOK
-booksRouter.patch("/edit/:bookId", authenticateToken, (req, res) => {
+booksRouter.patch("/edit/:bookId", authenticateToken, async (req, res) => {
 
-  // 1. verify if book owner id matches with the user id.
-  //If yes, update the details of the book saved in the database.
-  
+  const { title, author, genre, condition } = req.body;
+  const { owner_id } = await queryGetBook(req.params.bookId);
+
+  if (owner_id === req.user.userId) {
+    const sqlUpdateBook = "UPDATE books SET title = $1, author = $2, genre = $3, condition = $4 WHERE id = $5";
+    try {
+      await pool.query(sqlUpdateBook, [title, author, genre, condition, req.params.bookId]);
+      const books = await queryGetBooks(req.user.userId);
+      res.status(200).send({ data: books });
+    } catch {
+      res.status(404).send({ error: "Book update failed." });
+    }
+  } else {
+    res.status(401).send({ error: "Unauthorized." });
+  }
+
+
+
 
 });
 

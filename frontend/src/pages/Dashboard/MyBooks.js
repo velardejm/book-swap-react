@@ -17,7 +17,7 @@ export default function BookList() {
         {!books
           ? null
           : books.map((book, index) => {
-            return <BookDetails book={book} key={book.id} />;
+            return <BookDetails book={book} key={book.id} setBooks={setBooks} />;
           })}
       </div>
 

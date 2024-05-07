@@ -3,7 +3,7 @@ import { useState } from "react";
 import EditBook from "../Forms/EditBook";
 import Modal from "../Modal/Modal";
 
-export default function BookDetails({ book }) {
+export default function BookDetails({ book, setBooks }) {
   const [isEditModalOpen, setIsEditModalOpen] = useState(false);
   const { id, title, author, genre, condition } = book;
 
@@ -24,7 +24,7 @@ export default function BookDetails({ book }) {
       </div>
 
       {isEditModalOpen ? <Modal setIsModalOpen={setIsEditModalOpen}>
-        <EditBook book={book} />
+        <EditBook book={book} setBooks={setBooks} />
       </Modal> : null}
 
 
