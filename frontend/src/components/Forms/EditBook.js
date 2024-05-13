@@ -23,7 +23,7 @@ export default function EditBook({ book, setBooks }) {
 
   const handleSubmit = async (e) => {
     e.preventDefault();
-    const res = await fetch(`http://localhost:3001/books/edit/${id}`, {
+    const res = await fetch(`http://localhost:3001/books/${id}`, {
       method: 'PATCH',
       headers: {
         Authorization: `Bearer ${localStorage.getItem('token')}`,

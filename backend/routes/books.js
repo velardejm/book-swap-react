@@ -76,7 +76,7 @@ booksRouter.post("/new", authenticateToken, async (req, res) => {
 
 
 // UPDATE EXISTING BOOK
-booksRouter.patch("/edit/:bookId", authenticateToken, async (req, res) => {
+booksRouter.patch("/:bookId", authenticateToken, async (req, res) => {
 
   const { title, author, genre, condition } = req.body;
   const { owner_id } = await queryGetBook(req.params.bookId);
@@ -94,9 +94,24 @@ booksRouter.patch("/edit/:bookId", authenticateToken, async (req, res) => {
     res.status(401).send({ error: "Unauthorized." });
   }
 
+});
 
 
+booksRouter.delete("/:bookId", authenticateToken, async (req, res) => {
+  const { id, owner_id } = await queryGetBook(req.params.bookId);
 
+  if (owner_id === req.user.userId) {
+    const sqlDeleteBook = "DELETE from books WHERE id = $1";
+    try {
+      await pool.query(sqlDeleteBook, [id]);
+      const books = await queryGetBooks(req.user.userId);
+      res.status(200).send({ data: books });
+    } catch {
+      res.status(404).send({ error: "Book update failed." });
+    }
+  } else {
+    res.status(401).send({ error: "Unauthorized." });
+  }
 });
 
 
