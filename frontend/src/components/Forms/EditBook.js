@@ -4,9 +4,8 @@ import { useNavigate } from 'react-router-dom';
 import FormInput from '../Common/FormInput';
 import { updateForm } from '../../utils/helpers';
 
-
 // export default function AddBook({ closeModal, data, setData }) {
-export default function EditBook({ book, setBooks }) {
+export default function EditBook({ book, setBooks, setIsModalOpen }) {
   const { id, title, author, genre, condition } = book;
   const [formData, setFormData] = useState({
     title: title,
@@ -34,10 +33,10 @@ export default function EditBook({ book, setBooks }) {
 
     if (res.status === 200) {
       const { data } = await res.json();
-      alert("Book saved successfully.");
+      alert('Book saved successfully.');
       setBooks(data);
     }
-
+    setIsModalOpen(false);
   };
 
   return (
@@ -86,6 +85,16 @@ export default function EditBook({ book, setBooks }) {
 
       <button className={`btn bg-blue-500 w-28 self-center mt-2`} type="submit">
         Update
+      </button>
+
+      <button
+        className={`btn bg-red-500 w-28 self-center mt-2`}
+        type="button"
+        onClick={() => {
+          setIsModalOpen(false);
+        }}
+      >
+        Cancel
       </button>
     </form>
   );

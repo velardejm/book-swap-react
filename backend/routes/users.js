@@ -14,15 +14,15 @@ usersRouter.get("/authenticate", authenticateToken, async (req, res) => {
   res.status(200).json({ data: { name: userName, ...req.user } });
 });
 
-usersRouter.get("/dashboard", authenticateToken, (req, res) => {
-  const userData = usersData.find((data) => data.userId === req.user.userId);
-  const { username, userId, ...transactions } = usersTransactionData.find(
-    (data) => data.userId === req.user.userId
-  );
+// usersRouter.get("/dashboard", authenticateToken, (req, res) => {
+//   const userData = usersData.find((data) => data.userId === req.user.userId);
+//   const { username, userId, ...transactions } = usersTransactionData.find(
+//     (data) => data.userId === req.user.userId
+//   );
 
-  const data = { ...userData, ...transactions };
-  res.status(200).json({ data: data });
-});
+//   const data = { ...userData, ...transactions };
+//   res.status(200).json({ data: data });
+// });
 
 usersRouter.get("/requests-in", authenticateToken, async (req, res) => {
   sqlGetSwapRequests =

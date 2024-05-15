@@ -1,4 +1,3 @@
-
 import { useState } from "react"
 
 export default function FormInput({ label, type, name, onChangeHandler, autofocus, value, ref }) {

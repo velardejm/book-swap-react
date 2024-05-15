@@ -31,44 +31,61 @@ export default function LoginModal({ setIsLoginModalOpen }) {
     }
   };
 
-
-
   return (
     <div
       id="parent-div"
       onClick={(e) => {
         if (e.target.id === 'parent-div') {
-          setIsLoginModalOpen(false);
+          // setIsLoginModalOpen(false);
         }
       }}
       className="bg-slate-900 bg-opacity-80 w-dvw h-dvh absolute top-0 left-0 flex items-center justify-center"
     >
-      <div className="flex flex-col items-center bg-blue-200 mx-5 px-5 pb-10 mt-10">
-        <h1 className="text-3xl font-bold py-10 text-center">Log In</h1>
-        <form method="post" className="flex flex-col" onSubmit={handleSubmit}>
-          <FormInput
-            label="Username:"
-            type="text"
-            name="username"
-            onChangeHandler={handleChange}
-            autofocus={true}
-          />
+      <div className="bg-slate-900 bg-opacity-80 w-dvw h-dvh absolute top-0 left-0 flex items-center justify-center">
+        <div className="bg-green-100 pb-10">
+          <div>
+            <button
+              onClick={() => setIsLoginModalOpen(false)}
+              className="block ml-auto mr-4 mt-2"
+            >
+              x
+            </button>
+          </div>
 
-          <FormInput
-            label="Password:"
-            type="password"
-            name="password"
-            onChangeHandler={handleChange}
-            autofocus={false}
-          />
+          <div className="px-10">
+            <h1 className="text-center py-5 text-xl font-bold">Log In</h1>
+            <form
+              method="post"
+              className="flex flex-col"
+              onSubmit={handleSubmit}
+            >
+              <FormInput
+                label="Username:"
+                type="text"
+                name="username"
+                onChangeHandler={handleChange}
+                autofocus={true}
+                value={formData.username}
+              />
 
-          <button
-            className={`btn bg-blue-500 w-28 self-center mt-2`}
-            type="submit"
-          >
-            Log in
-          </button>
-        </form>
+              <FormInput
+                label="Password:"
+                type="password"
+                name="password"
+                onChangeHandler={handleChange}
+                autofocus={false}
+                value={formData.password}
+              />
+
+              <button
+                className={`btn bg-blue-500 w-28 self-center mt-2`}
+                type="submit"
+              >
+                Log in
+              </button>
+            </form>
+          </div>
+        </div>
       </div>
     </div>
   );

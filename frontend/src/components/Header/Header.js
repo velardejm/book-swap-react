@@ -6,47 +6,65 @@ import LoginModal from '../Modal/LoginModal';
 import Logo from './Logo';
 
 import { useNavigate } from 'react-router-dom';
-import { useState, useEffect, useContext } from 'react';
+import { useState, useContext } from 'react';
 import { AuthContext } from '../../contexts/AuthContext';
 import { logOutPrompt } from '../../utils/prompts';
+import useHandleModalEscape from '../../hooks/useHandleModalEscape';
 
 export default function Header() {
   const [isLoginModalOpen, setIsLoginModalOpen] = useState(false);
   const [isSignUpModalOpen, setIsSignUpModalOpen] = useState(false);
   const [isLogOutPromptOpen, setisLogOutPromptOpen] = useState(false);
+  const [isDropdownOpen, setIsDropdownOpen] = useState(false);
   const { isLoggedIn, logOut } = useContext(AuthContext);
   const navigate = useNavigate();
-
-
-
+  
+  const closeAllModals = () => {
+    setIsLoginModalOpen(false);
+    setIsSignUpModalOpen(false);
+    setisLogOutPromptOpen(false);
+    setIsDropdownOpen(false);
+  };
+  
+  useHandleModalEscape(closeAllModals);
+  
   return (
-    <div className="flex justify-between items-center h-24 px-2 bg-orange-100">
+    <div className="flex justify-between items-center h-14 px-2 bg-orange-100">
       <Logo />
 
       <HeaderLinks
         isLoggedIn={isLoggedIn}
         setisLogOutPromptOpen={setisLogOutPromptOpen}
         setIsLoginModalOpen={setIsLoginModalOpen}
-        setIsSignUpModalOpen={setIsLoginModalOpen}
+        setIsSignUpModalOpen={setIsSignUpModalOpen}
       />
 
-      {isLoginModalOpen && <LoginModal setIsLoginModalOpen={setIsLoginModalOpen} />}
+      {isLoginModalOpen && (
+        <LoginModal setIsLoginModalOpen={setIsLoginModalOpen} />
+      )}
 
-      {isSignUpModalOpen && <SignUpModal setIsSignUpModalOpen={setIsSignUpModalOpen} />}
+      {isSignUpModalOpen && (
+        <SignUpModal setIsSignUpModalOpen={setIsSignUpModalOpen} />
+      )}
 
-      {isLogOutPromptOpen &&
+      {isLogOutPromptOpen && (
         <ConfirmationModal
           message={logOutPrompt}
           setIsModalOpen={setisLogOutPromptOpen}
           confirm={() => {
-            // localStorage.removeItem('token');
             logOut();
+            setisLogOutPromptOpen(false);
             navigate('/');
           }}
-        />}
+        />
+      )}
 
-      <HeaderDropdown setisLogOutPromptOpen={setisLogOutPromptOpen} />
-
-    </div >
+      <HeaderDropdown
+        setisLogOutPromptOpen={setisLogOutPromptOpen}
+        setIsDropdownOpen={setIsDropdownOpen}
+        isDropdownOpen={isDropdownOpen}
+        isLoggedIn={isLoggedIn}
+      />
+    </div>
   );
 }

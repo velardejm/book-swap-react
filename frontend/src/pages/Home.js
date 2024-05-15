@@ -20,10 +20,10 @@ export default function Home() {
       <Header />
 
       <div className="flex flex-col justify-center items-center text-center h-[85vh] bg-blue-200 px-5">
-        <h1 className="text-6xl font-bold mb-5">
+        <h1 className="text-4xl font-bold mb-8">
           Buy, Sell, and Swap Your Books
         </h1>
-        <p className="text-md mb-5">
+        <p className="text-sm mb-14">
           Join BookSwap Today and Dive into a World Where Every Book Finds its
           Next Adventure. Be part of a passionate community of like-minded book
           lovers. Buy, sell, swap — and let stories unfold among fellow
