@@ -2,7 +2,7 @@ import { useEffect, useState } from 'react';
 import { updateForm } from '../../utils/helpers';
 import { useNavigate } from 'react-router-dom';
 import FormInput from '../../components/Common/FormInput';
-import Logo from '../Header/Logo';
+import Logo from '../../components/Header/Logo';
 import useSignUp from '../../hooks/useSignUp';
 
 export default function SignUp() {
