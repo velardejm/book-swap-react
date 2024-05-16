@@ -57,12 +57,12 @@ export default function HeaderDropdown({ ...props }) {
                 Sent Requests
               </Link>
               <hr></hr>
-              <Link
+              {/* <Link
                 to="/user"
                 className="block px-4 py-2 text-gray-800 hover:bg-gray-100"
               >
                 Dashboard
-              </Link>
+              </Link> */}
 
               <Link
                 to="/books/listings"

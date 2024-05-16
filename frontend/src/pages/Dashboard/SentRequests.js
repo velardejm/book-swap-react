@@ -22,6 +22,7 @@ export default function SentRequests() {
 
   return (
     <div>
+      <h1 className="text-center">Sent Requests</h1>
       {
         swapRequests.map((requests, index) => {
           return <SwapStatus request={requests} key={index} updateSwapRequests={updateSwapRequests} />

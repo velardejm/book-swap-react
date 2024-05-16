@@ -21,6 +21,7 @@ export default function SwapRequests() {
 
   return (
     <div>
+      <h1 className="text-center">Swap Requests</h1>
       {
         swapRequests.map((requests, index) => {
           return <SwapDetails request={requests} key={index} updateSwapRequests={updateSwapRequests} />

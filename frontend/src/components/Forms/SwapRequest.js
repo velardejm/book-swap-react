@@ -3,7 +3,6 @@ import useFetchData from '../../hooks/useFetchData';
 import Dropdown from '../Common/Dropdown';
 import { AuthContext } from '../../contexts/AuthContext';
 
-
 export default function SwapRequest({ bookId }) {
   const [bookToSwap, setBookToSwap] = useState(null);
   const { user } = useContext(AuthContext);
@@ -34,54 +33,48 @@ export default function SwapRequest({ bookId }) {
       offerredBookId: bookToSwap.id,
     };
 
-    const res = await fetch(
-      `http://localhost:3001/swap/submit-request`,
-      {
-        method: 'POST',
-        headers: {
-          Authorization: `Bearer ${localStorage.getItem('token')}`,
-          'Content-type': 'application/json',
-        },
-        body: JSON.stringify(request),
-      }
-    );
+    const res = await fetch(`http://localhost:3001/swap/submit-request`, {
+      method: 'POST',
+      headers: {
+        Authorization: `Bearer ${localStorage.getItem('token')}`,
+        'Content-type': 'application/json',
+      },
+      body: JSON.stringify(request),
+    });
 
     const { message } = await res.json();
     alert(message);
   };
 
   return (
-    <div>
-      <div className="w-1/2 m-auto">
-        <h1>Swap Request Pages</h1>
-        <div className="flex justify-between bg-blue-100 p-10">
-          <div>
-            <h2>Requested Book</h2>
-            <ul>
-              <li>Owner: {bookOwner}</li>
-              <li>Book Title: {requestedBook.title}</li>
-            </ul>
-          </div>
-          <hr></hr>
-          <div>
-            <form method="POST" className="flex flex-col items-center">
-              {user ? (
-                <div>
-                  <Dropdown
-                    options={userBooks}
-                    setterFunction={selectBookToSwap}
-                  />
-                </div>
-              ) : null}
-              <button
-                className="btn bg-green-500 w-40 mt-5"
-                type="submit"
-                onClick={handleSubmit}
-              >
-                Send Request
-              </button>
-            </form>
-          </div>
+    <div className="w-full m-auto">
+      <div className="flex-col justify-between p-2">
+        <div>
+          <h2>Requested Book</h2>
+          <ul>
+            <li>Owner: {bookOwner}</li>
+            <li>Book Title: {requestedBook.title}</li>
+          </ul>
+        </div>
+        <hr className='my-2'></hr>
+        <div>
+          <form method="POST" className="flex flex-col items-center">
+            {user ? (
+              <div>
+                <Dropdown
+                  options={userBooks}
+                  setterFunction={selectBookToSwap}
+                />
+              </div>
+            ) : null}
+            <button
+              className="btn bg-green-500 w-40 mt-5"
+              type="submit"
+              onClick={handleSubmit}
+            >
+              Send Request
+            </button>
+          </form>
         </div>
       </div>
     </div>
