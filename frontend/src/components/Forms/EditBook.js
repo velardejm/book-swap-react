@@ -54,6 +54,7 @@ export default function EditBook({ book, setBooks, setIsModalOpen }) {
         onChangeHandler={handleChange}
         value={title}
         autofocus={true}
+        data={formData.title}
       />
 
       <FormInput
@@ -63,6 +64,7 @@ export default function EditBook({ book, setBooks, setIsModalOpen }) {
         onChangeHandler={handleChange}
         value={author}
         autofocus={false}
+        data={formData.author}
       />
 
       <FormInput
@@ -72,6 +74,7 @@ export default function EditBook({ book, setBooks, setIsModalOpen }) {
         onChangeHandler={handleChange}
         value={genre}
         autofocus={false}
+        data={formData.genre}
       />
 
       <FormInput
@@ -81,6 +84,7 @@ export default function EditBook({ book, setBooks, setIsModalOpen }) {
         onChangeHandler={handleChange}
         value={condition}
         autofocus={false}
+        data={formData.condition}
       />
 
       <button className={`btn bg-blue-500 w-28 self-center mt-2`} type="submit">

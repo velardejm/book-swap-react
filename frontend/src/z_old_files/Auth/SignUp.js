@@ -50,7 +50,7 @@ export default function SignUp() {
           label="Name:"
           type="text"
           name="name"
-          value={name}
+          data={name}
           onChangeHandler={handleChange}
           autofocus={true}
         />
@@ -58,28 +58,28 @@ export default function SignUp() {
           label="E-mail:"
           type="email"
           name="email"
-          value={email}
+          data={email}
           onChangeHandler={handleChange}
         />
         <FormInput
           label="Username:"
           type="text"
           name="username"
-          value={username}
+          data={username}
           onChangeHandler={handleChange}
         />
         <FormInput
           label="Password:"
           type="password"
           name="password"
-          value={password}
+          data={password}
           onChangeHandler={handleChange}
         />
         <FormInput
           label="Confirm Password:"
           type="password"
           name="passwordConfirmation"
-          value={passwordConfirmation}
+          data={passwordConfirmation}
           onChangeHandler={handleChange}
         />
         <button

@@ -1,7 +1,7 @@
 import SignUpP1 from "./SignUpP1";
 import SignUpP2 from "./SignUpP2";
 import { useState } from "react";
-import { updateForm } from "../../utils/helpers";
+import { updateForm } from "../../../utils/helpers";
 // import useHandleModalEscape from "../../hooks/useHandleModalEscape";
 
 export default function SignUpModal({ setIsSignUpModalOpen }) {

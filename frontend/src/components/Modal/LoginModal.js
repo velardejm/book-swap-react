@@ -65,7 +65,7 @@ export default function LoginModal({ setIsLoginModalOpen }) {
                 name="username"
                 onChangeHandler={handleChange}
                 autofocus={true}
-                value={formData.username}
+                data={formData.username}
               />
 
               <FormInput
@@ -74,7 +74,7 @@ export default function LoginModal({ setIsLoginModalOpen }) {
                 name="password"
                 onChangeHandler={handleChange}
                 autofocus={false}
-                value={formData.password}
+                data={formData.password}
               />
 
               <button

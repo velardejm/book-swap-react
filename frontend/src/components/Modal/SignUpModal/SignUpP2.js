@@ -1,6 +1,6 @@
 import { useState, useEffect } from "react";
 import { useNavigate } from 'react-router-dom';
-import FormInput from "../Common/FormInput";
+import FormInput from "../../Common/FormInput";
 
 
 export default function SignUpP2({ formData, handleChange, setSignUpPage }) {

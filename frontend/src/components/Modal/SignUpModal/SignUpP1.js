@@ -1,4 +1,4 @@
-import FormInput from "../Common/FormInput";
+import FormInput from "../../Common/FormInput";
 import { useState, useEffect, useRef } from "react";
 
 export default function SignUpP1({ formData, setFormData, handleChange, setSignUpPage }) {
@@ -67,7 +67,7 @@ export default function SignUpP1({ formData, setFormData, handleChange, setSignU
                     name="name"
                     onChangeHandler={handleChange}
                     autofocus={true}
-                    value={name}
+                    data={name}
                 />
 
                 <FormInput
@@ -76,7 +76,7 @@ export default function SignUpP1({ formData, setFormData, handleChange, setSignU
                     name="username"
                     onChangeHandler={handleChange}
                     autofocus={false}
-                    value={username}
+                    data={username}
                 />
 
                 <FormInput
@@ -85,7 +85,7 @@ export default function SignUpP1({ formData, setFormData, handleChange, setSignU
                     name="email"
                     onChangeHandler={handleChange}
                     autofocus={false}
-                    value={email}
+                    data={email}
                 />
 
                 <button

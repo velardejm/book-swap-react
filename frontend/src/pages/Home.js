@@ -1,4 +1,4 @@
-import SignUpModal from '../components/SignUpModal/SignUpModal';
+import SignUpModal from '../components/Modal/SignUpModal/SignUpModal';
 
 import { useContext, useState } from 'react';
 import { Link } from 'react-router-dom';

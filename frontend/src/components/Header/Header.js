@@ -1,6 +1,6 @@
 import HeaderLinks from './HeaderLinks';
 import HeaderDropdown from './HeaderDropdown';
-import SignUpModal from '../SignUpModal/SignUpModal';
+import SignUpModal from '../Modal/SignUpModal/SignUpModal';
 import ConfirmationModal from '../Modal/ConfirmationModal';
 import LoginModal from '../Modal/LoginModal';
 import Logo from './Logo';

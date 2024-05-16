@@ -53,6 +53,7 @@ import { updateForm } from '../../utils/helpers';
         name="title"
         onChangeHandler={handleChange}
         autofocus={true}
+        data={formData.title}
       />
 
       <FormInput
@@ -61,6 +62,7 @@ import { updateForm } from '../../utils/helpers';
         name="author"
         onChangeHandler={handleChange}
         autofocus={false}
+        data={formData.author}
       />
 
       <FormInput
@@ -69,6 +71,7 @@ import { updateForm } from '../../utils/helpers';
         name="genre"
         onChangeHandler={handleChange}
         autofocus={false}
+        data={formData.genre}
       />
 
       <FormInput
@@ -77,6 +80,7 @@ import { updateForm } from '../../utils/helpers';
         name="condition"
         onChangeHandler={handleChange}
         autofocus={false}
+        data={formData.condition}
       />
 
       <button className={`btn bg-blue-500 w-28 self-center mt-2`} type="submit">
