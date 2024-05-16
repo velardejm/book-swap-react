@@ -50,6 +50,12 @@ export default function HeaderDropdown({ ...props }) {
               >
                 Swap Requests
               </Link>
+              <Link
+                to="/user/sent-requests"
+                className="block px-4 py-2 text-gray-800 hover:bg-gray-100"
+              >
+                Sent Requests
+              </Link>
               <hr></hr>
               <Link
                 to="/user"
@@ -68,7 +74,6 @@ export default function HeaderDropdown({ ...props }) {
               <hr></hr>
               <Link
                 to="#"
-                href="#"
                 className="block px-4 py-2 text-gray-800 hover:bg-gray-100"
                 onClick={() => setisLogOutPromptOpen(true)}
               >

@@ -21,6 +21,7 @@ export default function SwapRequest({ bookId }) {
 
   const handleSubmit = async (e) => {
     e.preventDefault();
+    console.log('test');
 
     if (bookToSwap === null) {
       alert('Please select a book to swap.');

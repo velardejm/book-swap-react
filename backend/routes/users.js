@@ -60,6 +60,42 @@ usersRouter.get("/requests-in", authenticateToken, async (req, res) => {
   }
 });
 
+usersRouter.get("/requests-out", authenticateToken, async (req, res) => {
+  sqlGetSwapRequests =
+    "SELECT * FROM swaprequests WHERE requester_id = $1 AND status = $2";
+
+  const swapRequestResults = await pool.query(sqlGetSwapRequests, [
+    req.user.userId,
+    "pending",
+  ]);
+
+  if (swapRequestResults.rowCount > 0) {
+    const swapRequests = [];
+
+    await Promise.all(
+      swapRequestResults.rows.map(async (row) => {
+        const { requester_id, requested_book_id, offerred_book_id } = row;
+
+        const requestedBook = await queryGetBook(requested_book_id);
+        const offerredBook = await queryGetBook(offerred_book_id);
+        const requesterName = await queryGetUserName(requester_id);
+
+        const swapRequestData = {
+          requestId: row.id,
+          requesterName: requesterName,
+          requestedBook,
+          offerredBook,
+        };
+        
+        swapRequests.push(swapRequestData);
+      })
+    );
+    res.status(200).json({ data: swapRequests });
+  } else {
+    res.status(200).json({ data: [] });
+  }
+});
+
 usersRouter.get("/transactions", authenticateToken, async (req, res) => {
   sqlGetSwapRequests =
     "SELECT * FROM swaprequests WHERE requestee_id = $1 AND status = $2";

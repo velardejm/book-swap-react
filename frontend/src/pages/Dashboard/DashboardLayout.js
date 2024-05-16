@@ -14,6 +14,9 @@ export default function DashboardLayout() {
                         <li>
                             <Link to="requests">Swap Requests</Link>
                         </li>
+                        <li>
+                            <Link to="sent-requests">Sent Requests</Link>
+                        </li>
                     </ul>
                 </nav>
                 <div className="bg-green-100 w-dvw">

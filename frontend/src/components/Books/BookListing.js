@@ -21,7 +21,7 @@ export default function BookListing({ book }) {
             // navigate(`/swap/${user.userId}/${book.id}`);
             setIsModalOpen(true);
           } else {
-            navigate('/login', { state: { from: '/books/listings' } });
+            // navigate('/login', { state: { from: '/books/listings' } });
           }
         }}
       >

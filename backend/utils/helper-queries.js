@@ -25,10 +25,9 @@ exports.queryGetAvailableBooks = async function (id) {
 
   const sqlGetBooks = "SELECT * FROM books WHERE id = ANY($1) AND status != $2";
   // const bookResults = await pool.query(sqlGetBooks, [bookIdsArray, 'pending_swap']);
-  const bookResults = await pool.query(sqlGetBooks, [bookIdsArray, '']);
+  const bookResults = await pool.query(sqlGetBooks, [bookIdsArray, ""]);
   return bookResults.rows;
 };
-
 
 exports.queryGetListing = async function (id) {
   const sqlGetBookIds = "SELECT (id) FROM books WHERE owner_id != $1";
@@ -36,7 +35,7 @@ exports.queryGetListing = async function (id) {
   const bookIdsArray = bookIds.rows.map((i) => i.id);
   const sqlGetBooks = "SELECT * FROM books WHERE id = ANY($1)AND status != $2";
   // const books = await pool.query(sqlGetBooks, [bookIdsArray, 'pending_swap']);
-  const books = await pool.query(sqlGetBooks, [bookIdsArray, '']);
+  const books = await pool.query(sqlGetBooks, [bookIdsArray, ""]);
 
   return books.rows;
 };
@@ -59,13 +58,25 @@ exports.queryGetSwapRequest = async function (id) {
   return result.rows[0];
 };
 
+exports.queryGetSwapRequests = async function (user_id) {
+  const sqlGetData = `SELECT * FROM swaprequests WHERE requester_id=$1 AND status=$2`;
+  const result = await pool.query(sqlGetData, [user_id, "pending"]);
+  console.log(result.rows);
+  return result.rows;
+};
+
+exports.queryCheckOfferredBook = async function (user_id, book_id) {
+  const sqlGetData = `SELECT * FROM swaprequests WHERE requester_id=$1 AND offerred_book_id=$2 AND status=$3`;
+  const result = await pool.query(sqlGetData, [user_id, book_id, "pending"]);
+  return result.rowCount;
+};
+
 exports.querySwapBook = async function (
   requesterId,
   requesteeId,
   requestedBookId,
   offerredBookId
 ) {
-
   try {
     const sqlUpdateBookOwner = "UPDATE books SET owner_id = $1 WHERE id = $2";
     await pool.query(sqlUpdateBookOwner, [requesterId, requestedBookId]);
@@ -110,4 +121,3 @@ exports.querySwapBook = async function (
 //     pool.query("ROLLBACK");
 //   }
 // };
-
