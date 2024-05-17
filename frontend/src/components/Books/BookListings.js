@@ -1,6 +1,5 @@
 import BookListing from './BookListing';
 import Header from '../../components/Header/Header';
-
 import useFetchData from '../../hooks/useFetchData';
 
 export default function BookListings() {
@@ -8,20 +7,18 @@ export default function BookListings() {
     'http://localhost:3001/books/listings'
   );
 
-  if (bookListing === null) return;
+  if (bookListing === null) return null;
 
   return (
-    <div>
+    <div className="container mx-auto py-8">
       <Header />
-      <h1>Listings</h1>
+      <h1 className="text-3xl font-bold mb-6 mt-6">Listings</h1>
       <ul>
-        {bookListing.map((book) => {
-          return (
-            <li key={book.id}>
-              <BookListing book={book} />
-            </li>
-          );
-        })}
+        {bookListing.map((book) => (
+          <li key={book.id}>
+            <BookListing book={book} />
+          </li>
+        ))}
       </ul>
     </div>
   );

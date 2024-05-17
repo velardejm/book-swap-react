@@ -41,8 +41,8 @@ export default function LoginModal({ setIsLoginModalOpen }) {
       }}
       className="bg-slate-900 bg-opacity-80 w-dvw h-dvh absolute top-0 left-0 flex items-center justify-center"
     >
-      <div className="bg-slate-900 bg-opacity-80 w-dvw h-dvh absolute top-0 left-0 flex items-center justify-center">
-        <div className="bg-green-100 pb-10">
+      <div>
+        <div className="bg-slate-50 pb-10 rounded-md">
           <div>
             <button
               onClick={() => setIsLoginModalOpen(false)}

@@ -14,13 +14,13 @@ export default function HeaderDropdown({ ...props }) {
     <div className={`relative ${!isLoggedIn ? 'hidden' : ''}`}>
       <button
         onClick={() => setIsDropdownOpen(!isDropdownOpen)}
-        className="text-gray-500 hover:text-gray-900 focus:outline-none focus:text-gray-900 transition duration-150 ease-in-out"
+        className="text-gray-500 hover:text-orange-200 focus:outline-none focus:text-gray-50 transition duration-150 ease-in-out"
       >
         <svg
           className="h-6 w-6"
           fill="none"
           viewBox="0 0 24 24"
-          stroke="currentColor"
+          stroke="white"
         >
           <path
             strokeLinecap="round"

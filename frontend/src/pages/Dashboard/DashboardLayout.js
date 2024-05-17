@@ -19,7 +19,7 @@ export default function DashboardLayout() {
                         </li>
                     </ul>
                 </nav>
-                <div className="bg-green-100 w-dvw">
+                <div className="bg-slate-50 w-dvw">
                     <Outlet />
                 </div>
             </div>

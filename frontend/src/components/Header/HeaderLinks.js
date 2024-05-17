@@ -39,13 +39,13 @@ export default function HeaderLinks({ ...props }) {
           <>
             <Button
               label={'Log in'}
-              className={'btn bg-blue-500 mx-2 h-6'}
+              className={'btn bg-blue-500 mx-2 h-10'}
               onClick={() => setIsLoginModalOpen(true)}
             />
 
             <Button
               label={'Sign up'}
-              className={'btn bg-blue-500  h-6'}
+              className={'btn bg-blue-500  h-10'}
               onClick={() => setIsSignUpModalOpen(true)}
             />
           </>

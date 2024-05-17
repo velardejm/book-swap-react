@@ -60,7 +60,7 @@ export default function SignUpP1({ formData, setFormData, handleChange, setSignU
 
     return (
         <div>
-            <form>
+            <form className="flex flex-col">
                 <FormInput
                     label="Name:"
                     type="text"

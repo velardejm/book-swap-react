@@ -7,57 +7,61 @@ export default function ConfirmationModal({
   cancel,
 }) {
   return (
-    <div className="bg-slate-900 bg-opacity-80 w-dvw h-dvh absolute top-0 left-0 flex items-center justify-center">
-      <div className="bg-green-100 pb-10">
-        <div>
+    <div className="fixed inset-0 flex items-center justify-center bg-black bg-opacity-50">
+      <div className="bg-white rounded-lg overflow-hidden w-96">
+        <div className="flex justify-end">
           <button
             onClick={() => setIsModalOpen(false)}
-            className="block ml-auto mr-4 mt-2"
+            className="p-2 focus:outline-none"
           >
-            x
+            <svg
+              xmlns="http://www.w3.org/2000/svg"
+              className="h-6 w-6 text-gray-500"
+              fill="none"
+              viewBox="0 0 24 24"
+              stroke="currentColor"
+            >
+              <path
+                strokeLinecap="round"
+                strokeLinejoin="round"
+                strokeWidth={2}
+                d="M6 18L18 6M6 6l12 12"
+              />
+            </svg>
           </button>
         </div>
+        <div className="px-8 pb-8 pt-4">
+          <p className="text-lg font-medium mb-4 text-center">{message}</p>
+          {/* <div className="flex justify-center">
+            <Button
+              label={'Ok'}
+              className={'bg-blue-500 text-white mr-4'}
+              onClick={confirm}
+            />
+            <Button
+              label={'Cancel'}
+              className={'bg-gray-300 text-gray-700'}
+              onClick={() => setIsModalOpen(false)}
+            />
+          </div> */}
 
-        <div className="px-10">
-          <p>{message}</p>
-          <Button
-            label={'Ok'}
-            className={'btn bg-blue-400 mx-2'}
-            onClick={confirm}
-          />
+          <div className="flex justify-center">
+            <button
+              onClick={confirm}
+              className="bg-green-500 text-white font-bold py-2 px-4 rounded-lg mr-4 hover:bg-green-600"
+            >
+              Ok
+            </button>
 
-          <Button
-            label={'Cancel'}
-            className={'btn bg-orange-400 mx-2'}
-            onClick={() => setIsModalOpen(false)}
-          />
+            <button
+              onClick={() => setIsModalOpen(false)}
+              className="bg-red-500 text-white font-bold py-2 px-4 rounded-lg hover:bg-red-600"
+            >
+              Cancel
+            </button>
+          </div>
         </div>
       </div>
     </div>
   );
 }
-
-// import { useState } from "react";
-
-// export default function Modal({ component: Component, isModalOpen, closeModal, data, setData }) {
-
-//     if (!isModalOpen) {
-//     return null;
-//   }
-
-//   return (
-//     <div
-//       id="parent-div"
-//       onClick={(e) => {
-//         if (e.target.id == 'parent-div') {
-//           closeModal();
-//         }
-//       }}
-//       className="bg-slate-900 bg-opacity-80 w-dvw h-dvh absolute top-0 left-0 flex items-center justify-center"
-//     >
-
-//       <Component closeModal={closeModal} data={data} setData={setData}/>
-
-//     </div>
-//   );
-// }

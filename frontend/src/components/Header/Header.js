@@ -29,7 +29,7 @@ export default function Header() {
   useHandleModalEscape(closeAllModals);
   
   return (
-    <div className="flex justify-between items-center h-14 px-2 bg-orange-100">
+    <div className="flex justify-between items-center h-14 px-2 py-10 bg-sky-800">
       <Logo />
 
       <HeaderLinks
